@@ -4,13 +4,10 @@ import torch.optim as optim
 import numpy as np
 import matplotlib.pyplot as plt
 
-# 中文设置
-plt.rcParams["font.family"] = ["SimHei", "WenQuanYi Micro Hei", "Heiti TC"]
-plt.rcParams["axes.unicode_minus"] = False
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-x_all = torch.linspace(0, 2*np.pi, 1000).unsqueeze(1)  # 创建一个从0到2*pi的200个点的张量
+x_all = torch.linspace(0, 2*np.pi, 1000).unsqueeze(1)  # 创建一个从0到2*pi的1000个点的张量
 y_all = torch.sin(x_all)  # 计算对应的正弦值
 
 #随机打乱数据，并划分训练集和测试集
@@ -51,22 +48,34 @@ for epoch in range(epochs):
         with torch.no_grad():  # 在评估时不需要计算梯度
             y_pred_test = model(x_test)
             test_loss = loss_fn(y_pred_test, y_test)
+            mae = torch.mean(torch.abs(y_pred_test - y_test)).item()
         print(f'Epoch {epoch}, Loss: {loss.item()}, Test Loss: {test_loss.item()}')
+        print(f"MAE: {mae:.6f}")
         model.train()  # 设置回训练模式
         
 
 # 绘制结果
 with torch.no_grad():  # 在绘图时不需要计算梯度
-    x_plot = torch.linspace(0, 2*np.pi, 1000).unsqueeze(1).to(device)
-    y_plot = model(x_plot)
-    plt.figure(figsize=(10,5))
-    plt.plot(x_plot.cpu().numpy(), y_plot.cpu().numpy(), label='MLP预测', color='r')
-    plt.plot(x_all.cpu().numpy(), y_all.cpu().numpy(), label='真实正弦函数', color='b')
+    x_extra = torch.linspace(2*np.pi, 4*np.pi, 200).unsqueeze(1).to(device)
+    y_extra_pred = model(x_extra)
+    y_extra_true = torch.sin(x_extra)
+    mae_extra = torch.mean(torch.abs(y_extra_pred - y_extra_true)).item()
+    print(f"Extrapolation MAE: {mae_extra:.6f}")
+    
+    plt.plot(x_extra.cpu().numpy(), y_extra_true.cpu().numpy(), label='True sin')
+    plt.plot(x_extra.cpu().numpy(), y_extra_pred.cpu().numpy(), label='MLP extrapolation')
     plt.legend()
-    plt.title('MLP拟合正弦函数')
-    plt.xlabel('x')
-    plt.ylabel('sin(x)')
     plt.show()
+    # x_plot = torch.linspace(0, 2*np.pi, 1000).unsqueeze(1).to(device)
+    # y_plot = model(x_plot)
+    # plt.figure(figsize=(10,5))
+    # plt.plot(x_plot.cpu().numpy(), y_plot.cpu().numpy(), label='MLP预测', color='r')
+    # plt.plot(x_all.cpu().numpy(), y_all.cpu().numpy(), label='真实正弦函数', color='b')
+    # plt.legend()
+    # plt.title('MLP拟合正弦函数')
+    # plt.xlabel('x')
+    # plt.ylabel('sin(x)')
+    # plt.show()
 
 
 
