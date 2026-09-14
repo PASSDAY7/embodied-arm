@@ -1,0 +1,76 @@
+# =============================================================================
+# 行为克隆（Behavior Cloning）实验配置：Pendulum-v1
+# 训练脚本 experiments/train_bc.py 通过 PyYAML 读取本文件。
+# -----------------------------------------------------------------------------
+# experiment / model / training / data 四段为演练任务指定字段；
+# 其余补充字段（model.name、augmentation、paths、eval）为完整工程流水线所需。
+# =============================================================================
+
+# -------- 实验级设置（演练指定）--------
+experiment:
+  name: "bc_pendulum"       # 实验名：用于 TensorBoard 日志目录与 Checkpointer 命名
+  seed: 42                  # 全局随机种子
+  device: "cuda"            # auto | cpu | cuda
+  env_name: "Pendulum-v1"   # 补充字段：Gymnasium 环境名
+
+# -------- 网络结构（演练指定）--------
+model:
+  state_dim: 3              # 输入状态维度 [cosθ, sinθ, θ_dot]
+  action_dim: 1             # 输出动作维度
+  hidden_dim: 64            # 隐藏层宽度
+  # ---- 以下为可选补充字段 ----
+  name: "mlp"               # mlp | cnn | gru
+  num_layers: 2             # MLP 隐藏层数量
+  action_scale: 2.0         # 动作缩放，对应动作空间 [-2.0, 2.0]
+  squash: true              # 是否用 Tanh 将输出压缩到 [-1, 1] 再缩放
+  conv_channels: [32, 64]   # CNN 专用
+  kernel_size: 3            # CNN 专用
+  gru_hidden: 64            # GRU 专用
+  gru_layers: 1             # GRU 专用
+
+# -------- 训练设置（演练指定）--------
+training:
+  batch_size: 64
+  epochs: 100
+  lr: 0.001
+  max_grad_norm: 1.0        # 梯度裁剪阈值（<=0 表示关闭）
+  # ---- 以下为可选补充字段 ----
+  weight_decay: 0.0
+  num_workers: 0            # DataLoader 子进程数
+  log_interval: 20          # 每多少个 epoch 打印一次
+  scheduler:                # 学习率调度器
+    name: none              # none | cosine | step
+    T_max: 100
+    step_size: 30
+    gamma: 0.5
+  checkpoint:               # 断点续训 / 异常恢复
+    monitor: val_mse        # 判定 "最优" 所用指标
+    mode: min               # min | max
+    snapshot_every: 0       # 每 N 个 epoch 额外归档一份快照（0 = 关闭）
+    keep_last_n: 2          # 归档快照最多保留个数
+
+# -------- 数据设置（演练指定）--------
+data:
+  num_expert_steps: 10000   # 专家数据总步数（按步数采集并精确截断）
+  train_ratio: 0.8          # 训练集占比（其余为验证集）
+  # ---- 以下为可选补充字段 ----
+  reuse_cache: true         # 若本地已有缓存则直接复用
+  cache_file: expert_pendulum.npz
+
+# -------- 数据增强（可选）--------
+augmentation:
+  enabled: true
+  state_noise_std: 0.01
+  action_noise_std: 0.0
+
+# -------- 路径（可选）--------
+paths:
+  data_dir: data/expert_pendulum
+  log_dir: logs
+  checkpoint_dir: logs/checkpoints
+  resume: null              # 断点续训：null(从头训练) | auto(自动找最新) | <检查点文件/目录>
+
+# -------- 闭环评估（可选）--------
+eval:
+  n_episodes: 20
+  render: false

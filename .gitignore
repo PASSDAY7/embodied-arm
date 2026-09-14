@@ -1,0 +1,9 @@
+# 忽略 TensorBoard 日志与模型权重
+logs/
+# 忽略缓存的专家数据
+data/expert_pendulum/
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.ipynb_checkpoints/
