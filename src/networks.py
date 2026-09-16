@@ -6,7 +6,8 @@
 
 所有网络约定：
 * 输入: 状态张量 ``(batch, state_dim)``
-* 输出: 动作张量 ``(batch, action_dim)``
+* 输出: 动作张量 ``(batch, action_dim)``；当 ``model.chunk_size = K > 1`` 时，
+  输出为**动作块** ``(batch, K, action_dim)``（W4 动作块行为克隆 Action Chunking）
 """
 
 from __future__ import annotations
@@ -21,25 +22,55 @@ import torch.nn as nn
 # 1. 策略网络基类
 # =============================================================================
 class BasePolicy(nn.Module):
-    """策略网络基类：统一处理动作缩放与输出压缩。
+    """策略网络基类：统一处理动作缩放、输出压缩与动作块整形。
 
     Args:
         action_dim: 输出动作维度。
         action_scale: 动作缩放系数，对应动作空间 ``[-action_scale, action_scale]``。
         squash: 为 ``True`` 时使用 Tanh 将输出压缩到 [-1, 1] 再缩放。
+        chunk_size: 动作块长度 ``K``（W4 动作块行为克隆）。
+
+            * ``K > 1``：一次前向预测未来 ``K`` 步动作，输出头维度为
+              ``K * action_dim``，最终整形成 ``(batch, K, action_dim)``；
+            * ``K == 1``：退化为单步 BC，输出 ``(batch, action_dim)``，
+              与 W2/W3 版本**逐位一致**（保持向后兼容）。
     """
 
-    def __init__(self, action_dim: int = 1, action_scale: float = 2.0, squash: bool = True) -> None:
+    def __init__(
+        self,
+        action_dim: int = 1,
+        action_scale: float = 2.0,
+        squash: bool = True,
+        chunk_size: int = 1,
+    ) -> None:
         super().__init__()
-        self.action_dim = action_dim
+        self.action_dim = int(action_dim)
         self.action_scale = float(action_scale)
         self.squash = squash
+        self.chunk_size = max(1, int(chunk_size))
+        # 输出层维度：K * action_dim（动作块一次性预测，而非单步动作）
+        self.output_dim = self.chunk_size * self.action_dim
 
     def _scale_output(self, x: torch.Tensor) -> torch.Tensor:
         """将网络原始输出映射到动作空间。"""
         if self.squash:
             x = torch.tanh(x)
         return x * self.action_scale
+
+    def _format_output(self, x: torch.Tensor) -> torch.Tensor:
+        """把输出头结果整形为动作块维度 ``(batch, K, action_dim)``。"""
+        if self.chunk_size == 1:
+            return x                                        # (batch, action_dim) 单步 BC
+        return x.reshape(-1, self.chunk_size, self.action_dim)
+
+    def forward_actions(self, x: torch.Tensor) -> torch.Tensor:
+        """统一推理接口：无论 ``K`` 取值，均返回 ``(batch, K, action_dim)``。
+
+        推理侧（闭环 rollout）只依赖本方法，从而单步策略（K=1）与动作块策略
+        可以共用同一套执行逻辑。
+        """
+        out = self.forward(x)
+        return out if out.dim() == 3 else out.unsqueeze(1)
 
 
 # =============================================================================
@@ -57,8 +88,11 @@ class MLPPolicy(BasePolicy):
         action_scale: float = 2.0,
         squash: bool = True,
         activation: str = "relu",
+        chunk_size: int = 1,
     ) -> None:
-        super().__init__(action_dim=action_dim, action_scale=action_scale, squash=squash)
+        super().__init__(
+            action_dim=action_dim, action_scale=action_scale, squash=squash, chunk_size=chunk_size
+        )
 
         act_layer = _resolve_activation(activation)
         layers: List[nn.Module] = []
@@ -66,11 +100,11 @@ class MLPPolicy(BasePolicy):
         for _ in range(max(1, num_layers)):
             layers += [nn.Linear(in_dim, hidden_dim), act_layer()]
             in_dim = hidden_dim
-        layers.append(nn.Linear(in_dim, action_dim))
+        layers.append(nn.Linear(in_dim, self.output_dim))    # K * action_dim
         self.net = nn.Sequential(*layers)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self._scale_output(self.net(x))
+        return self._format_output(self._scale_output(self.net(x)))
 
 
 # =============================================================================
@@ -92,8 +126,11 @@ class CNNPolicy(BasePolicy):
         hidden_dim: int = 64,
         action_scale: float = 2.0,
         squash: bool = True,
+        chunk_size: int = 1,
     ) -> None:
-        super().__init__(action_dim=action_dim, action_scale=action_scale, squash=squash)
+        super().__init__(
+            action_dim=action_dim, action_scale=action_scale, squash=squash, chunk_size=chunk_size
+        )
         conv_channels = conv_channels or [32, 64]
         padding = kernel_size // 2
 
@@ -111,7 +148,7 @@ class CNNPolicy(BasePolicy):
         self.head = nn.Sequential(
             nn.Linear(in_ch, hidden_dim),
             nn.ReLU(),
-            nn.Linear(hidden_dim, action_dim),
+            nn.Linear(hidden_dim, self.output_dim),           # K * action_dim
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -119,7 +156,7 @@ class CNNPolicy(BasePolicy):
         if x.dim() == 2:
             x = x.unsqueeze(1)
         feat = self.features(x).flatten(1)
-        return self._scale_output(self.head(feat))
+        return self._format_output(self._scale_output(self.head(feat)))
 
 
 # =============================================================================
@@ -140,8 +177,11 @@ class GRUPolicy(BasePolicy):
         hidden_dim: int = 64,
         action_scale: float = 2.0,
         squash: bool = True,
+        chunk_size: int = 1,
     ) -> None:
-        super().__init__(action_dim=action_dim, action_scale=action_scale, squash=squash)
+        super().__init__(
+            action_dim=action_dim, action_scale=action_scale, squash=squash, chunk_size=chunk_size
+        )
         self.gru = nn.GRU(
             input_size=1,
             hidden_size=gru_hidden,
@@ -151,7 +191,7 @@ class GRUPolicy(BasePolicy):
         self.head = nn.Sequential(
             nn.Linear(gru_hidden, hidden_dim),
             nn.ReLU(),
-            nn.Linear(hidden_dim, action_dim),
+            nn.Linear(hidden_dim, self.output_dim),           # K * action_dim
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -159,7 +199,7 @@ class GRUPolicy(BasePolicy):
         if x.dim() == 2:
             x = x.unsqueeze(-1)
         out, _ = self.gru(x)
-        return self._scale_output(self.head(out[:, -1, :]))
+        return self._format_output(self._scale_output(self.head(out[:, -1, :])))
 
 
 # =============================================================================
@@ -205,6 +245,7 @@ def build_network(config: Dict) -> BasePolicy:
         action_dim=int(model_cfg.get("action_dim", 1)),
         action_scale=float(model_cfg.get("action_scale", 2.0)),
         squash=bool(model_cfg.get("squash", True)),
+        chunk_size=int(model_cfg.get("chunk_size", 1)),      # W4: 动作块长度 K（1 = 单步 BC）
     )
 
     if name == "mlp":

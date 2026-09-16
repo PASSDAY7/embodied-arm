@@ -1,0 +1,44 @@
+# =============================================================================
+# 动作块行为克隆（Action Chunking BC）实验配置：Pendulum-v1
+# 训练脚本 experiments/train_chunking_bc.py 通过 PyYAML 读取本文件。
+# -----------------------------------------------------------------------------
+# 通过 `defaults` 继承单步 BC 配置（configs/bc_config.yaml），因此两类实验的
+# 数据 / 网络 / 优化器 / 训练轮数 / 增强设置**完全一致**，唯一变量是：
+#   1. model.chunk_size  ：网络输出头维度由 action_dim 变为 K * action_dim
+#   2. 标签构造          ：滑窗 [a_t, ..., a_{t+K-1}]（窗口不跨轨迹边界，末端零填充）
+#   3. 闭环执行方式      ：每隔 K 步推理一次，一次打出 K 步动作
+# 这样"单步 BC vs 动作块 BC"的对比才是干净可控的。
+# =============================================================================
+defaults: bc_config.yaml
+
+# -------- 实验级设置 --------
+experiment:
+  name: "chunking_bc_pendulum"   # TensorBoard / Checkpointer 命名前缀
+  seed: 42                       # 与单步 BC 相同：训练/验证数据切分逐样本对齐
+  device: "cuda"                 # auto | cpu | cuda
+  env_name: "Pendulum-v1"
+
+# -------- 网络结构 --------
+model:
+  chunk_size: 8                  # ★ 动作块长度 K：输出头 = K * action_dim = 8
+
+# -------- 动作块标签构造 --------
+chunking:
+  chunk_size: null               # null（推荐）= 跟随 model.chunk_size；显式设置时二者必须一致
+  # 标签形状 (K, action_dim)；滑窗步幅固定为 1（每个状态样本对应一个 K 步标签），
+  # 以保证与单步 BC 的训练/验证样本逐样本对齐。
+
+# -------- 数据设置 --------
+data:
+  # 轨迹级缓存（含 episode_lengths，用于还原回合边界；与单步 BC 的扁平缓存相互独立）
+  cache_file: expert_pendulum_traj.npz
+
+# -------- 闭环推理 / 执行设置 --------
+inference:
+  execution: "chunk"             # 主指标：chunk(开环，一次推理打出 K 步) | ema(块间 EMA 平滑)
+  ema_alpha: 0.5                 # EMA 中新预测动作块的权重（1.0 等价于 chunk）
+  replan_every: 0                # 每多少步重新推理一次；0 = 等于 K（即"每隔 K 步推理一次"）
+  # ---- 对照组（compare_executions=true 时额外评估并写入 TensorBoard）----
+  compare_executions: true
+  ema_replan_every: null         # EMA 模式的重规划间隔；null = K//2（需 < K 才能产生时间重叠）
+  receding_replan_every: 1       # 每步重新推理、只执行块首动作（receding horizon 对照）

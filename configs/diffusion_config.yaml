@@ -1,0 +1,111 @@
+# =============================================================================
+# 极简条件扩散策略（Mini-Diffusion Policy）实验配置：Pendulum-v1（多峰专家数据）
+# 训练脚本 experiments/train_diffusion_policy.py（W4 Task 2）
+# -----------------------------------------------------------------------------
+# 通过 `defaults` 继承单步 BC 配置（configs/bc_config.yaml），因此**优化器 / 学习率 /
+# epoch 数 / 数据增强 / 随机种子 / 闭环评估回合数**与 Task 1 的动作块 BC 完全一致；
+# 唯一变量是"动作生成方式"：
+#   1. 数据        ：多峰专家轨迹（同一起步状态存在 ±两个可行摆起方向）
+#   2. 网络        ：ε_θ(s, a^t, t) 噪声预测网络（FiLM 条件化 MLP），而非回归头
+#   3. 损失        ：噪声预测 MSE（现场采样扩散步 t 与噪声 ε），而非标签 MSE
+#   4. 推理        ：从 a^N ~ N(0, I) 反向去噪 N 步得到动作块（而非一次前向）
+# 脚本内部还会在**同一份数据、同一 epoch 数**下训练一个确定性 MLP 动作块策略作为
+# 对照，用来量化"条件均值 vs 分布采样"在多峰任务上的差距。
+# =============================================================================
+defaults: bc_config.yaml
+
+# -------- 实验级设置 --------
+experiment:
+  name: "diffusion_policy_pendulum"   # TensorBoard / Checkpointer 命名前缀
+  seed: 42                            # 与 Task 1 相同：数据切分 / 评估初始状态逐样本对齐
+  device: "cuda"                      # auto | cpu | cuda
+  env_name: "Pendulum-v1"
+
+# -------- 网络结构 --------
+model:
+  state_dim: 3
+  action_dim: 1
+  action_scale: 2.0
+  chunk_size: 8                       # ★ 动作块长度 K（输出头 K * action_dim；与 Task 1 默认一致）
+  hidden_dim: 128                      # 噪声网络宽度（noise_net.hidden_dim 优先）
+
+# -------- 动作块标签构造（与 Task 1 同一份切分实现）--------
+chunking:
+  chunk_size: null                    # null = 跟随 model.chunk_size；显式设置时必须一致
+
+# -------- 多峰专家数据 --------
+data:
+  # 轨迹级缓存（含 episode_lengths 与每回合的摆起模式 modes；与 Task 1 的缓存相互独立）
+  cache_file: expert_pendulum_multimodal_traj.npz
+  mode_policy: "random"               # random（推荐）| alternate（奇偶回合交替）
+  expert:                             # 多峰专家控制器参数（expert_controller_multimodal）
+    kick_threshold: 1.0               # 角速度小于该值视为"几乎停住"→ 起步方向歧义
+    hang_margin: 0.5                  # 距下垂位置该窗口内（弧度）才触发方向歧义
+    kick_torque: 2.0                  # 起步力矩幅值（动作上限 2.0）
+
+# -------- 扩散过程（前向加噪 + 反向采样）--------
+diffusion:
+  num_train_timesteps: 100            # T：训练加噪步数（余弦调度表长度）
+  schedule: "cosine"                  # cosine（推荐）| linear | scaled_linear
+  sample_steps: 16                    # N：推理去噪步数（DDIM 跨步采样）
+  sampler: "ddim"                      # ddim（确定性 + 可跨步，默认）| ddpm（随机，需 N=T）
+  eta: 0.0                            # DDIM 随机性系数；0 = 给定初始噪声后完全确定
+  clip_x0: 1.0                        # x0 预测截断（归一化空间 [-1, 1]）
+  seed: null                          # null = 每次规划重新采样（真·分布采样）；整数则固定随机源
+
+# -------- 噪声预测网络 ε_θ(s, a^t, t) --------
+noise_net:
+  hidden_dim: 128
+  num_layers: 3                       # FiLM 残差块层数
+  time_embed_dim: 64                  # 扩散步正弦编码维度
+  activation: "gelu"
+
+# -------- 训练设置（覆盖：扩散损失收敛更慢一些）--------
+training:
+  epochs: 200                         # 与内部确定性对照策略使用**同一值**，保证公平
+  batch_size: 64
+  lr: 0.001
+  max_grad_norm: 1.0
+  log_interval: 20
+  checkpoint:
+    monitor: val_noise_mse            # 最优权重判据：验证集噪声预测 MSE（越小越好）
+    mode: min
+
+# -------- 闭环推理 / 消融 --------
+inference:
+  execution: "chunk"                  # 主指标：chunk（每 K 步规划一次）| ema（块间 EMA 平滑）
+  ema_alpha: 0.5
+  replan_every: 0                     # 0 = 等于 K
+  compare:                            # 控制变量消融（写入 TensorBoard）
+    sample_steps: [4, 10, 16, 32]     # 推理去噪步数 N：控制效果 vs 推理开销
+    replan_every: [0, 4]              # 重规划间隔：开环整块 vs 更频繁重规划（多峰抖动问题）
+  timing_repeats: 300                 # 单次规划耗时测量重复次数（前 50 次为预热）
+  baseline: true                      # 是否训练/评估确定性 MLP 动作块对照策略
+
+# -------- 多峰探针（同一状态下采样分布 vs 确定性输出）--------
+probe:
+  enabled: true                       # 是否运行 Pendulum 歧义状态探针
+  consistency: true                   # 是否统计"相邻规划方向翻转率"（多峰采样的一致性代价）
+  n_states: 8                         # 抽样的歧义状态个数
+  n_samples: 256                      # 每个状态的采样次数
+  hit_tol: 0.3                        # 判定"命中最近模态"的动作距离容差
+  state_seed: 10000                   # 探针状态的随机种子（远大于训练种子 → 未见过）
+  # -------- 双峰玩具任务（多峰机理的最小可验证例子，1 维状态 / 1 维动作）--------
+  toy:
+    enabled: true
+    n_states: 5
+    n_per_mode: 1000
+    mode_center: 1.0                  # μ(s) = 1.0 + 0.5·s → 两个模态在 ±μ(s)
+    mode_slope: 0.5
+    mode_noise_std: 0.05
+    epochs: 150                       # 确定性与扩散玩具策略各训练该 epoch 数
+    hit_tol: 0.3
+    n_samples: 512                    # 每个状态采样次数
+
+# -------- 消融实验 --------
+ablation:
+  # 稀疏演示数据：数据变少后，"取均值"的代价是否放大？
+  sparse:
+    enabled: true
+    data_fraction: 0.16               # 只用 16% 轨迹（8/50 条，1600 步）
+    epochs: 120                       # 两种策略在同一子集上各训练该 epoch 数
