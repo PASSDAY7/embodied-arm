@@ -27,6 +27,23 @@ from .diffusion import (
     build_diffusion_policy,
     count_parameters,
 )
+from .reinforce import (
+    BASELINES,
+    PolicyNetwork,
+    ValueNetwork,
+    build_policy,
+    build_value_network,
+    compute_advantages,
+    compute_returns,
+    env_max_steps,
+    evaluate_policy,
+    make_env,
+    reinforce_loss,
+    run_episode,
+    stack_episodes,
+    update_policy,
+    value_loss,
+)
 from .utils import (
     CheckpointIntegrityError,
     Checkpointer,
@@ -39,6 +56,30 @@ from .utils import (
     resolve_device,
     restore_rng_state,
     set_seed,
+)
+
+# ---- W8 Task 1: 连续空间 PPO（PPO-Clip + GAE-λ）---------------------------------
+# 注意：``src.ppo`` 与 ``src.reinforce`` 同名导出的 ``make_env / env_max_steps /
+# evaluate_policy / value_loss / count_parameters`` 语义不同，这里沿用 W6 的约定
+# **只保留 reinforce 版本**；需要 PPO 版本时显式 ``from src.ppo import value_loss`` 等。
+from .ppo import (
+    LOG_STD_MAX,
+    LOG_STD_MIN,
+    Actor,
+    ActorCritic,
+    Critic,
+    RolloutBuffer,
+    RolloutCollector,
+    RunningMeanStd,
+    build_actor_critic,
+    build_ppo_optimizer,
+    compute_gae,
+    entropy_of_normal,
+    explained_variance,
+    gaussian_log_prob,
+    policy_loss_clip,
+    ppo_losses,
+    ppo_update,
 )
 
 __all__ = [
@@ -70,6 +111,23 @@ __all__ = [
     "SinusoidalTimeEmbedding",
     "build_diffusion_policy",
     "count_parameters",
+    # ---- W6 Task 1: REINFORCE（注意：reinforce.count_parameters 与 diffusion.count_parameters
+    #      同名，为避免覆盖这里不再重复导出，需要时从 src.reinforce 直接导入）----
+    "PolicyNetwork",
+    "ValueNetwork",
+    "build_policy",
+    "build_value_network",
+    "make_env",
+    "env_max_steps",
+    "compute_returns",
+    "compute_advantages",
+    "reinforce_loss",
+    "value_loss",
+    "run_episode",
+    "stack_episodes",
+    "update_policy",
+    "evaluate_policy",
+    "BASELINES",
     "Checkpointer",
     "CheckpointIntegrityError",
     "TensorBoardLogger",
@@ -81,4 +139,22 @@ __all__ = [
     "atomic_save",
     "load_checkpoint_file",
     "get_logger",
+    # ---- W8 Task 1: PPO（PPO-Clip + GAE-λ）----
+    "LOG_STD_MIN",
+    "LOG_STD_MAX",
+    "Actor",
+    "Critic",
+    "ActorCritic",
+    "RolloutBuffer",
+    "RolloutCollector",
+    "RunningMeanStd",
+    "build_actor_critic",
+    "build_ppo_optimizer",
+    "compute_gae",
+    "gaussian_log_prob",
+    "entropy_of_normal",
+    "policy_loss_clip",
+    "ppo_losses",
+    "ppo_update",
+    "explained_variance",
 ]

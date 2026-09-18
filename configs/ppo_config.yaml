@@ -1,0 +1,85 @@
+# =============================================================================
+# PPO（PPO-Clip + GAE-λ）实验配置：Pendulum-v1（连续动作空间）
+# 训练脚本 experiments/train_ppo.py 通过 PyYAML 读取本文件。
+# -----------------------------------------------------------------------------
+# experiment / model / training 三段为演练任务指定字段（seed 42、cuda、
+# Pendulum-v1、state_dim 3、action_dim 1、hidden_dim 64、total_timesteps 200000、
+# rollout_steps 2048、gamma 0.99、gae_lambda 0.95、clip_eps 0.2、update_epochs 10、
+# batch_size 64、lr_actor 3e-4、lr_critic 1e-3、max_grad_norm 0.5、target_reward -200）；
+# 其余补充字段（model.* / algorithm.* / eval / paths）为完整工程流水线所需。
+#
+# 与 W6 REINFORCE 的差异：
+#   * 有 Critic（价值网络）⇒ 用 GAE-λ 的**多步**优势替代蒙特卡洛回报；
+#   * on-policy 数据不再"一个回合更新一次"，而是"攒 2048 步 → 10 轮 mini-batch 更新"；
+#   * 有独立的 rollout 采样器（RolloutBuffer / RolloutCollector），"epoch" 的含义
+#     变成"mini-batch 更新轮数"，而不是"训练集遍历次数"。
+# =============================================================================
+
+# -------- 实验级设置（演练指定）--------
+experiment:
+  name: "ppo_pendulum"         # 实验名：用于 TensorBoard 日志目录与 Checkpointer 命名
+  seed: 42                     # 全局随机种子（网络初始化 / 动作采样 / mini-batch 打乱）
+  device: "cuda"               # auto | cpu | cuda
+  env_name: "Pendulum-v1"      # Gymnasium 环境名（动作范围 [-2, 2]，单回合 200 步）
+
+# -------- 网络结构（演练指定）--------
+model:
+  state_dim: 3                 # 状态维度 [cos θ, sin θ, θ̇]
+  action_dim: 1                # 连续动作维度（单维力矩）
+  hidden_dim: 64               # 隐藏层宽度（Actor 与 Critic 各自一套 MLP）
+  # ---- 以下为可选补充字段 ----
+  name: "mlp"
+  num_layers: 2                # 隐藏层数量
+  activation: "relu"           # relu | tanh | gelu | leaky_relu | elu
+  shared_backbone: false       # false=独立双网络（作业要求）；true=共享主干双头
+  log_std_init: -0.5           # log σ 初值（σ ≈ 0.61，相对动作幅度 2.0 是"适度探索"）
+  log_std_min: -20.0           # log σ 夹紧下界（防熵崩塌 / 除零）
+  log_std_max: 2.0             # log σ 夹紧上界（防动作完全随机）
+  action_low: -2.0             # ★ 环境动作下界：只用于 env.step 前的截断（思考题）
+  action_high: 2.0             # ★ 环境动作上界：截断**不参与** log_prob 计算
+  action_transform: "clip"     # clip（本作业）| tanh 压缩高斯（未实现，见 src/ppo.py 说明）
+  normalize_obs: true          # 状态归一化（RunningMeanStd）：Pendulum 的 θ̇ 量纲比 cos/sin 大 8 倍
+
+# -------- 训练设置（演练指定）--------
+training:
+  total_timesteps: 200000      # 与环境交互的总步数预算（≈ 97 个 rollout）
+  rollout_steps: 2048          # 每次收集的步数（一个 rollout）
+  gamma: 0.99                  # 折扣因子
+  gae_lambda: 0.95             # GAE-λ 的 λ（0=TD(0)，1=蒙特卡洛）
+  clip_eps: 0.2                # PPO-Clip 的 ε（比值允许区间 [0.8, 1.2]）
+  update_epochs: 10            # 每个 rollout 做几轮 mini-batch 更新
+  batch_size: 64               # mini-batch 大小（2048/64 = 32 个/轮）
+  lr_actor: 0.0003             # Adam 策略学习率
+  lr_critic: 0.001             # Adam 价值学习率（Critic 需要更快追上回报尺度）
+  max_grad_norm: 0.5           # 全局梯度裁剪阈值（<=0 关闭）
+  target_reward: -200.0        # 提前停止阈值：评估平均回报 ≥ 该值即认定收敛
+  target_window: 100           # 训练滑动均值的窗口（回合数），与评估判据互为交叉验证
+  # ---- 以下为可选补充字段 ----
+  value_coef: 0.5              # c₁：价值损失的权重
+  entropy_coef: 0.0            # c₂：熵奖励系数（>0 鼓励探索；σ 可学习时通常取 0）
+  weight_decay: 0.0
+  normalize_advantage: true    # mini-batch 内优势标准化（尺度不变，消融可关）
+  bootstrap_on_truncation: true # ★ truncated 是否继续自举（Pendulum 无真终止，应为 true）
+  reward_scale: 1.0            # 写入 buffer 的奖励缩放（只影响学习目标，不影响日志回报）
+  value_clip_eps: null         # 非空则启用 clipped value loss（PPO2 可选项），默认按作业公式关闭
+  target_kl: null              # 非空则按 epoch 的 approx_kl 早停（默认关闭）
+  log_interval: 1              # 每多少个 rollout 打印一次训练日志
+  checkpoint:                  # 断点续训 / 异常恢复
+    monitor: eval_return       # 判定"最优"所用指标（独立评估的平均回报）
+    mode: max                  # 回报越大越好
+    snapshot_every: 0          # 每 N 个检查点周期额外归档一份快照（0 = 关闭）
+    keep_last_n: 2             # 归档快照最多保留个数
+
+# -------- 评估（可选）--------
+eval:
+  n_episodes: 20               # 每次评估的回合数（固定种子，便于跨实验对比）
+  every_rollouts: 5            # 每多少个 rollout（≈ 5×2048 步）做一次独立评估 + 存盘
+  deterministic: true          # true=取均值 μ(s)（评估无采样噪声），false=按分布采样
+  seed: 12345                  # 评估回合的起始随机种子
+  render: false                # true 时打开人类可视化窗口（仅最后一次评估）
+
+# -------- 路径（可选）--------
+paths:
+  log_dir: logs
+  checkpoint_dir: logs/checkpoints
+  resume: null                 # 断点续训：null(从头训练) | auto(自动找最新) | <检查点文件/目录>

@@ -1,0 +1,75 @@
+# =============================================================================
+# REINFORCE（策略梯度 + Baseline）实验配置：CartPole-v1
+# 训练脚本 experiments/train_reinforce.py 通过 PyYAML 读取本文件。
+# -----------------------------------------------------------------------------
+# experiment / model / training 三段为演练任务指定字段（seed 42、cuda、
+# CartPole-v1、state_dim 4、action_dim 2、hidden_dim 128、gamma 0.99、lr 0.002、
+# max_episodes 600、target_reward 475.0、log_interval 20）；
+# 其余补充字段（algorithm / eval / paths）为完整工程流水线所需。
+#
+# 与 W3/W4 的 BC 配置相比，这里**没有 data 段**：策略梯度的训练数据不是专家
+# 数据集，而是策略自己与环境交互得到的轨迹（on-policy），因此只有"交互预算"
+# （max_episodes）而没有"数据步数"。
+# =============================================================================
+
+# -------- 实验级设置（演练指定）--------
+experiment:
+  name: "reinforce_cartpole"   # 实验名：用于 TensorBoard 日志目录与 Checkpointer 命名
+  seed: 42                     # 全局随机种子（含网络初始化与动作采样）
+  device: "cuda"               # auto | cpu | cuda
+  env_name: "CartPole-v1"      # Gymnasium 环境名（回合上限 500 步）
+
+# -------- 网络结构（演练指定）--------
+model:
+  state_dim: 4                 # 状态维度 [x, x_dot, θ, θ_dot]
+  action_dim: 2                # 离散动作数：0=向左推，1=向右推
+  hidden_dim: 128              # 隐藏层宽度
+  # ---- 以下为可选补充字段 ----
+  name: "mlp"
+  num_layers: 2                # MLP 隐藏层数量
+  activation: "relu"           # relu | tanh | gelu | leaky_relu | elu
+
+# -------- 训练设置（演练指定）--------
+training:
+  max_episodes: 600            # 与环境的交互回合数上限（on-policy 数据全部由此产生）
+  lr: 0.002                    # Adam 学习率（策略梯度对 lr 很敏感：过大易发散）
+  gamma: 0.99                  # 折扣因子
+  target_reward: 475.0         # 提前停止阈值：最近 target_window 回合的平均回报达标即停
+  log_interval: 20             # 每多少个回合打印一次训练日志
+  target_window: 100           # 提前停止所用的滑动窗口长度（450+ 视为解决 CartPole）
+  # ---- 以下为可选补充字段 ----
+  update_batch_episodes: 1     # 每次参数更新用几条回合（1 = 经典逐回合更新；>1 = 批量更新）
+  weight_decay: 0.0
+  max_grad_norm: 0.0           # 梯度裁剪阈值（<=0 表示关闭；CartPole 一般无需开启）
+  checkpoint:                  # 断点续训 / 异常恢复
+    monitor: eval_return       # 判定 "最优" 所用指标（评估回合的平均回报）
+    mode: max                  # 回报越大越好
+    snapshot_every: 0          # 每 N 个"检查点周期"额外归档一份快照（0 = 关闭）
+    keep_last_n: 2             # 归档快照最多保留个数
+
+# -------- 算法细节（策略梯度三件套：基线 / 归一化 / 探索）--------
+algorithm:
+  baseline: "batch_mean"       # none | batch_mean | value（value 需启用下面的 critic）
+  normalize_returns: true      # ★ 思考题 2 的开关：是否做 Return 归一化 (G-μ)/(σ+ε)
+  normalize_advantages: false  # 归一化之后是否再标准化一次优势（幂等，仅供消融）
+  entropy_coef: 0.0            # 熵奖励系数 β（>0 鼓励探索）
+  critic_coef: 0.5             # baseline=value 时的 Critic 损失权重
+  reduction: "mean"            # mean | sum（mean 使梯度尺度与回合长度无关）
+  critic:                      # baseline=value 时的小 Critic V_φ(s)
+    hidden_dim: 128
+    num_layers: 2
+    activation: "relu"
+
+# -------- 评估（可选）--------
+eval:
+  n_episodes: 20               # 每次评估的回合数（贪心策略、固定随机种子，便于对比）
+  every_episodes: 20           # 每多少个训练回合做一次独立评估 + 存盘
+  deterministic: true          # true=argmax（评估），false=按分布采样
+  seed: 12345                  # 评估回合的起始随机种子
+  render: false                # true 时打开人类可视化窗口（仅最后一次评估）
+
+# -------- 路径（可选）--------
+paths:
+  log_dir: logs
+  checkpoint_dir: logs/checkpoints
+  resume: null                 # 断点续训：null(从头训练) | auto(自动找最新) | <检查点文件/目录>
