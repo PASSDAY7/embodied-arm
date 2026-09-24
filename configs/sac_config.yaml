@@ -1,0 +1,94 @@
+# =============================================================================
+# SAC（Soft Actor-Critic，off-policy 最大熵强化学习）实验配置：Pendulum-v1
+# 训练脚本 experiments/train_sac.py 通过 PyYAML 读取本文件。
+# -----------------------------------------------------------------------------
+# 演练指定字段（experiment / model / training）：
+#   seed 42、cuda、Pendulum-v1、state_dim 3、action_dim 1、
+#   total_timesteps 40000、buffer_size 100000、batch_size 256、
+#   lr_actor 3e-4、lr_critic 1e-3、lr_alpha 3e-4、tau 0.005、gamma 0.99、
+#   target_entropy "auto"（= −dim(A) = −1.0）、warmup_steps 1000。
+# 其余补充字段（model.* 的 MLP 形状 / algorithm.* 的 off-policy 调度 / eval / paths）
+# 为完整工程流水线所需（评估、监控、断点续训）。
+#
+# 为什么 total_timesteps 只要 4 万（而 W8 PPO 用了 20 万）：
+#   * PPO 是 **on-policy**：一个 rollout 的数据用完即弃，样本只能被消费 1 次；
+#   * SAC 是 **off-policy**：ReplayBuffer 里的每条经验平均会被反复采样上百次，
+#     每个环境步都能做一次甚至多次梯度更新（train_freq=1, gradient_steps=1），
+#     于是样本效率高一个量级 —— Pendulum-v1 通常 2~4 万步就收敛到 −150 ~ −200。
+# =============================================================================
+
+# -------- 实验级设置（演练指定）--------
+experiment:
+  name: "sac_pendulum"         # 实验名：用于 TensorBoard 日志目录与 Checkpointer 命名
+  seed: 42                     # 全局随机种子（网络初始化 / 动作采样 / buffer 采样）
+  device: "cuda"               # auto | cpu | cuda
+  env_name: "Pendulum-v1"      # Gymnasium 环境名（动作范围 [-2, 2]，单回合 200 步）
+
+# -------- 网络结构（演练指定 + 补充）--------
+model:
+  state_dim: 3                 # 状态维度 [cos θ, sin θ, θ̇]
+  action_dim: 1                # 连续动作维度（单维力矩）
+  hidden_dim: 256              # 隐藏层宽度（SAC 常用 256，比 PPO 的 64 更宽）
+  num_layers: 2                # 隐藏层数量
+  activation: "relu"           # relu | tanh | gelu | leaky_relu | elu
+  log_std_min: -20.0           # log σ 夹紧下界（防熵崩塌 / 除零）
+  log_std_max: 2.0             # log σ 夹紧上界（防动作完全随机）
+  log_std_init: -0.5           # log σ 头偏置初值（σ ≈ 0.61，压缩前空间中"适度探索"）
+  action_low: -2.0             # ★ 环境动作下界：tanh 空间 [-1, 1] 到此的仿射映射下界
+  action_high: 2.0             # ★ 环境动作上界
+  normalize_obs: false         # 状态归一化（RunningMeanStd）：SAC 原论文不做，默认关闭
+  # ---- Q 网络 ----
+  n_critics: 2                 # 双 Q（Double-Q，取 min 抑制过估计）；1 = 退化为单 Q
+  critic_hidden_dim: 256       # Q 网络隐藏层宽度（默认与 actor 相同）
+  # ---- 初始化（正交初始化：隐藏层 √2、策略头 1e-3 ⇒ 初始 μ≈0 ⇒ 初始动作≈0）----
+  trunk_init_gain: 1.4142135   # 隐藏层正交初始化增益（ReLU 的 √2）
+  head_init_gain: 0.001        # 策略 μ / log σ 头增益（小增益 ⇒ 初始动作接近 0，训练更稳）
+  critic_out_init_gain: 1.0    # Q 输出头增益
+
+# -------- 训练设置（演练指定 + 补充）--------
+training:
+  total_timesteps: 40000       # 与环境交互的总步数预算（SAC 样本利用率极高）
+  buffer_size: 100000          # ReplayBuffer 容量（> total_timesteps ⇒ 全程不覆盖旧数据）
+  batch_size: 256              # 每次梯度更新采样的 mini-batch 大小
+  warmup_steps: 1000           # 热身期：纯随机动作填 buffer（不做任何梯度更新）
+  train_freq: 1                # 每 N 个环境步做一次梯度更新
+  gradient_steps: 1            # 每次更新做几个 mini-batch（1 ⇒ UTD=1:1 的 off-policy 标准设置）
+  lr_actor: 0.0003             # Adam 策略学习率
+  lr_critic: 0.001             # Adam 双 Q 学习率（Critic 需要更快追上回报尺度）
+  lr_alpha: 0.0003             # Adam 温度 α 学习率（对 log α 求导）
+  tau: 0.005                   # 目标网络软更新系数：θ̄ ← τθ + (1−τ)θ̄（τ=1 即硬拷贝）
+  gamma: 0.99                  # 折扣因子
+  target_entropy: "auto"       # auto = −dim(A) = −1.0 | 也可写具体浮点数 | null = 固定 α
+  init_alpha: 1.0              # α 初值（log α 初始化为 ln(1) = 0）
+  alpha_min: 0.0               # α 下界（0 表示不夹紧）；可选补充字段
+  max_grad_norm: 0.0           # 全局梯度裁剪阈值（<=0 关闭；SAC 一般不用）
+  target_reward: -200.0        # ★ 提前停止阈值：独立评估平均回报 ≥ 该值即认定收敛
+                               #   （本任务实测 4000 步即达标 ⇒ 默认运行约 45 秒就会停；
+                               #    想看完整 40000 步曲线与 α 轨迹，把它设成不可达值：
+                               #    --set training.target_reward=1e9）
+  target_window: 100           # 训练滑动均值的窗口（回合数），与评估判据交叉验证
+  reward_scale: 1.0            # 写入 buffer 的奖励缩放（只影响学习目标，不影响日志回报）
+  # ---- off-policy 的"重放新鲜度"监控（可选补充字段）----
+  bootstrap_on_truncation: true # ★ truncated 是否继续自举（Pendulum 无真终止，应为 true）
+  use_min_for_actor: true      # Actor 损失里用 min(Q1,Q2)（悲观估计）而非 Q1
+  log_interval: 1000           # 每多少个环境步打印一次训练日志
+  checkpoint:                  # 断点续训 / 异常恢复
+    monitor: eval_return       # 判定"最优"所用指标（独立评估的平均回报）
+    mode: max                  # 回报越大越好
+    every_steps: 5000          # 每多少个环境步存一次检查点（0 = 只在评估时存）
+    snapshot_every: 0          # 每 N 个检查点周期额外归档一份快照（0 = 关闭）
+    keep_last_n: 2             # 归档快照最多保留个数
+
+# -------- 评估（可选）--------
+eval:
+  n_episodes: 20               # 每次评估的回合数（固定种子，便于跨实验对比）
+  every_steps: 2000            # 每多少个环境步做一次独立评估 + 存盘（记录突破 −200 的步数）
+  deterministic: true          # true=取 tanh(μ(s))（评估无采样噪声），false=按分布采样
+  seed: 12345                  # 评估回合的起始随机种子
+  render: false                # true 时打开人类可视化窗口（仅最后一次评估）
+
+# -------- 路径（可选）--------
+paths:
+  log_dir: logs
+  checkpoint_dir: logs/checkpoints
+  resume: null                 # 断点续训：null(从头训练) | auto(自动找最新) | <检查点文件/目录>

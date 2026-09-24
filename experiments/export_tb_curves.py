@@ -57,6 +57,46 @@ PANEL_SPECS: Tuple[Tuple[str, Tuple[Tuple[str, str], ...], Optional[float]], ...
         ("buffer/reward_mean", "单步奖励均值"),
     ), None),
     ("动作截断比例（思考题诊断）", (("train/action_clip_fraction", "a_raw 越界比例"),), None),
+    # ---- W9 Task 1: SAC（off-policy 最大熵 RL）的监控面板 ----
+    ("SAC：双 Q 损失（TD 误差）", (
+        ("train/q1_loss", "Q1 损失"),
+        ("train/q2_loss", "Q2 损失"),
+    ), None),
+    ("SAC：策略损失 J_π = E[α logπ − min Q]", (("train/actor_loss", "J_π"),), None),
+    ("SAC：温度 α 的自适应轨迹", (
+        ("train/alpha", "α = exp(log α)"),
+        ("eval/alpha", "评估点 α"),
+        ("train/log_alpha", "log α"),
+    ), None),
+    ("SAC：温度损失 J(α)", (("train/alpha_loss", "J(α)"),), None),
+    ("SAC：熵与目标熵（H̄ = −dim A）", (
+        ("train/entropy_mean", "策略熵 H ≈ −E[log π]"),
+        ("eval/entropy_mean", "评估点熵"),
+        ("train/entropy_target_gap", "H − |H̄|"),
+    ), None),
+    ("SAC：软 Bellman 目标与 Q 尺度", (
+        ("train/target_q_mean", "y = r + γ(minQ̄ − α logπ)"),
+        ("train/next_q_mean", "min Q̄(s', a')"),
+        ("train/td_abs_mean", "|Q − y|"),
+    ), None),
+    ("SAC：三段梯度范数（c/a/α）", (
+        ("train/critic_grad_norm", "Critic"),
+        ("train/actor_grad_norm", "Actor"),
+        ("train/alpha_grad_norm", "α"),
+    ), None),
+    ("SAC：思考题诊断（Actor 步冻结 Critic）", (
+        ("train/critic_frozen_ok", "critic_frozen_ok（应恒为 1）"),
+    ), None),
+    ("SAC：动作分布紧凑度", (
+        ("train/mean_std", "σ（压缩前空间）"),
+        ("train/saturation_fraction", "tanh 饱和比例"),
+        ("train/mean_mu_abs", "|μ|"),
+    ), None),
+    ("SAC：回放池（off-policy 数据）", (
+        ("buffer/size", "样本数"),
+        ("buffer/reward_mean", "单步奖励均值"),
+        ("buffer/truncated_fraction", "truncated 比例"),
+    ), None),
 )
 
 

@@ -82,6 +82,26 @@ from .ppo import (
     ppo_update,
 )
 
+# ---- W9 Task 1: SAC（off-policy 最大熵 RL；Soft Actor-Critic）--------------------
+# 与 ``src.ppo`` 一样，``make_env / env_max_steps / evaluate_policy / RunningMeanStd /
+# count_parameters`` 是从 W8 PPO 模块复用过来的同一份实现，这里不重复导出；
+# 需要 SAC 自己的类时显式 ``from src.sac import ...``（SquashedGaussianActor 等）。
+from .sac import (
+    SACAgent,
+    ContinuousCritic,
+    ReplayBuffer,
+    SquashedGaussianActor,
+    build_sac_agent,
+    build_sac_optimizers,
+    frozen_parameters,
+    log_one_minus_tanh_sq,
+    random_norm_action,
+    resolve_target_entropy,
+    soft_update,
+    squashed_gaussian_log_prob,
+    sync_target,
+)
+
 __all__ = [
     "NETWORKS",
     "BasePolicy",
@@ -157,4 +177,18 @@ __all__ = [
     "ppo_losses",
     "ppo_update",
     "explained_variance",
+    # ---- W9 Task 1: SAC（off-policy 最大熵 RL）----
+    "SquashedGaussianActor",
+    "ContinuousCritic",
+    "ReplayBuffer",
+    "SACAgent",
+    "build_sac_agent",
+    "build_sac_optimizers",
+    "resolve_target_entropy",
+    "squashed_gaussian_log_prob",
+    "log_one_minus_tanh_sq",
+    "frozen_parameters",
+    "soft_update",
+    "sync_target",
+    "random_norm_action",
 ]
