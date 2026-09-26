@@ -1,254 +1,192 @@
-# embodied-arm
+# embodied-arm —— 具身智能 / 机械臂强化学习学习工程
 
-Residual RL for robust robot arm trajectory tracking.
+从零手写深度学习与强化学习算法（**行为克隆 → 动作块 → 扩散策略 → REINFORCE → PPO → SAC**），
+全部在 `Pendulum-v1` / `CartPole-v1` 上跑通并留下可复现的数据、曲线与实验报告。
+最终目标：2027 年 IROS / RA-L 投稿的「**残差 RL 机械臂轨迹跟踪**」课题（见文末路线图）。
 
-Target: IROS 2027 / RA-L submission (March 2027).
+| 想干什么 | 去哪看 |
+| --- | --- |
+| 完全没基础，先搞懂"这些实验到底在干什么" | [`docs/零基础读本.md`](docs/零基础读本.md)（白话讲清动作块、日志指标、FAQ） |
+| 看每周的实验数据、消融与结论 | [`docs/reports/`](docs/reports/) |
+| 看训练曲线 | [`docs/figures/`](docs/figures/) |
+| 英文工程说明 | [`README.en.md`](README.en.md) |
 
-> 🇨🇳 **零基础读本（推荐先从这份看起）**：[`README.zh-CN.md`](README.zh-CN.md) ——
-> 用倒立摆讲清楚"什么是动作块""日志里每个指标是什么意思"，不需要模仿学习基础。
+---
 
-## Roadmap
-- [ ] W2-W5: Deep learning basics (PyTorch from scratch)
-- [ ] W6-W9: RL from scratch (PPO / SAC)
-- [ ] W10-W12: Isaac Lab environment & custom task
-- [ ] W13-W16: Main project — residual RL for robust tracking
-- [ ] 2027.1-2: Real robot deployment
-- [ ] 2027.3: Paper submission
-
-## Hardware
-- RTX 2080 Ti (11GB), Ubuntu 22.04, Python 3.10, PyTorch 2.6 (cu124)
-
-## Structure
-- `w2_dl_basics/` — deep learning fundamentals (single-file toy scripts)
-- `docs/` — weekly logs and experiment records
-
-## Behavior Cloning (engineered project)
-
-The single-file script `w2_dl_basics/day2_behavior_cloning.py` has been refactored
-into a standard, reusable and monitorable algorithm project layout:
+## 1. 目录结构
 
 ```
 embodied-arm/
-├── configs/                  # Hyper-parameter configs (YAML)
-│   ├── bc_config.yaml        # BC experiment config
-│   ├── chunking_bc_config.yaml  # Action-chunking BC config (defaults: bc_config.yaml)
-│   └── diffusion_config.yaml    # Mini-diffusion-policy config (W4 Task 2)
-├── src/                      # Core source code
-│   ├── networks.py           # Policy networks (MLP, CNN, GRU) + action-chunk head + factory
-│   ├── diffusion.py          # DDPM schedule / noise-prediction net / diffusion policy (W4 T2)
-│   ├── datasets.py           # Expert data, chunking dataset & augmentation, closed-loop eval
-│   ├── engine.py             # Shared training engine (args/config/run dir/log/TB/train loop/resume)
-│   └── utils.py              # Config, logging, TensorBoard, Checkpointer
-├── experiments/              # Experiment run scripts
-│   ├── train_bc.py           # Behavior cloning training entry point
-│   ├── train_chunking_bc.py  # Action-chunking BC training entry point (W4 Task 1)
-│   ├── train_diffusion_policy.py  # Mini diffusion policy training entry point (W4 Task 2)
-│   └── eval_expert.py        # Expert-controller (oracle) return baseline
-├── tests/                    # Plain-stdlib test scripts (no pytest needed)
-└── logs/                     # TensorBoard logs & model checkpoints (gitignored)
+├── README.md                 # 本文件：唯一中文入口
+├── README.en.md              # 英文工程说明（配置项 / 续训机制 / 命令行）
+├── requirements.txt          # 依赖清单
+│
+├── configs/                  # 所有超参数（改实验不用改代码）
+│   ├── bc_config.yaml            # W3   单步行为克隆（BC）基线
+│   ├── chunking_bc_config.yaml   # W4-1 动作块 BC（defaults 继承 bc_config）
+│   ├── diffusion_config.yaml     # W4-2 迷你条件扩散策略
+│   ├── reinforce_config.yaml     # W6   REINFORCE（CartPole）
+│   ├── ppo_config.yaml           # W8   PPO-Clip + GAE-λ（Pendulum）
+│   └── sac_config.yaml           # W9   SAC（最大熵 off-policy，Pendulum）
+│
+├── src/                      # 核心实现（模块名 = 算法名，被 tests/ 直接导入）
+│   ├── networks.py               # 策略网络 MLP / CNN / GRU + 动作块输出头
+│   ├── datasets.py               # 专家控制器、数据采集与缓存、动作块切分、闭环评估
+│   ├── diffusion.py              # DDPM 调度表、噪声预测网络、DiffusionPolicy（DDPM/DDIM）
+│   ├── engine.py                 # 通用训练引擎（参数/配置/日志/TB/断点续训，BC 系列共用）
+│   ├── reinforce.py              # W6  REINFORCE + 三种 baseline + Return 归一化
+│   ├── ppo.py                    # W8  PPO-Clip、GAE-λ、RolloutBuffer、观测归一化
+│   ├── sac.py                    # W9  SAC：双重 Q、压缩高斯 Actor、自适应温度 α
+│   └── utils.py                  # 配置合并、日志器、TensorBoard、Checkpointer
+│
+├── experiments/              # 训练 / 评估入口，每个都能直接 python 运行
+│   ├── train_bc.py               # W3   BC
+│   ├── train_chunking_bc.py      # W4-1 动作块 BC（--set model.chunk_size=K）
+│   ├── train_diffusion_policy.py # W4-2 扩散策略 + 确定性对照 + 探针 / 消融
+│   ├── train_reinforce.py        # W6   REINFORCE
+│   ├── train_ppo.py              # W8   PPO
+│   ├── train_sac.py              # W9   SAC
+│   ├── eval_expert.py            # 专家 oracle 基线（给"回报"提供参照系）
+│   └── export_tb_curves.py       # 把 TensorBoard 事件导出成 PNG + CSV
+│
+├── tests/                    # 单元测试（纯标准库，不需要 pytest，合计 148 项）
+│   ├── test_action_chunking.py   # 18 项
+│   ├── test_diffusion.py         # 15 项
+│   ├── test_reinforce.py         # 29 项
+│   ├── test_ppo.py               # 38 项
+│   └── test_sac.py               # 48 项
+│
+├── docs/                     # 文档：报告 / 读本 / 笔记 / 曲线 / 原始日志
+│   ├── 零基础读本.md             # W3/W4 白话读本（动作块、指标解读、FAQ、文件地图）
+│   ├── reports/                  # ★ 每周实验报告（数据表、消融、结论）
+│   ├── notes/                    # W2 深度学习学习笔记（CNN / AlexNet）
+│   ├── figures/                  # 归档曲线 PNG + 原始标量 CSV（w8_ppo_* / w9_sac_*）
+│   └── results/                  # 归档训练文本日志 + W4 扩散实验的 json 报告
+│
+├── w2_pytorch_basics/        # W2 PyTorch 基础练习（单文件小脚本）
+├── data/                     # 数据：专家数据 npz、CIFAR-10 缓存（已 gitignore）
+└── logs/                     # 运行输出：TensorBoard 事件 + checkpoint（已 gitignore，可随时删）
 ```
 
-### Configuration (`configs/bc_config.yaml`)
+> `logs/` 与 `data/` 下的数据**不提交到 git**：跑一次实验就会自动重建。
+> 报告里引用的关键数字，已把对应的**文本训练日志**归档在 `docs/results/`。
 
-```yaml
-experiment:                 # experiment-level settings
-  name: "bc_pendulum"       # used to name TensorBoard run dir & checkpoint file
-  seed: 42
-  device: "cuda"            # auto | cpu | cuda
-model:
-  state_dim: 3
-  action_dim: 1
-  hidden_dim: 64
-training:
-  batch_size: 64
-  epochs: 100
-  lr: 0.001
-  max_grad_norm: 1.0        # gradient clipping threshold
-  checkpoint:               # resume / crash-recovery settings
-    monitor: val_mse        # metric used to decide the "best" checkpoint
-    mode: min               # min | max
-    snapshot_every: 0       # archive a snapshot every N epochs (0 = off)
-    keep_last_n: 2          # how many archived snapshots to keep
-data:
-  num_expert_steps: 10000   # total expert steps to collect
-  train_ratio: 0.8
-paths:
-  log_dir: logs
-  checkpoint_dir: logs/checkpoints
-  resume: null              # null | auto | <checkpoint file or directory>
-```
+---
 
-`experiments/train_bc.py` reads this file with **PyYAML** and uses
-`experiment.name` for the TensorBoard log directory (`logs/<name>_<timestamp>/`),
-the Checkpointer weight filenames (`<name>_best.pt`, `<name>_last.pt`).
+## 2. 环境
 
-### Resume training / crash recovery (W3)
-
-`Checkpointer` stores the **complete** training state — model, optimizer,
-scheduler, finished epoch, best metric **and the RNG state of every random
-source** (Python / NumPy / Torch CPU / Torch CUDA) — so an interrupted run
-resumes bit-exactly where it stopped:
-
-| artefact | when written | purpose |
-| --- | --- | --- |
-| `<name>_last.pt` | every epoch | resume / crash recovery |
-| `<name>_best.pt` | when the monitored metric improves | final weights, closed-loop eval |
-| `<name>_epochXXXX.pt` | every `snapshot_every` epochs (rotated, `keep_last_n`) | history |
-
-* Writes are **atomic**: temp file → `fsync` → `os.replace` → directory `fsync`,
-  so a `kill -9` never leaves a half-written checkpoint behind.
-* Every file carries a **sha256 digest** that is verified on load; damaged or
-  truncated files raise `CheckpointIntegrityError` instead of silently loading
-  garbage (legacy plain `torch.save` files are still accepted).
-* Because the RNG state is restored too, `4 epochs + resume 2 epochs` produces
-  **bit-identical** weights to an uninterrupted 6-epoch run.
-* The interrupted run's TensorBoard directory is reused, so curves stay continuous.
+实测环境：Ubuntu 22.04 + Python 3.10 + PyTorch 2.6.0+cu124 + gymnasium 1.3.0，RTX 2080 Ti（11 GB）。
+本仓库使用 conda 环境 `rl`：
 
 ```bash
-# auto-discover the newest checkpoint and continue where it stopped
-python experiments/train_bc.py --resume
-
-# resume from a specific file / directory / extend the schedule
-python experiments/train_bc.py --resume logs/checkpoints/<run>/bc_pendulum_last.pt
-python experiments/train_bc.py --resume logs/checkpoints --set training.epochs=200
+conda create -n rl python=3.10 -y && conda activate rl
+pip install -r requirements.txt        # torch / numpy / gymnasium / pyyaml / tensorboard / matplotlib
 ```
 
-Interruptions are handled gracefully: the first `Ctrl-C` / `SIGTERM` finishes the
-current epoch, saves a checkpoint and exits (printing the exact `--resume`
-command to continue); a second signal force-quits. Any unexpected exception
-triggers an emergency `save_last()` before the traceback is re-raised. Set
-`paths.resume` in the config to make a run resume-on-restart by default.
+没有显卡也能跑：所有训练脚本都支持 `--device cpu`（只是慢一些）。
 
-### Quick start
+---
+
+## 3. 快速开始
+
+### 3.1 先跑测试（约 1 分钟，确认代码没坏）
 
 ```bash
-pip install -r requirements.txt
-
-# Train with the default MLP policy
-python experiments/train_bc.py --config configs/bc_config.yaml
-
-# Switch network / override hyper-params from the command line
-python experiments/train_bc.py --config configs/bc_config.yaml --set model.name=gru
-python experiments/train_bc.py --config configs/bc_config.yaml --set training.epochs=50
-python experiments/train_bc.py --config configs/bc_config.yaml --device cpu --no-eval
-
-# Resume an interrupted run (auto-find the newest checkpoint)
-python experiments/train_bc.py --resume
-
-# Monitor training
-tensorboard --logdir logs
+python tests/test_sac.py               # 48 项，CPU 约 18 s
+python tests/test_ppo.py               # 38 项，约 14 s
+python tests/test_reinforce.py         # 29 项
+python tests/test_action_chunking.py   # 18 项
+python tests/test_diffusion.py         # 15 项
 ```
 
-### Action chunking BC (W4)
+全部输出 `通过 N/N` 即为正常（无需安装 pytest）。
 
-`experiments/train_chunking_bc.py` extends the same pipeline from "one action per
-step" to **action chunks**: the label becomes `[a_t, ..., a_{t+K-1}]` and the network
-head grows from `action_dim` to `K * action_dim`, so a single forward pass predicts
-`K` future actions and the closed loop **re-plans every `K` steps** instead of every step.
+### 3.2 再按周复现实验
 
-* **Exact windowing** (`build_action_chunks`): sliding window per trajectory,
-  never crossing episode boundaries, zero-padded at the tail with a `valid` mask.
-* **Identical data split**: `build_chunking_dataloaders` uses the very same
-  `default_rng(seed).permutation(N)` + `train_ratio` split, so the train/val
-  *states* are sample-by-sample identical to the single-step baseline — only the
-  labels differ. The comparison is therefore clean (same data, net, optimizer,
-  epochs, augmentation, seed).
-* **Backward compatible**: with `model.chunk_size: 1` (default) the network output
-  shape and numbers are bit-identical to the pre-W4 single-step BC.
-* **Execution modes** (all reported to TensorBoard): `chunk` (open loop, one
-  forward per `K` steps), `ema` (time-aligned EMA between overlapping plans,
-  ACT-style temporal ensembling; `replan_every < K` required), `receding`
-  (re-plan every step, execute the first action of the chunk).
-
-| run | K | execution | forward passes / episode | mean return (20 episodes) |
+| 周次 | 任务 | 一条命令 | 大致耗时 | 主要产物 |
 | --- | --- | --- | --- | --- |
-| single-step BC (baseline) | 1 | step-by-step | 200 | -156.95 |
-| chunking BC | 4 | open loop | **50** | **-155.58** |
-| chunking BC | 4 | EMA | 100 | -155.94 |
-| chunking BC | 8 | open loop | **25** | -219.68 |
-| chunking BC | 8 | receding | 200 | -158.32 |
-| expert controller (oracle) | — | energy shaping + PD | — | -175.00 |
-
-`K=4` matches the single-step baseline with **4x fewer forward passes**; `K=8`
-open loop degrades (compounding open-loop error) but recovers to baseline level
-once executed receding. Full write-up: `docs/w4_task1_action_chunking.md`.
+| W3 | 单步 BC 基线 | `python experiments/eval_expert.py`<br>`python experiments/train_bc.py` | 4 s<br>≈ 90 s | 专家回报标尺 + BC 策略 |
+| W4-1 | 动作块 BC（K=4 / K=8） | `python experiments/train_chunking_bc.py`<br>`python experiments/train_chunking_bc.py --set model.chunk_size=4` | ≈ 90 s / 次 | 闭环回报 + 前向次数对比表 |
+| W4-2 | 迷你扩散策略 + 消融 | `python -u experiments/train_diffusion_policy.py` | ≈ 12 min | `diffusion_report.json` |
+| W6 | REINFORCE（CartPole） | `python experiments/train_reinforce.py` | ≈ 2 min | 解 500 分 + 消融表 |
+| W8 | PPO（Pendulum） | `python experiments/train_ppo.py` | ≈ 8.8 min | 194 560 步达 −199.91 |
+| W9 | SAC（Pendulum） | `python experiments/train_sac.py` | ≈ 45 s（4 000 步提前达标） | 4 000 步达 −173.70 |
 
 ```bash
-# Action-chunking BC (K=8 default, or override K from the CLI)
-python experiments/train_chunking_bc.py
-python experiments/train_chunking_bc.py --set model.chunk_size=4
-python experiments/train_chunking_bc.py --set inference.execution=ema
+# 常用开关（所有训练脚本通用）
+python experiments/train_sac.py --device cpu          # 强制 CPU
+python experiments/train_sac.py --no-tb --no-eval     # 冒烟测试：不写 TensorBoard、不评估
+python experiments/train_sac.py --resume auto         # 断点续训（自动找最新 checkpoint）
+python experiments/train_sac.py --set training.total_timesteps=40000   # 命令行覆盖任意超参
 
-# Expert-controller (oracle) return baseline, the reference scale for "return"
-python experiments/eval_expert.py
-
-# Unit tests (plain stdlib, prints a PASS/FAIL summary)
-python tests/test_action_chunking.py
+# 重新导出曲线（先跑过实验才有 logs/）
+python experiments/export_tb_curves.py --logdir logs --out-dir docs/figures --prefix w9_sac
+# → docs/figures/w9_sac_curves.png（多面板曲线）+ w9_sac_scalars.csv（长表 tag,step,value）
 ```
 
-### Mini diffusion policy (W4 Task 2)
+---
 
-`experiments/train_diffusion_policy.py` replaces "one forward pass that regresses a chunk" with
-**DDPM conditioning**: an `ε_θ(s, a^t, t)` noise-prediction network (FiLM MLP, `src/diffusion.py`)
-is trained with the noise-prediction MSE, and actions are produced by denoising
-`a^N ~ N(0, I)` in `N` DDIM steps. The dataset comes from a **multimodal** expert
-(`expert_controller_multimodal`) that deliberately kicks the swing-up to either side whenever the
-pole hangs almost still, so `p(a|s)` really is bimodal — the regime where plain MSE provably
-converges to `E[a|s]` (an action that is *neither* mode).
+## 4. 每周进展一览（W2 → W9）
 
-* Cosine schedule with `T = 100`, closed-form `q_sample`, `ddim_step` with `N = 16`, `eta = 0`.
-* **Fair comparison**: same episodes/split, same chunk labels (`K = 8`), same MLP head shape,
-  same Adam/lr/epochs (200) — the only variable is *sampling a distribution* vs *regressing its mean*.
-* The noise loss is injected via `engine.train_loop(step_fn=...)`, so `src/engine.py` stays untouched.
-* Extras produced in the same run: `N`/`replan_every` ablation, plan-latency benchmark,
-  unseen-ambiguous-state probe, plan-consistency diagnostic, sparse-data ablation, bimodal toy task.
-
-| run | closed-loop return (20 ep) | forward passes / episode | plan latency | params |
+| 周次 | 任务 | 核心代码 | 报告 | 一句话结论 |
 | --- | --- | --- | --- | --- |
-| deterministic MLP chunk (mean) | **-181.72 ± 85.99** | **25** | **0.186 ms** | 18,056 |
-| mini diffusion policy (sampling) | -331.83 ± 173.47 | 400 | 24.72 ms | 358,152 |
+| W2 | PyTorch 基础：线性拟合、MLP 拟合 sin、CNN、序列预测 | `w2_pytorch_basics/` | `docs/notes/` | 手写训练循环 / 优化器 / 卷积网络 |
+| W3 | 行为克隆工程化：配置、日志、TensorBoard、断点续训 | `experiments/train_bc.py`、`src/{networks,datasets,engine,utils}.py` | [`docs/零基础读本.md`](docs/零基础读本.md) | 单步 BC 闭环 **−156.95 ± 68.99**（专家 oracle −175.00） |
+| W4-1 | 动作块 BC（Action Chunking） | `experiments/train_chunking_bc.py`、`configs/chunking_bc_config.yaml` | [`w4_task1_action_chunking.md`](docs/reports/w4_task1_action_chunking.md) | K=4 开环 **−155.58**，每回合前向 200 → **50**；K=8 开环反而退化到 −219.68 |
+| W4-2 | 迷你条件扩散策略 vs 确定性回归 | `src/diffusion.py`、`experiments/train_diffusion_policy.py` | [`w4_task2_diffusion_policy.md`](docs/reports/w4_task2_diffusion_policy.md)（[零基础版](docs/reports/w4_task2_diffusion_policy_零基础版.md)） | 歧义任务上扩散命中两个真动作 **98.5%**（回归只输出 0）；倒立摆上 **−331.8 vs −181.7**、慢 **132.8×** → 买到了分布，没买到分数 |
+| W6 | REINFORCE + baseline + Return 归一化 | `src/reinforce.py`、`experiments/train_reinforce.py` | [`w6_task1_reinforce.md`](docs/reports/w6_task1_reinforce.md) | CartPole 解到 **500.00 @ep120**；`baseline=none` + 不归一化会崩到 **33.40** |
+| W8 | PPO-Clip + GAE-λ（连续控制） | `src/ppo.py`、`experiments/train_ppo.py` | [`w8_task1_ppo.md`](docs/reports/w8_task1_ppo.md) | **194 560 步**达到 −199.91（达标线 −200），含 4 组消融 |
+| W9 | SAC（off-policy 最大熵 RL） | `src/sac.py`、`experiments/train_sac.py` | [`w9_task1_sac.md`](docs/reports/w9_task1_sac.md) | **4 000 步**即 −173.70，比 PPO 省 ≈ **48×** 环境交互步数 |
 
-Mechanism evidence (why the task is interesting even though diffusion does **not** win here):
+---
 
-| probe | deterministic MSE | mini diffusion |
-| --- | --- | --- |
-| bimodal toy task — hit either mode | 0.0% (mean \|a\| = 0.010) | **98.5%** (both modes covered) |
-| unseen ambiguous Pendulum states — hit either mode | 62.5% | **71.7%** |
-| … distance to nearest mode | 0.518 | **0.311** |
+## 5. W9 SAC 结果速览（最新一周）
 
-Sampling-cost ablation (diffusion only, closed-loop return): `N = 4 / 10 / 16 / 32` →
-`-494.75 / -325.53 / -315.16 / -428.72`; halving the replan interval changes nothing
-(`-318.00` at every 4 steps vs `-315.16` at every 8).
+实现要点：经验回放池 + 双重 Q（Double-Q 取 min）+ 重参数化压缩高斯 Actor
++ 自适应温度 α（目标熵 `H̄ = −dim(A) = −1`）+ 目标网络 Polyak 软更新。
 
-**Conclusion**: diffusion really does learn the conditional distribution (on the toy task MSE
-collapses to the average of the two modes while diffusion recovers both, `|a|` per state matching
-`|μ(s)|` pointwise), and it improves the mode-hit rate on unseen ambiguous states (71.7% vs 62.5%).
-But on Pendulum that 9.2 pp gain does not pay for the **132.8x slower plan** and the 49.2%
-plan-to-plan mode flips, so the deterministic regressor wins the closed-loop comparison by 150
-points; a sparse-data ablation (16% of the trajectories) favours it even more (-203.95 vs -882.73),
-i.e. diffusion is *not* more sample-efficient here. Full write-up:
-`docs/w4_task2_diffusion_policy.md`; a beginner-level Chinese walkthrough (diffusion from scratch,
-all formulas explained, FAQ) lives in `docs/w4_task2_diffusion_README.md`.
+| 指标 | 结果 |
+| --- | --- |
+| 首次突破 −200（`eval/first_solved_step`） | **4 000 步**，评估回报 **−173.70**（耗时 44.7 s） |
+| 与 W8 PPO 对比 | PPO 需 194 560 步 ⇒ SAC 少用约 **48×** 环境交互 |
+| 40 k 步完整训练的最优评估 | **−129.71 ± 120.29**（第 22 k 步；20 回合、固定种子、均值动作评估） |
+| 温度 α 的自动轨迹 | 1.0 → **0.0090**，平衡点即 `E[log π] → dim(A) = +1` |
+| 正确性在线断言 | `train/critic_frozen_ok` 全程 **1.0**（Actor 更新时 Critic 确实没拿到梯度） |
+| 消融（4 组） | 固定 α / 不做 truncation bootstrap / 单 Q / Actor 只用 Q₁ |
+| 单元测试 | `tests/test_sac.py` **48/48 通过** |
 
 ```bash
-# Mini diffusion policy (W4 Task 2): ~12 min; trains + runs deterministic control, probes & ablations
-python -u experiments/train_diffusion_policy.py
-
-# Cheaper variants
-python -u experiments/train_diffusion_policy.py --no-eval --set training.epochs=20
-python -u experiments/train_diffusion_policy.py --set diffusion.sample_steps=32
-
-# Unit tests (15 diffusion + 18 action-chunking, plain stdlib)
-python tests/test_diffusion.py
+python experiments/train_sac.py                                                                    # 默认配置（4000 步提前达标）
+python experiments/train_sac.py --set experiment.name=sac_pendulum_full training.target_reward=1e9 # 跑满 40k
+python experiments/train_sac.py --set experiment.name=sac_abl_single_q model.n_critics=1           # 消融示例
 ```
 
-### Key features
-- All hyper-parameters live in `configs/bc_config.yaml` — no code changes needed.
-- `src/networks.py` exposes a registry + `build_network(config)` to switch MLP / CNN / GRU.
-- `src/datasets.py` caches expert data on disk and supports Gaussian-noise augmentation.
-- `src/utils.py` provides logging, TensorBoard monitoring and best-model checkpointing.
-- Command-line overrides (`--set key=value`) enable batch hyper-parameter sweeps.
-- Industrial `Checkpointer`: atomic + checksummed writes, full training state
-  (model / optimizer / scheduler / epoch / best metric / RNG), `--resume` with
-  graceful `SIGINT` / `SIGTERM` handling and emergency save on exceptions.
+公式推导、两道思考题、逐项指标解读与消融表见 [`docs/reports/w9_task1_sac.md`](docs/reports/w9_task1_sac.md)。
 
+---
+
+## 6. 结果与证据放在哪
+
+| 想找什么 | 位置 | 说明 |
+| --- | --- | --- |
+| 实验报告（数据表 / 消融 / 结论） | `docs/reports/*.md` | 每周一份，报告里的数字都可在下面几项中对账 |
+| 曲线图 + 原始标量 | `docs/figures/*.png`、`*.csv` | 由 `experiments/export_tb_curves.py` 从 TB 事件导出；CSV 为长表 `tag,step,value` |
+| 训练文本日志 | `docs/results/*.log` | 归档的各次正式运行 `train.log`（含逐次评估回报），纯文本、可 grep |
+| 结构化结果 | `docs/results/w4_diffusion_policy_report.json` | W4-2 扩散实验完整 json（探针 / 消融 / 时延） |
+| 重新训练产生的原始输出 | `logs/`（已 gitignore） | TensorBoard 事件 + checkpoint；占空间、可随时 `rm -rf logs` 重跑 |
+
+---
+
+## 7. 路线图
+
+- [x] W2–W5：深度学习基础（PyTorch 从零）
+- [x] W6–W9：强化学习从零（REINFORCE / PPO / SAC）
+- [ ] W10–W12：Isaac Lab 环境与自定义任务
+- [ ] W13–W16：主课题 —— 残差 RL 实现鲁棒的机械臂轨迹跟踪
+- [ ] 2027.1–2：真机部署
+- [ ] 2027.3：论文投稿
+
+## 8. 硬件与环境
+
+- RTX 2080 Ti（11 GB）/ Ubuntu 22.04 / Python 3.10 / PyTorch 2.6（cu124）
+- 约定：所有算法**手写**，不使用 SB3、rlkit 等 RL 库；单元测试只用标准库（不需要 pytest）

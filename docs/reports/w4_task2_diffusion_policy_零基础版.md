@@ -53,7 +53,7 @@
 
 5. **写了文档与测试**
    * `docs/w4_task2_diffusion_policy.md`：严谨实验记录（数据表、公平性论证、消融、结论）；
-   * [`docs/w4_task2_diffusion_README.md`](w4_task2_diffusion_README.md)：**本文**，零基础讲解版；
+   * [`docs/reports/w4_task2_diffusion_policy_零基础版.md`](w4_task2_diffusion_policy_零基础版.md)：**本文**，零基础讲解版；
    * `tests/test_diffusion.py`：15 个断言，把扩散的数学（加噪/去噪/后验公式/接口兼容/多峰机理）锁死。
 ---
 
@@ -301,7 +301,7 @@ $$a^{t-1} = \sqrt{\bar\alpha_{t-1}}\,\hat a^0 + \sqrt{1-\bar\alpha_{t-1}-\sigma^
 | `configs/diffusion_config.yaml` | **新增** | 全部超参（继承 `bc_config.yaml`，所以除了"动作生成方式"以外的一切都和 Task 1 相同） |
 | `tests/test_diffusion.py` | **新增** | 15 个断言（见第 9 节） |
 | `docs/w4_task2_diffusion_policy.md` | **新增** | 严谨实验记录（数据表 / 公平性论证 / 结论） |
-| `docs/w4_task2_diffusion_README.md` | **新增** | 本文（零基础讲解版） |
+| `docs/reports/w4_task2_diffusion_policy_零基础版.md` | **新增** | 本文（零基础讲解版） |
 
 ### 4.1 噪声网络长什么样（`ε_θ(s, a^t, t)`）
 
@@ -412,7 +412,7 @@ def 规划一条动作块(s):
 
 ---
 
-## 6. 结果（全部为实测数字，来自 `logs/diffusion_policy_pendulum_20260916_181837/diffusion_report.json`）
+## 6. 结果（全部为实测数字，来自 `docs/results/w4_diffusion_policy_report.json`）
 
 ### 6.1 闭环回报：扩散没有赢
 
@@ -580,9 +580,9 @@ tensorboard --logdir logs
 
 | 产物 | 位置 | 内容 |
 | --- | --- | --- |
-| 运行目录与日志 | `logs/diffusion_policy_pendulum_<时间戳>/` | 控制台日志 + TensorBoard |
+| 运行目录与日志 | `logs/diffusion_policy_pendulum_<时间戳>/` | 控制台日志 + TensorBoard（`logs/` 已 gitignore） |
 | 权重 | `logs/checkpoints/diffusion_policy_pendulum_<时间戳>/*.pt` | `*_best.pt`（最优）/ `*_last.pt`（续训） |
-| 明细报告 | 同上目录下的 `diffusion_report.json` | 逐回合回报、探针样本、消融、延迟、玩具任务全部原始数据 |
+| 明细报告 | 同上目录下的 `diffusion_report.json`（本次已归档为 `docs/results/w4_diffusion_policy_report.json`） | 逐回合回报、探针样本、消融、延迟、玩具任务全部原始数据 |
 | 数据缓存 | `data/expert_pendulum/expert_pendulum_multimodal_traj.npz` | 多峰专家轨迹（第二次运行秒加载） |
 
 > ⚠️ 一个 CLI 小坑：`--set` 是 `nargs="*"`，**多个 `--set` 会互相覆盖**，
@@ -690,12 +690,12 @@ tensorboard --logdir logs
 
 | 想进一步看什么 | 去哪 |
 | --- | --- |
-| 本次的严谨实验记录（数据表、公平性论证、消融） | [`docs/w4_task2_diffusion_policy.md`](w4_task2_diffusion_policy.md) |
-| Task 1（动作块 BC）的完整说明 | [`docs/w4_task1_action_chunking.md`](w4_task1_action_chunking.md) |
+| 本次的严谨实验记录（数据表、公平性论证、消融） | [`docs/reports/w4_task2_diffusion_policy.md`](w4_task2_diffusion_policy.md) |
+| Task 1（动作块 BC）的完整说明 | [`docs/reports/w4_task1_action_chunking.md`](w4_task1_action_chunking.md) |
 | 扩散的加噪/去噪数学对不对 | `tests/test_diffusion.py`（跑一遍，看 15 个断言） |
 | 多峰专家数据是怎么造出来的 | `src/datasets.py` 的 `expert_controller_multimodal` / `ambiguity_mask` |
 | 调度表与采样器的实现 | `src/diffusion.py` 的 `DiffusionSchedule.ddpm_step` / `ddim_step` |
-| 零基础版的整体工程说明 | [`README.zh-CN.md`](../README.zh-CN.md) §8.1 |
+| 零基础版的整体工程说明 | [`docs/零基础读本.md`](../零基础读本.md) §8.1 |
 
 原始文献（按阅读顺序）：
 

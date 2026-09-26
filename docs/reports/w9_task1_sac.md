@@ -54,7 +54,7 @@
 | `tests/test_sac.py` | 单元测试（不依赖 pytest，48 项），1312 行 |
 | `src/__init__.py` | 追加 W9 的导出块与 `__all__`（**被修改的既有文件之一**），+34 行 |
 | `experiments/export_tb_curves.py` | 追加 9 个 SAC 监控面板（PPO 面板保持不变），+40 行 |
-| `docs/w9_task1_sac.md` | 本文档，542 行 |
+| `docs/reports/w9_task1_sac.md` | 本文档（W9 Task 1 报告） |
 | `docs/figures/w9_sac_full_curves.png` / `w9_sac_full_scalars.csv` | 40k 完整训练的曲线图 / 全部标量（28 曲线 / 2123 行） |
 | `docs/figures/w9_sac_earlystop_curves.png` / `w9_sac_earlystop_scalars.csv` | 默认配置（提前停止）那次运行的曲线 / 标量（5 曲线 / 198 行） |
 
@@ -330,7 +330,8 @@ Step   4000 | 更新   3000 | α 0.4700 | 熵 -0.2036 | 目标Q -61.170
 
 ### 7.2 完整 40 000 步的曲线（关闭提前停止）
 
-脚本：`logs/sac_pendulum_full_*/`；图：`docs/figures/w9_sac_full_curves.png`（28 条曲线）；
+脚本：`logs/sac_pendulum_full_*/`（归档文本日志：`docs/results/w9_sac_full40k_train.log`）；
+图：`docs/figures/w9_sac_full_curves.png`（28 条曲线）；
 标量：`docs/figures/w9_sac_full_scalars.csv`（51 个 tag / 2 123 行）。
 
 独立评估回报（每 2 000 步一次；20 回合、均值动作、固定种子）：
@@ -500,6 +501,7 @@ python experiments/train_sac.py
 python experiments/train_sac.py --set experiment.name=sac_pendulum_full training.target_reward=1e9
 
 # 4) 导出曲线（PNG + CSV；默认输出到 curves/，本仓库归档在 docs/figures/）
+#    本次运行的文本日志已归档在 docs/results/w9_sac_full40k_train.log
 python experiments/export_tb_curves.py --logdir logs/sac_pendulum_full_* --out-dir docs/figures \
        --prefix w9_sac_full --smooth 3
 

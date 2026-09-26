@@ -12,8 +12,8 @@
 * 训练出来的策略回报若与 oracle 相当甚至更好，说明模仿成功。
 
 本脚本不加载任何网络，只把专家控制器放到环境里跑 N 个回合，输出
-平均 / 标准差 / 最好 / 最差回报，供 ``docs/w4_task1_action_chunking.md`` 与
-``README.zh-CN.md`` 中的对比表引用。评估所用回合种子（``seed + ep``）与
+平均 / 标准差 / 最好 / 最差回报，供 ``docs/reports/w4_task1_action_chunking.md`` 与
+``docs/零基础读本.md`` 中的对比表引用。评估所用回合种子（``seed + ep``）与
 ``src/datasets.py: evaluate_closed_loop`` 完全一致，保证可比。
 
 用法::

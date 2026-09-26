@@ -243,8 +243,8 @@ python tests/test_diffusion.py      # 15 个，无需 pytest
 ```bash
 # 完整实验：训练（5.5 min）+ 确定性对照 + 探针/一致性/N 消融/延迟 + 稀疏消融 + 玩具（合计约 12 min）
 conda run -n rl python -u experiments/train_diffusion_policy.py
-# 本次运行的明细（逐回合回报 / 探针样本 / 消融）：
-#   logs/diffusion_policy_pendulum_20260916_181837/diffusion_report.json
+# 本次运行的明细（逐回合回报 / 探针样本 / 消融），已归档在仓库里：
+#   docs/results/w4_diffusion_policy_report.json
 # 训练曲线（noise-MSE、probe、ablation 均上报 TensorBoard）：
 tensorboard --logdir logs
 

@@ -78,10 +78,12 @@ python tests/test_action_chunking.py      # 无需 pytest
 > 完全下垂静止 ≈ -π²/步 → 200 步 ≈ **-1974**（理论最差、乱转可到 ≈ -3254），倒立静止 ≈ 0；
 > 表中所有方法的"最好回合"都落在 -114 ~ -116，即**已经能在整个回合里保持倒立**。
 >
-> 低层次解读（面向零基础）见 [`README.zh-CN.md`](../README.zh-CN.md)。
+> 低层次解读（面向零基础）见 [`docs/零基础读本.md`](../零基础读本.md)。
 >
 > 运行目录（TensorBoard / checkpoint 存档）：单步 BC `logs/bc_pendulum_20260915_164250`、
-> K=4 `logs/chunking_bc_k4_20260915_164844`、K=8 `logs/chunking_bc_pendulum_20260915_165015`。
+> K=4 `logs/chunking_bc_k4_20260915_164844`、K=8 `logs/chunking_bc_pendulum_20260915_165015`；
+> 对应的文本训练日志已归档为 `docs/results/w3_bc_pendulum_train.log`、
+> `docs/results/w4_chunking_bc_k4_train.log`、`docs/results/w4_chunking_bc_k8_train.log`。
 
 ### 5.2 验证集 MSE（标签为 K 步动作，数值跨 K 不可直接比较）
 

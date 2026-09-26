@@ -1,7 +1,11 @@
-# embodied-arm 核心依赖
+# embodied-arm 依赖（实测环境：Python 3.10 / CUDA 12.4）
 torch>=2.0
 numpy>=1.24
 gymnasium>=1.0
 pyyaml>=6.0
 tensorboard>=2.10
 tqdm>=4.60
+# 导出训练曲线（experiments/export_tb_curves.py）与 W2 练习脚本需要
+matplotlib>=3.7
+# 仅 W2 的 CIFAR-10 练习（w2_pytorch_basics/day2_cifar_cnn.py）需要
+torchvision>=0.15

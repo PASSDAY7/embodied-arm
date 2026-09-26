@@ -1,9 +1,24 @@
-# 忽略 TensorBoard 日志与模型权重
+# ---- 运行输出（全部可重新生成，不提交）----
+# logs/  : TensorBoard 事件 + 训练文本日志 + checkpoint
+# runs/ curves/ : 实验与导图时的临时输出目录
 logs/
-# 忽略缓存的专家数据
+runs/
+curves/
+*.pt
+*.pth
+
+# ---- 数据 ----
+# 专家数据（collect_expert_* 可重新生成）、torchvision 自动下载的 CIFAR-10
 data/expert_pendulum/
-# Python
+data/cifar-10*/
+w2_pytorch_basics/data/
+
+# ---- Python ----
 __pycache__/
 *.py[cod]
 *.egg-info/
 .ipynb_checkpoints/
+.pytest_cache/
+
+# ---- 编辑器 / 系统 ----
+.DS_Store

@@ -1,0 +1,89 @@
+[16:50:15][INFO] ============================================================
+[16:50:15][INFO] 动作块行为克隆（Action Chunking BC）实验：Pendulum-v1
+[16:50:15][INFO] ============================================================
+[16:50:15][INFO] 配置文件   : configs/chunking_bc_config.yaml
+[16:50:15][INFO] 实验名称   : chunking_bc_pendulum
+[16:50:15][INFO] 运行目录   : logs/chunking_bc_pendulum_20260915_165015
+[16:50:15][INFO] 检查点目录 : logs/checkpoints/chunking_bc_pendulum_20260915_165015
+[16:50:15][INFO] 设备       : cuda
+[16:50:15][INFO] 随机种子   : 42
+[16:50:15][INFO] 网络结构   : mlp
+[16:50:15][INFO] 动作块长度 : 8  (K * action_dim = 8 维输出头)
+[16:50:15][INFO] 执行方式   : chunk (replan_every=8, ema_alpha=0.5)
+[16:50:15][INFO] [1/3] 准备专家轨迹（保留回合边界，供滑窗切分）...
+[16:50:15][INFO] 专家轨迹 50 条 / 共 10000 步 | 每条长度 200 ~ 200
+[16:50:15][INFO] 训练样本 8000 | 验证样本 2000（切分方式与单步 BC 逐样本对齐）
+[16:50:15][INFO] 动作块标签形状: (K=8, action_dim=1) | 零填充比例: 1.75%（训练集 1.76%）
+[16:50:15][INFO] 可训练参数量: 4936（输出头 8 维 = 8 x 1）
+[16:50:16][INFO] 从头开始训练（未指定 --resume）
+[16:50:16][INFO] [2/3] 开始训练：epoch 1 → 100
+[16:50:17][INFO] Epoch [1/100] | Train MSE: 0.585881 | Val MSE: 0.492938 | Best: 0.492938 | LR: 1.00e-03  *best
+[16:50:18][INFO] Epoch [2/100] | Train MSE: 0.436244 | Val MSE: 0.398076 | Best: 0.398076 | LR: 1.00e-03  *best
+[16:50:18][INFO] Epoch [3/100] | Train MSE: 0.354626 | Val MSE: 0.341308 | Best: 0.341308 | LR: 1.00e-03  *best
+[16:50:19][INFO] Epoch [4/100] | Train MSE: 0.314937 | Val MSE: 0.312459 | Best: 0.312459 | LR: 1.00e-03  *best
+[16:50:20][INFO] Epoch [5/100] | Train MSE: 0.296883 | Val MSE: 0.300832 | Best: 0.300832 | LR: 1.00e-03  *best
+[16:50:21][INFO] Epoch [6/100] | Train MSE: 0.284140 | Val MSE: 0.288417 | Best: 0.288417 | LR: 1.00e-03  *best
+[16:50:21][INFO] Epoch [7/100] | Train MSE: 0.277031 | Val MSE: 0.285253 | Best: 0.285253 | LR: 1.00e-03  *best
+[16:50:22][INFO] Epoch [8/100] | Train MSE: 0.272308 | Val MSE: 0.279230 | Best: 0.279230 | LR: 1.00e-03  *best
+[16:50:23][INFO] Epoch [9/100] | Train MSE: 0.266410 | Val MSE: 0.272757 | Best: 0.272757 | LR: 1.00e-03  *best
+[16:50:24][INFO] Epoch [10/100] | Train MSE: 0.263855 | Val MSE: 0.267208 | Best: 0.267208 | LR: 1.00e-03  *best
+[16:50:25][INFO] Epoch [12/100] | Train MSE: 0.259021 | Val MSE: 0.261040 | Best: 0.261040 | LR: 1.00e-03  *best
+[16:50:26][INFO] Epoch [13/100] | Train MSE: 0.255517 | Val MSE: 0.260461 | Best: 0.260461 | LR: 1.00e-03  *best
+[16:50:28][INFO] Epoch [15/100] | Train MSE: 0.251367 | Val MSE: 0.259853 | Best: 0.259853 | LR: 1.00e-03  *best
+[16:50:28][INFO] Epoch [16/100] | Train MSE: 0.249766 | Val MSE: 0.255861 | Best: 0.255861 | LR: 1.00e-03  *best
+[16:50:29][INFO] Epoch [17/100] | Train MSE: 0.249387 | Val MSE: 0.253272 | Best: 0.253272 | LR: 1.00e-03  *best
+[16:50:30][INFO] Epoch [18/100] | Train MSE: 0.247908 | Val MSE: 0.249890 | Best: 0.249890 | LR: 1.00e-03  *best
+[16:50:32][INFO] Epoch [20/100] | Train MSE: 0.245170 | Val MSE: 0.249386 | Best: 0.249386 | LR: 1.00e-03  *best
+[16:50:32][INFO] Epoch [21/100] | Train MSE: 0.244815 | Val MSE: 0.247634 | Best: 0.247634 | LR: 1.00e-03  *best
+[16:50:34][INFO] Epoch [23/100] | Train MSE: 0.241024 | Val MSE: 0.245087 | Best: 0.245087 | LR: 1.00e-03  *best
+[16:50:36][INFO] Epoch [26/100] | Train MSE: 0.238778 | Val MSE: 0.241837 | Best: 0.241837 | LR: 1.00e-03  *best
+[16:50:37][INFO] Epoch [27/100] | Train MSE: 0.238587 | Val MSE: 0.240174 | Best: 0.240174 | LR: 1.00e-03  *best
+[16:50:39][INFO] Epoch [29/100] | Train MSE: 0.235863 | Val MSE: 0.239119 | Best: 0.239119 | LR: 1.00e-03  *best
+[16:50:40][INFO] Epoch [30/100] | Train MSE: 0.235582 | Val MSE: 0.238897 | Best: 0.238897 | LR: 1.00e-03  *best
+[16:50:41][INFO] Epoch [31/100] | Train MSE: 0.234626 | Val MSE: 0.237763 | Best: 0.237763 | LR: 1.00e-03  *best
+[16:50:41][INFO] Epoch [32/100] | Train MSE: 0.233228 | Val MSE: 0.237659 | Best: 0.237659 | LR: 1.00e-03  *best
+[16:50:43][INFO] Epoch [34/100] | Train MSE: 0.231780 | Val MSE: 0.235842 | Best: 0.235842 | LR: 1.00e-03  *best
+[16:50:46][INFO] Epoch [37/100] | Train MSE: 0.230505 | Val MSE: 0.233015 | Best: 0.233015 | LR: 1.00e-03  *best
+[16:50:46][INFO] Epoch [38/100] | Train MSE: 0.228680 | Val MSE: 0.232003 | Best: 0.232003 | LR: 1.00e-03  *best
+[16:50:48][INFO] Epoch [40/100] | Train MSE: 0.228361 | Val MSE: 0.235180 | Best: 0.232003 | LR: 1.00e-03
+[16:50:50][INFO] Epoch [42/100] | Train MSE: 0.226985 | Val MSE: 0.229664 | Best: 0.229664 | LR: 1.00e-03  *best
+[16:50:54][INFO] Epoch [47/100] | Train MSE: 0.223715 | Val MSE: 0.227690 | Best: 0.227690 | LR: 1.00e-03  *best
+[16:50:56][INFO] Epoch [50/100] | Train MSE: 0.222189 | Val MSE: 0.227357 | Best: 0.227357 | LR: 1.00e-03  *best
+[16:50:58][INFO] Epoch [53/100] | Train MSE: 0.221813 | Val MSE: 0.225077 | Best: 0.225077 | LR: 1.00e-03  *best
+[16:51:04][INFO] Epoch [60/100] | Train MSE: 0.218823 | Val MSE: 0.224705 | Best: 0.224705 | LR: 1.00e-03  *best
+[16:51:06][INFO] Epoch [62/100] | Train MSE: 0.217814 | Val MSE: 0.223730 | Best: 0.223730 | LR: 1.00e-03  *best
+[16:51:08][INFO] Epoch [65/100] | Train MSE: 0.216005 | Val MSE: 0.223237 | Best: 0.223237 | LR: 1.00e-03  *best
+[16:51:09][INFO] Epoch [66/100] | Train MSE: 0.217298 | Val MSE: 0.222229 | Best: 0.222229 | LR: 1.00e-03  *best
+[16:51:10][INFO] Epoch [67/100] | Train MSE: 0.215335 | Val MSE: 0.221761 | Best: 0.221761 | LR: 1.00e-03  *best
+[16:51:17][INFO] Epoch [74/100] | Train MSE: 0.214376 | Val MSE: 0.220509 | Best: 0.220509 | LR: 1.00e-03  *best
+[16:51:18][INFO] Epoch [75/100] | Train MSE: 0.214090 | Val MSE: 0.220456 | Best: 0.220456 | LR: 1.00e-03  *best
+[16:51:18][INFO] Epoch [76/100] | Train MSE: 0.214097 | Val MSE: 0.220157 | Best: 0.220157 | LR: 1.00e-03  *best
+[16:51:22][INFO] Epoch [80/100] | Train MSE: 0.213084 | Val MSE: 0.220871 | Best: 0.220157 | LR: 1.00e-03
+[16:51:24][INFO] Epoch [83/100] | Train MSE: 0.212510 | Val MSE: 0.219200 | Best: 0.219200 | LR: 1.00e-03  *best
+[16:51:25][INFO] Epoch [84/100] | Train MSE: 0.211738 | Val MSE: 0.216303 | Best: 0.216303 | LR: 1.00e-03  *best
+[16:51:36][INFO] Epoch [98/100] | Train MSE: 0.208821 | Val MSE: 0.216154 | Best: 0.216154 | LR: 1.00e-03  *best
+[16:51:38][INFO] Epoch [100/100] | Train MSE: 0.210443 | Val MSE: 0.218024 | Best: 0.216154 | LR: 1.00e-03
+[16:51:38][INFO] 训练结束，用时 82.2s | 已完成 epoch: 100 | 最佳验证集 MSE: 0.216154
+[16:51:38][INFO] 最优权重: logs/checkpoints/chunking_bc_pendulum_20260915_165015/chunking_bc_pendulum_best.pt
+[16:51:38][INFO] 最近权重: logs/checkpoints/chunking_bc_pendulum_20260915_165015/chunking_bc_pendulum_last.pt
+[16:51:38][INFO] Checkpointer(name=chunking_bc_pendulum, monitor=val_mse(min), best=0.216154@98, dir=logs/checkpoints/chunking_bc_pendulum_20260915_165015)
+[16:51:38][INFO] [3/3] 加载最优权重并进行闭环评估（动作块执行，K=8）...
+[16:51:38][INFO] 闭环评估（chunk，每 8 步推理一次） | 回合数: 20 | 平均回报: -219.68 ± 113.51 (min -483.78, max -114.82)
+[16:51:38][INFO] 推理开销   | 前向次数: 500 | 每回合平均: 25.0 次（单步 BC 约 200 次）
+[16:51:39][INFO] 闭环评估（ema，每 4 步推理一次） | 回合数: 20 | 平均回报: -363.12 ± 87.90 (min -523.53, max -245.99)
+[16:51:39][INFO] 推理开销   | 前向次数: 1000 | 每回合平均: 50.0 次（单步 BC 约 200 次）
+[16:51:40][INFO] 闭环评估（receding，每 1 步推理一次） | 回合数: 20 | 平均回报: -158.32 ± 71.77 (min -354.45, max -114.67)
+[16:51:40][INFO] 推理开销   | 前向次数: 4000 | 每回合平均: 200.0 次（单步 BC 约 200 次）
+[16:51:40][INFO] ============================================================
+[16:51:40][INFO] 最终实验结果
+[16:51:40][INFO] ============================================================
+[16:51:40][INFO] 最佳验证集 MSE : 0.216154 (epoch 98)
+[16:51:40][INFO] 已完成 epoch   : 100
+[16:51:40][INFO] 闭环平均回报   : -219.68
+[16:51:40][INFO] 闭环平均回报(chunk   ) : -219.68  [每回合前向 25.0 次]
+[16:51:40][INFO] 闭环平均回报(ema     ) : -363.12  [每回合前向 50.0 次]
+[16:51:40][INFO] 闭环平均回报(receding) : -158.32  [每回合前向 200.0 次]
+[16:51:40][INFO] 单步 BC 对照：见 experiments/train_bc.py 的运行日志（同等训练设置）
+[16:51:40][INFO] TensorBoard    : tensorboard --logdir logs
+[16:51:40][INFO] 最优权重       : logs/checkpoints/chunking_bc_pendulum_20260915_165015/chunking_bc_pendulum_best.pt
+[16:51:40][INFO] 最近权重       : logs/checkpoints/chunking_bc_pendulum_20260915_165015/chunking_bc_pendulum_last.pt

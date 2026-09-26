@@ -428,6 +428,10 @@ logs/checkpoints/ppo_pendulum_20260918_142705/
 └── ppo_pendulum_last.pt           # 最近一次（含优化器状态 / 归一化统计 / 步数 / RNG，可续训）
 ```
 
+> `logs/` 已 gitignore（跑一次实验即可重建）。本次正式运行的**文本日志已归档**在
+> `docs/results/w8_ppo_pendulum_train.log`；4 组消融的日志同目录下
+> `docs/results/w8_ppo_abl_{control,nobootstrap,nonorm,shared}_train.log`。
+
 检查点里保存：模型权重、优化器状态、`steps_total`、`rollout_index`、`RunningMeanStd` 的
 `count/mean/M2`、Python/NumPy/PyTorch 的 RNG 状态、以及完整配置字典 —— 因此
 `--resume auto` 之后的曲线与日志是**连续**的（复用原运行目录）。
@@ -438,7 +442,7 @@ logs/checkpoints/ppo_pendulum_20260918_142705/
 | --- | --- | --- |
 | 从零实现 PPO-Clip（不调用 SB3 等现成 RL 库） | `src/ppo.py` 全手写（网络/高斯策略/GAE/损失/更新/采样器），只依赖 torch + gymnasium + numpy | `src/ppo.py` 无 `stable_baselines3` / `sb3` 依赖；`grep -r "sb3"` 为空 |
 | 连续动作空间 | 对角高斯策略 `N(μ(s), σ²)`，`log_std` 可学习且夹紧 | §1 三个数学单测与 `torch.distributions` 逐位一致 |
-| 能跑通并**达标** | Pendulum-v1 上 **独立评估 −199.91**（20 回合均值动作，std 200.16），194560 步提前命中 −200 | 第 5 节表格 + `logs/.../train.log`；曲线 `docs/figures/w8_ppo_curves.png` |
+| 能跑通并**达标** | Pendulum-v1 上 **独立评估 −199.91**（20 回合均值动作，std 200.16），194560 步提前命中 −200 | 第 5 节表格 + `docs/results/w8_ppo_pendulum_train.log`；曲线 `docs/figures/w8_ppo_curves.png` |
 | GAE-λ 正确 | 倒序递推 + `done` 掩码 + `truncated` 自举开关 | §4 五个单测（含与朴素 O(T²) 展开逐位一致） |
 | 动作截断时 `log_prob` 的正确处理（思考题） | buffer 存 `actions_raw`，`a_env = clip(a_raw)` 只进 `env.step` | 第 3 节 + §2 四个单测（伪梯度 ≈∓300、`r_t ≡ 1`） |
 | 导出 TensorBoard 曲线 | `experiments/export_tb_curves.py` | `docs/figures/w8_ppo_curves.png`（9 面板 / 14 曲线）、`w8_ppo_scalars.csv`（37 tag / 2683 行） |
@@ -473,7 +477,7 @@ logs/checkpoints/ppo_pendulum_20260918_142705/
 ## 10. 变更范围与复现清单
 
 **改动范围**：本次**只新增文件** —— `src/ppo.py`、`tests/test_ppo.py`、`configs/ppo_config.yaml`、
-`experiments/train_ppo.py`、`experiments/export_tb_curves.py`、`docs/w8_task1_ppo.md`、
+`experiments/train_ppo.py`、`experiments/export_tb_curves.py`、`docs/reports/w8_task1_ppo.md`、
 `docs/figures/w8_ppo_curves.png`、`docs/figures/w8_ppo_scalars.csv`；
 唯一被修改的既有文件是 `src/__init__.py`（+42 行：PPO 导入块 + `__all__` 条目，**纯新增**）。
 W3/W4/W5/W6 的库代码、配置与测试**一行未动**，并已复跑确认无回归：
