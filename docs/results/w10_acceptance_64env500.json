@@ -1,0 +1,66 @@
+{
+  "num_envs": 64,
+  "steps": 500,
+  "blocks": 5,
+  "dt": 0.01,
+  "torque_amp": 10.0,
+  "freq": 1.0,
+  "gravity_on": false,
+  "sps_mean": 360.4051812576646,
+  "sps_blocks": [
+    347.14330618403415,
+    376.4966159335576,
+    366.14260577692846,
+    350.07585093449774,
+    363.78805531770126
+  ],
+  "sps_min": 347.14330618403415,
+  "sps_max": 376.4966159335576,
+  "ms_per_step": 2.774654894001287,
+  "env_steps_per_s": 23065.931600490534,
+  "host_bench_us_per_step": 184.7541960014496,
+  "vram_process_gib": 1.94256591796875,
+  "torch_peak_allocated_gib": 4.4345855712890625e-05,
+  "torch_peak_reserved_gib": 0.001953125,
+  "free_vram_after_gib": 7.9481201171875,
+  "gpu": "NVIDIA GeForce RTX 2080 Ti",
+  "self_check": {
+    "cmd_buffer_err": 0.0,
+    "applied_torque_err": 0.0,
+    "telemetry_err": 0.0,
+    "cmd_view_ptr": 12918923776,
+    "cmd_warp_ptr": 12918923776,
+    "view_is_alias": true,
+    "tau_is_cuda": true,
+    "tau_dtype": "torch.float32"
+  },
+  "partial_reset_probe": {
+    "reset_env_ids": [
+      0,
+      1,
+      2
+    ],
+    "num_envs": 64,
+    "write_index_delta_reset_envs_max": 3.3878204822540283,
+    "write_index_delta_other_envs_max": 0.0,
+    "write_index_isolated": true,
+    "scene_reset_cmd_delta_reset_envs_max": 0.0,
+    "scene_reset_cmd_delta_reset_envs_min": 0.0,
+    "scene_reset_cmd_delta_other_envs_max": 0.0,
+    "scene_reset_cmd_isolated": true,
+    "scene_reset_joint_pos_delta_reset_envs_max": 0.0,
+    "scene_reset_joint_pos_delta_other_envs_max": 0.0,
+    "scene_reset_touches_joint_state": false
+  },
+  "ablation_ms_per_step": {
+    "full": 2.6402339249943907,
+    "no_scene_update": 2.4912213900006464,
+    "no_sim_step": 0.3718873799971334,
+    "host_only": 0.1519222200022341,
+    "cost_scene_update": 0.14901253499374434,
+    "cost_sim_step": 2.119334010003513,
+    "cost_write_data_to_sim": 0.2199651599948993,
+    "cost_tensor_path": 0.1519222200022341,
+    "steps_per_variant": 200
+  }
+}

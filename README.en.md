@@ -1,255 +1,132 @@
-# embodied-arm
+# embodied-arm — embodied AI / robot-arm RL engineering workspace
 
-Residual RL for robust robot arm trajectory tracking.
+This repo grows in three layers:
 
-Target: IROS 2027 / RA-L submission (March 2027).
+1. **W2–W9 — algorithms from scratch** (PyTorch only, no RL libraries): behaviour cloning → action
+   chunking → mini diffusion policy → REINFORCE → PPO-Clip → SAC, each with unit tests, reports,
+   curves and archived run logs on `Pendulum-v1` / `CartPole-v1`;
+2. **W10–W12 — physics-grade base** (Isaac Sim 6.1 + Isaac Lab 3.0): 64 parallel Franka arms under
+   torque-only control with a zero-copy tensor loop, domain randomization injected at the PhysX
+   level, and a trainable continuous trajectory-tracking MDP with open-loop baselines;
+3. **W13/W14 — main project**: **two-layer residual control** — a nominal feed-forward + PID base
+   with a learned SAC residual `Δτ` — trained end to end for 450k env steps.
 
-> 🇨🇳 **零基础读本（推荐先从这份看起）**：[`docs/零基础读本.md`](docs/零基础读本.md) ——
-> 用倒立摆讲清楚"什么是动作块""日志里每个指标是什么意思"，不需要模仿学习基础。
+Main result (64 env, 500 steps, `seed=42`, domain randomization on):
 
-## Roadmap
-- [ ] W2-W5: Deep learning basics (PyTorch from scratch)
-- [ ] W6-W9: RL from scratch (PPO / SAC)
-- [ ] W10-W12: Isaac Lab environment & custom task
-- [ ] W13-W16: Main project — residual RL for robust tracking
-- [ ] 2027.1-2: Real robot deployment
-- [ ] 2027.3: Paper submission
+| controller | joint RMSE [rad] | end-effector Cartesian RMSE [cm] |
+| --- | --- | --- |
+| `pd_dr` (PD only, mismatch) | 0.060948 | 2.3016 |
+| `pd_ff_dr` (feed-forward + PID base) | 0.051866 | 1.3259 |
+| **residual SAC (450k steps, final)** | **0.045955** (×1.13) | **0.8651** (×1.53) |
+| residual SAC (best eval @400k, `policy_best_ee.pt`) | 0.045967 | **0.8612** |
+| `zero_dr` (no torque) | 0.972252 | 73.1780 |
 
-## Hardware
-- RTX 2080 Ti (11GB), Ubuntu 22.04, Python 3.10, PyTorch 2.6 (cu124)
+Acceptance: joint < 0.0519 rad ✅ and end-effector < 1.0 cm ✅ (stretch goal 0.5 cm not met).
+Cost: 450 048 env steps / 13 438 updates / 527 s on one RTX 2080 Ti, 0.277 GiB peak VRAM.
+
+> 🇨🇳 Chinese entry point (canonical, more detail): [`README.md`](README.md);
+> beginner guide: [`docs/零基础读本.md`](docs/零基础读本.md).
+
+---
 
 ## Structure
-- `w2_pytorch_basics/` — deep learning fundamentals (single-file toy scripts)
-- `docs/` — reports (`docs/reports/`), beginner guide (`docs/零基础读本.md`), notes, figures and archived text logs
-- `logs/` — runtime output (TensorBoard events + checkpoints), gitignored and safe to delete
-
-## Behavior Cloning (engineered project)
-
-The single-file script `w2_pytorch_basics/day2_behavior_cloning.py` has been refactored
-into a standard, reusable and monitorable algorithm project layout:
 
 ```
 embodied-arm/
-├── configs/                  # Hyper-parameter configs (YAML)
-│   ├── bc_config.yaml        # BC experiment config
-│   ├── chunking_bc_config.yaml  # Action-chunking BC config (defaults: bc_config.yaml)
-│   └── diffusion_config.yaml    # Mini-diffusion-policy config (W4 Task 2)
-├── src/                      # Core source code
-│   ├── networks.py           # Policy networks (MLP, CNN, GRU) + action-chunk head + factory
-│   ├── diffusion.py          # DDPM schedule / noise-prediction net / diffusion policy (W4 T2)
-│   ├── datasets.py           # Expert data, chunking dataset & augmentation, closed-loop eval
-│   ├── engine.py             # Shared training engine (args/config/run dir/log/TB/train loop/resume)
-│   └── utils.py              # Config, logging, TensorBoard, Checkpointer
-├── experiments/              # Experiment run scripts
-│   ├── train_bc.py           # Behavior cloning training entry point
-│   ├── train_chunking_bc.py  # Action-chunking BC training entry point (W4 Task 1)
-│   ├── train_diffusion_policy.py  # Mini diffusion policy training entry point (W4 Task 2)
-│   └── eval_expert.py        # Expert-controller (oracle) return baseline
-├── tests/                    # Plain-stdlib test scripts (no pytest needed)
-└── logs/                     # TensorBoard logs & model checkpoints (gitignored)
+├── configs/        # YAML hyper-parameters (bc / chunking / diffusion / reinforce / ppo / sac)
+├── src/            # from-scratch implementations: networks datasets engine utils
+│                   #   diffusion.py  reinforce.py  ppo.py  sac.py
+├── experiments/    # runnable entry points
+│   ├── train_{bc,chunking_bc,diffusion_policy,reinforce,ppo,sac}.py   eval_expert.py
+│   ├── export_tb_curves.py        # TensorBoard events -> PNG + CSV
+│   ├── isaaclab_env.sh            # pins the Isaac Sim/Lab environment (one-liner launcher)
+│   ├── w10_arm_torque_control.py  w10_plot_scale.py
+│   ├── w11_dynamics_randomization.py
+│   ├── w12_trajectory_tracking_env.py
+│   └── w13_residual_sac_train.py  # ★ self-contained residual-SAC trainer (108 CLI flags)
+├── tests/          # plain-stdlib unit tests (148 checks, no pytest needed)
+├── docs/           # reports/ figures/ notes/ results/ + 零基础读本.md
+├── w2_pytorch_basics/   data/ (gitignored)   logs/ (gitignored)
 ```
 
-### Configuration (`configs/bc_config.yaml`)
+## Environment
 
-```yaml
-experiment:                 # experiment-level settings
-  name: "bc_pendulum"       # used to name TensorBoard run dir & checkpoint file
-  seed: 42
-  device: "cuda"            # auto | cpu | cuda
-model:
-  state_dim: 3
-  action_dim: 1
-  hidden_dim: 64
-training:
-  batch_size: 64
-  epochs: 100
-  lr: 0.001
-  max_grad_norm: 1.0        # gradient clipping threshold
-  checkpoint:               # resume / crash-recovery settings
-    monitor: val_mse        # metric used to decide the "best" checkpoint
-    mode: min               # min | max
-    snapshot_every: 0       # archive a snapshot every N epochs (0 = off)
-    keep_last_n: 2          # how many archived snapshots to keep
-data:
-  num_expert_steps: 10000   # total expert steps to collect
-  train_ratio: 0.8
-paths:
-  log_dir: logs
-  checkpoint_dir: logs/checkpoints
-  resume: null              # null | auto | <checkpoint file or directory>
-```
-
-`experiments/train_bc.py` reads this file with **PyYAML** and uses
-`experiment.name` for the TensorBoard log directory (`logs/<name>_<timestamp>/`),
-the Checkpointer weight filenames (`<name>_best.pt`, `<name>_last.pt`).
-
-### Resume training / crash recovery (W3)
-
-`Checkpointer` stores the **complete** training state — model, optimizer,
-scheduler, finished epoch, best metric **and the RNG state of every random
-source** (Python / NumPy / Torch CPU / Torch CUDA) — so an interrupted run
-resumes bit-exactly where it stopped:
-
-| artefact | when written | purpose |
+| | W2–W9 (pure PyTorch) | W10–W13 (Isaac Lab) |
 | --- | --- | --- |
-| `<name>_last.pt` | every epoch | resume / crash recovery |
-| `<name>_best.pt` | when the monitored metric improves | final weights, closed-loop eval |
-| `<name>_epochXXXX.pt` | every `snapshot_every` epochs (rotated, `keep_last_n`) | history |
-
-* Writes are **atomic**: temp file → `fsync` → `os.replace` → directory `fsync`,
-  so a `kill -9` never leaves a half-written checkpoint behind.
-* Every file carries a **sha256 digest** that is verified on load; damaged or
-  truncated files raise `CheckpointIntegrityError` instead of silently loading
-  garbage (legacy plain `torch.save` files are still accepted).
-* Because the RNG state is restored too, `4 epochs + resume 2 epochs` produces
-  **bit-identical** weights to an uninterrupted 6-epoch run.
-* The interrupted run's TensorBoard directory is reused, so curves stay continuous.
+| conda | `rl` (Python 3.10) | `py312` (Isaac Sim 6.1 pre-installed in site-packages) |
+| deps | `pip install -r requirements.txt` | Isaac Sim 6.1 + Isaac Lab 3.0 (`/data/zzh/IsaacLab`) + torch 2.6.0+cu124 / warp 1.17 |
+| entry | `python experiments/train_*.py` | `bash experiments/isaaclab_env.sh experiments/w1*_*.py …` |
 
 ```bash
-# auto-discover the newest checkpoint and continue where it stopped
-python experiments/train_bc.py --resume
+# A. pure PyTorch (W2-W9)
+conda create -n rl python=3.10 -y && conda activate rl && pip install -r requirements.txt
+python experiments/train_sac.py
 
-# resume from a specific file / directory / extend the schedule
-python experiments/train_bc.py --resume logs/checkpoints/<run>/bc_pendulum_last.pt
-python experiments/train_bc.py --resume logs/checkpoints --set training.epochs=200
+# B. Isaac Lab (W10-W13) — no isaaclab.sh / uv needed, the launcher pins everything
+bash experiments/isaaclab_env.sh --check                       # version self-check only
+bash experiments/isaaclab_env.sh experiments/w12_trajectory_tracking_env.py --num_envs 64 --steps 500
 ```
 
-Interruptions are handled gracefully: the first `Ctrl-C` / `SIGTERM` finishes the
-current epoch, saves a checkpoint and exits (printing the exact `--resume`
-command to continue); a second signal force-quits. Any unexpected exception
-triggers an emergency `save_last()` before the traceback is re-raised. Set
-`paths.resume` in the config to make a run resume-on-restart by default.
-
-### Quick start
+## Quick start
 
 ```bash
-pip install -r requirements.txt
+# unit tests (~1 min, plain stdlib)
+python tests/test_sac.py   # 48 checks
+python tests/test_ppo.py   # 38
+python tests/test_reinforce.py tests/test_action_chunking.py tests/test_diffusion.py
 
-# Train with the default MLP policy
-python experiments/train_bc.py --config configs/bc_config.yaml
+# ★ reproduce the main result (W13/W14, 450k env steps ≈ 10 min)
+# --run_name decides where checkpoints / history CSV / curve PNG land: it must match
+# config.run_name inside the JSON, otherwise everything is written into the default
+# directory logs/w13_residual_sac/ (arm A) and overwrites arm A's artefacts.
+bash experiments/isaaclab_env.sh experiments/w13_residual_sac_train.py \
+    --num_envs 64 --steps 500 --total_steps 450000 --w_ee 50000 --run_name w13_residual_sac_ee50k \
+    --out_json docs/results/w13_residual_sac_ee50k.json > docs/results/w13_residual_sac_ee50k.log 2>&1
 
-# Switch network / override hyper-params from the command line
-python experiments/train_bc.py --config configs/bc_config.yaml --set model.name=gru
-python experiments/train_bc.py --config configs/bc_config.yaml --set training.epochs=50
-python experiments/train_bc.py --config configs/bc_config.yaml --device cpu --no-eval
-
-# Resume an interrupted run (auto-find the newest checkpoint)
-python experiments/train_bc.py --resume
-
-# Monitor training
-tensorboard --logdir logs
+# read a checkpoint back (--eval_only writes no weights and does not touch the history CSV)
+bash experiments/isaaclab_env.sh experiments/w13_residual_sac_train.py \
+    --num_envs 64 --steps 500 --eval_only \
+    --load_policy logs/w13_residual_sac_ee50k/policy_best_ee.pt --run_name w13_best_ee_check
 ```
 
-### Action chunking BC (W4)
+## Weekly progress (W2 → W14)
 
-`experiments/train_chunking_bc.py` extends the same pipeline from "one action per
-step" to **action chunks**: the label becomes `[a_t, ..., a_{t+K-1}]` and the network
-head grows from `action_dim` to `K * action_dim`, so a single forward pass predicts
-`K` future actions and the closed loop **re-plans every `K` steps** instead of every step.
+| week | task | report | headline |
+| --- | --- | --- | --- |
+| W2 | PyTorch basics (fit sin, MLP, CNN, sequence) | `docs/notes/` | hand-written training loops |
+| W3 | behaviour cloning, engineered (config/log/TB/resume) | [`docs/零基础读本.md`](docs/零基础读本.md) | closed-loop **−156.95** (expert oracle −175.00) |
+| W4-1 | action chunking | [`w4_task1_action_chunking.md`](docs/reports/w4_task1_action_chunking.md) | K=4 **−155.58**, forward passes 200 → **50** |
+| W4-2 | mini diffusion policy vs regression | [`w4_task2_diffusion_policy.md`](docs/reports/w4_task2_diffusion_policy.md) | bimodal hit **98.5%**, but 132.8× slower (−331.8 vs −181.7) |
+| W6 | REINFORCE + baselines + return norm | [`w6_task1_reinforce.md`](docs/reports/w6_task1_reinforce.md) | CartPole **500.00 @ep120** |
+| W8 | PPO-Clip + GAE-λ | [`w8_task1_ppo.md`](docs/reports/w8_task1_ppo.md) | **194 560 steps** to −199.91 |
+| W9 | SAC (off-policy max-entropy) | [`w9_task1_sac.md`](docs/reports/w9_task1_sac.md) | **4 000 steps** to −173.70 (≈48× fewer than PPO) |
+| W10 | 64-arm torque-only zero-copy loop | [`w10_task3_torque_control.md`](docs/reports/w10_task3_torque_control.md) | **389.5 SPS = 24 929 env-steps/s**; PhysX `sim.step` is 73% of the time |
+| W11 | domain randomization injected into PhysX | [`w11_task1_dynamics_randomization.md`](docs/reports/w11_task1_dynamics_randomization.md) | same torque, different states: cross-env std **1e-6 → 7e-2 rad** |
+| W12 | trajectory-tracking MDP + open-loop baselines | [`w12_task1_trajectory_tracking_env.md`](docs/reports/w12_task1_trajectory_tracking_env.md) | feed-forward PID **1.3259 cm** vs PD **2.3016 cm** vs zero torque **73.18 cm** |
+| W13/W14 | **two-layer residual SAC, end to end** | [`w13_task1_residual_sac.md`](docs/reports/w13_task1_residual_sac.md) | joint **0.045955 rad** (×1.13), EE **0.8651 cm** (×1.53) — both acceptance lines cleared |
 
-* **Exact windowing** (`build_action_chunks`): sliding window per trajectory,
-  never crossing episode boundaries, zero-padded at the tail with a `valid` mask.
-* **Identical data split**: `build_chunking_dataloaders` uses the very same
-  `default_rng(seed).permutation(N)` + `train_ratio` split, so the train/val
-  *states* are sample-by-sample identical to the single-step baseline — only the
-  labels differ. The comparison is therefore clean (same data, net, optimizer,
-  epochs, augmentation, seed).
-* **Backward compatible**: with `model.chunk_size: 1` (default) the network output
-  shape and numbers are bit-identical to the pre-W4 single-step BC.
-* **Execution modes** (all reported to TensorBoard): `chunk` (open loop, one
-  forward per `K` steps), `ema` (time-aligned EMA between overlapping plans,
-  ACT-style temporal ensembling; `replan_every < K` required), `receding`
-  (re-plan every step, execute the first action of the chunk).
+## Evidence layout
 
-| run | K | execution | forward passes / episode | mean return (20 episodes) |
-| --- | --- | --- | --- | --- |
-| single-step BC (baseline) | 1 | step-by-step | 200 | -156.95 |
-| chunking BC | 4 | open loop | **50** | **-155.58** |
-| chunking BC | 4 | EMA | 100 | -155.94 |
-| chunking BC | 8 | open loop | **25** | -219.68 |
-| chunking BC | 8 | receding | 200 | -158.32 |
-| expert controller (oracle) | — | energy shaping + PD | — | -175.00 |
+| what | where |
+| --- | --- |
+| reports (tables, ablations, debugging log) | `docs/reports/*.md` |
+| structured results of every formal run | `docs/results/*.json` |
+| per-evaluation history | `docs/results/*_history.csv` |
+| training logs (grep-able; Isaac Sim noise stripped) | `docs/results/*.log` (raw originals in gitignored `logs/raw_console_logs/`) |
+| curves | `docs/figures/*.png` + `*.csv` |
+| runtime output (checkpoints, TB events) | `logs/` — gitignored, regenerated by re-running |
 
-`K=4` matches the single-step baseline with **4x fewer forward passes**; `K=8`
-open loop degrades (compounding open-loop error) but recovers to baseline level
-once executed receding. Full write-up: `docs/reports/w4_task1_action_chunking.md`.
+**Run-to-run note**: repeating the *same* command is **not** bit-identical (the first two evals at
+25k/50k match bitwise, they diverge afterwards; 0.043342 rad / 0.9107 cm vs 0.045955 rad / 0.8651 cm,
+both pass acceptance). The JSON/CSV/PNG committed here are from the **second** run; the cross-check
+chain (W12 reconciliation, zero-residual equivalence, obs-ring check, FK check, checkpoint read-back)
+reports `0.00e+00` in both. Pass `--deterministic` to trade speed for reproducibility.
 
-```bash
-# Action-chunking BC (K=8 default, or override K from the CLI)
-python experiments/train_chunking_bc.py
-python experiments/train_chunking_bc.py --set model.chunk_size=4
-python experiments/train_chunking_bc.py --set inference.execution=ema
+## Roadmap / hardware
 
-# Expert-controller (oracle) return baseline, the reference scale for "return"
-python experiments/eval_expert.py
+- [x] W2–W5 deep learning from scratch · [x] W6–W9 RL from scratch
+- [x] W10–W12 Isaac Lab base · [x] W13–W14 residual SAC end to end
+- [ ] W15+: larger budget (600k–1M steps), multi-seed, `w_ee` curriculum, acceptance-aligned action scaling
+- [ ] 2027.1–2 real robot deployment · [ ] 2027.3 paper submission (IROS / RA-L)
 
-# Unit tests (plain stdlib, prints a PASS/FAIL summary)
-python tests/test_action_chunking.py
-```
-
-### Mini diffusion policy (W4 Task 2)
-
-`experiments/train_diffusion_policy.py` replaces "one forward pass that regresses a chunk" with
-**DDPM conditioning**: an `ε_θ(s, a^t, t)` noise-prediction network (FiLM MLP, `src/diffusion.py`)
-is trained with the noise-prediction MSE, and actions are produced by denoising
-`a^N ~ N(0, I)` in `N` DDIM steps. The dataset comes from a **multimodal** expert
-(`expert_controller_multimodal`) that deliberately kicks the swing-up to either side whenever the
-pole hangs almost still, so `p(a|s)` really is bimodal — the regime where plain MSE provably
-converges to `E[a|s]` (an action that is *neither* mode).
-
-* Cosine schedule with `T = 100`, closed-form `q_sample`, `ddim_step` with `N = 16`, `eta = 0`.
-* **Fair comparison**: same episodes/split, same chunk labels (`K = 8`), same MLP head shape,
-  same Adam/lr/epochs (200) — the only variable is *sampling a distribution* vs *regressing its mean*.
-* The noise loss is injected via `engine.train_loop(step_fn=...)`, so `src/engine.py` stays untouched.
-* Extras produced in the same run: `N`/`replan_every` ablation, plan-latency benchmark,
-  unseen-ambiguous-state probe, plan-consistency diagnostic, sparse-data ablation, bimodal toy task.
-
-| run | closed-loop return (20 ep) | forward passes / episode | plan latency | params |
-| --- | --- | --- | --- | --- |
-| deterministic MLP chunk (mean) | **-181.72 ± 85.99** | **25** | **0.186 ms** | 18,056 |
-| mini diffusion policy (sampling) | -331.83 ± 173.47 | 400 | 24.72 ms | 358,152 |
-
-Mechanism evidence (why the task is interesting even though diffusion does **not** win here):
-
-| probe | deterministic MSE | mini diffusion |
-| --- | --- | --- |
-| bimodal toy task — hit either mode | 0.0% (mean \|a\| = 0.010) | **98.5%** (both modes covered) |
-| unseen ambiguous Pendulum states — hit either mode | 62.5% | **71.7%** |
-| … distance to nearest mode | 0.518 | **0.311** |
-
-Sampling-cost ablation (diffusion only, closed-loop return): `N = 4 / 10 / 16 / 32` →
-`-494.75 / -325.53 / -315.16 / -428.72`; halving the replan interval changes nothing
-(`-318.00` at every 4 steps vs `-315.16` at every 8).
-
-**Conclusion**: diffusion really does learn the conditional distribution (on the toy task MSE
-collapses to the average of the two modes while diffusion recovers both, `|a|` per state matching
-`|μ(s)|` pointwise), and it improves the mode-hit rate on unseen ambiguous states (71.7% vs 62.5%).
-But on Pendulum that 9.2 pp gain does not pay for the **132.8x slower plan** and the 49.2%
-plan-to-plan mode flips, so the deterministic regressor wins the closed-loop comparison by 150
-points; a sparse-data ablation (16% of the trajectories) favours it even more (-203.95 vs -882.73),
-i.e. diffusion is *not* more sample-efficient here. Full write-up:
-`docs/reports/w4_task2_diffusion_policy.md`; a beginner-level Chinese walkthrough (diffusion from scratch,
-all formulas explained, FAQ) lives in `docs/reports/w4_task2_diffusion_policy_零基础版.md`.
-
-```bash
-# Mini diffusion policy (W4 Task 2): ~12 min; trains + runs deterministic control, probes & ablations
-python -u experiments/train_diffusion_policy.py
-
-# Cheaper variants
-python -u experiments/train_diffusion_policy.py --no-eval --set training.epochs=20
-python -u experiments/train_diffusion_policy.py --set diffusion.sample_steps=32
-
-# Unit tests (15 diffusion + 18 action-chunking, plain stdlib)
-python tests/test_diffusion.py
-```
-
-### Key features
-- All hyper-parameters live in `configs/bc_config.yaml` — no code changes needed.
-- `src/networks.py` exposes a registry + `build_network(config)` to switch MLP / CNN / GRU.
-- `src/datasets.py` caches expert data on disk and supports Gaussian-noise augmentation.
-- `src/utils.py` provides logging, TensorBoard monitoring and best-model checkpointing.
-- Command-line overrides (`--set key=value`) enable batch hyper-parameter sweeps.
-- Industrial `Checkpointer`: atomic + checksummed writes, full training state
-  (model / optimizer / scheduler / epoch / best metric / RNG), `--resume` with
-  graceful `SIGINT` / `SIGTERM` handling and emergency save on exceptions.
-
+RTX 2080 Ti (11 GB) / Ubuntu 22.04; all algorithms hand-written (no SB3/rlkit); unit tests are plain stdlib.

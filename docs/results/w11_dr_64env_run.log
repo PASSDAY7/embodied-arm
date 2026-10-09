@@ -1,0 +1,88 @@
+# [整理说明] 本文件 = 该次运行的完整控制台输出，已剔除 Isaac Sim / PhysX / Warp / protobuf 的启动噪声。
+# 未删减原件：logs/raw_console_logs/w11_dr_64env_run.log（可重跑生成，未提交到 git）。
+[ISAACLAB] AppLauncher initialization complete
+[ISAACLAB] Kit version: 110.3.0+feature.371399.00c488ae.gl
+[ISAACLAB] Kit kernel:  210.3.2+release.14366.2926fc80.gl
+[ISAACLAB] Kit hash:    00c488ae
+==============================================================================
+[ENV] torch 2.11.0+cu128 | warp 1.17.0 | isaacsim 6.1.0
+[ENV] device = cuda:0 | NVIDIA GeForce RTX 2080 Ti
+[ENV] GPU memory total = 10.56 GiB, free = 10.00 GiB
+|                                                   Simulation Joint Information (Prim path: /World/envs/env_[^/]+/Robot)                                                   |
+|   0   | panda_joint1        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   1   | panda_joint2        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-1.763, 1.763]  |      2.175      |     87.000    |
+|   2   | panda_joint3        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   3   | panda_joint4        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-3.072, -0.070] |      2.175      |     87.000    |
+|   4   | panda_joint5        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   5   | panda_joint6        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-0.018, 3.753]  |      2.610      |     12.000    |
+|   6   | panda_joint7        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   7   | panda_finger_joint1 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
+|   8   | panda_finger_joint2 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
+[SCENE] num_envs=64 | num_joints=9 | num_bodies=11
+[SCENE] joint names : ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7', 'panda_finger_joint1', 'panda_finger_joint2']
+[SCENE] body names  : ['panda_link0', 'panda_link1', 'panda_link2', 'panda_link3', 'panda_link4', 'panda_link5', 'panda_link6', 'panda_link7', 'panda_hand', 'panda_leftfinger', 'panda_rightfinger']
+[SCENE] effort limits [N·m] = [87.0, 87.0, 87.0, 87.0, 12.0, 12.0, 12.0, 200.0, 200.0]
+[SCENE] gravity = False（disable_gravity = True）
+[DRIVER] τ = A ⊙ sin(φ + 2πft) | A = [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0] | f = 1.0 Hz | dt = 0.01000 s
+[DR] 随机化 = 开启 | seed = 42
+[DR] 目标范围：负载 (0.0, 3.0) kg | 连杆 ×(0.8, 1.2) | damping (0.5, 2.0) N·m·s/rad | 静摩擦 (0.1, 1.0) N·m
+[BASE] step   20/200 | 关节 std max 3.3449e-07 rad | joint7 std 1.0726e-07 rad | 手位置 std 4.5274e-07 m
+[BASE] step   40/200 | 关节 std max 7.0899e-07 rad | joint7 std 1.4366e-07 rad | 手位置 std 8.3678e-07 m
+[BASE] step   60/200 | 关节 std max 8.2228e-07 rad | joint7 std 1.4612e-07 rad | 手位置 std 7.5013e-07 m
+[BASE] step   80/200 | 关节 std max 1.5070e-06 rad | joint7 std 1.9382e-07 rad | 手位置 std 8.8859e-07 m
+[BASE] step  100/200 | 关节 std max 1.5413e-06 rad | joint7 std 1.8983e-07 rad | 手位置 std 1.1007e-06 m
+[BASE] step  120/200 | 关节 std max 1.7064e-06 rad | joint7 std 2.0538e-07 rad | 手位置 std 1.2557e-06 m
+[BASE] step  140/200 | 关节 std max 1.6711e-06 rad | joint7 std 2.2889e-07 rad | 手位置 std 1.5358e-06 m
+[BASE] step  160/200 | 关节 std max 1.7485e-06 rad | joint7 std 2.3235e-07 rad | 手位置 std 1.5462e-06 m
+[BASE] step  180/200 | 关节 std max 2.0395e-06 rad | joint7 std 4.8116e-07 rad | 手位置 std 1.0774e-06 m
+[BASE] step  200/200 | 关节 std max 2.1615e-06 rad | joint7 std 5.0865e-07 rad | 手位置 std 1.1669e-06 m
+[BASE] 200 步墙钟 0.657 s -> 304.6 SPS（19493 env-steps/s，含每步 1 次 τ 检查，无 host 往返）
+[DR] 注入完成：关节 ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']（7 个），负载连杆 = panda_hand（body_id=8），质心写入路径 = set_coms_index
+[DR] 注入墙钟 0.1160 s（一次性写 64 个 env 的 mass/inertia/COM/damping/friction）
+[DR] 采样（每 env 独立）：
+[DR]   负载质量 [kg]              : min 0.008782 / mean 1.499 / max 2.957 / std 0.9473
+[DR]   连杆质量比例               : min 0.8009 / mean 0.992 / max 1.2 / std 0.1167
+[DR]   关节 damping [N·m·s/rad]   : min 0.5063 / mean 1.253 / max 1.998 / std 0.4294
+[DR]   关节静摩擦 [N·m]           : min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479
+[DR] PhysX 回读（证明写进去了；标称值来自注入前的读回）：
+[DR]   panda_hand 质量 [kg]      : min 0.6143 / mean 2.173 / max 3.756 / std 0.9644（标称 0.6804）
+[DR]   panda_hand 惯量迹 [kg·m²] : min 0.004201 / mean 0.005267 / max 0.006446 / std 0.0006656
+[DR]   panda_hand 惯量最小特征值 : min 0.0004067 / mean 0.0007193 / max 0.0009535 / std 0.0001359（>0 表示正定）
+[DR]   panda_hand 质心位移 [m]   : min 0.0003727 / mean 0.01564 / max 0.02143 / std 0.006001
+[DR]   关节 damping [N·m·s/rad]   : min 0.5063 / mean 1.253 / max 1.998 / std 0.4294
+[DR]   关节静摩擦 [N·m]           : min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479
+[DR]   关节动摩擦 [N·m]           : min 0.05173 / mean 0.2769 / max 0.4964 / std 0.124
+[DR] step   20/200 | 关节 std max 3.1011e-02 rad | joint7 std 2.8543e-02 rad | 手位置 std 1.7139e-02 m
+[DR] step   40/200 | 关节 std max 5.1644e-02 rad | joint7 std 6.7373e-03 rad | 手位置 std 3.6401e-02 m
+[DR] step   60/200 | 关节 std max 7.2752e-02 rad | joint7 std 5.6084e-03 rad | 手位置 std 3.5027e-02 m
+[DR] step   80/200 | 关节 std max 7.4139e-02 rad | joint7 std 2.8302e-03 rad | 手位置 std 2.3245e-02 m
+[DR] step  100/200 | 关节 std max 5.0400e-02 rad | joint7 std 2.8434e-03 rad | 手位置 std 9.8345e-03 m
+[DR] step  120/200 | 关节 std max 4.5804e-02 rad | joint7 std 2.9797e-02 rad | 手位置 std 1.6920e-02 m
+[DR] step  140/200 | 关节 std max 6.3898e-02 rad | joint7 std 8.3736e-03 rad | 手位置 std 3.2786e-02 m
+[DR] step  160/200 | 关节 std max 9.0649e-02 rad | joint7 std 7.1980e-03 rad | 手位置 std 3.2814e-02 m
+[DR] step  180/200 | 关节 std max 9.2082e-02 rad | joint7 std 5.0327e-03 rad | 手位置 std 2.5217e-02 m
+[DR] step  200/200 | 关节 std max 6.9767e-02 rad | joint7 std 5.0565e-03 rad | 手位置 std 1.6054e-02 m
+[DR] 200 步墙钟 0.559 s -> 357.6 SPS（22888 env-steps/s，含每步 1 次 τ 检查，无 host 往返）
+------------------------------------------------------------------------------
+[RESULT] 输入相同性：A 组 τ 跨 env std max = 0.000e+00 N·m | B 组 = 0.000e+00 N·m -> 所有 env 的力矩逐元素相同
+[RESULT] A 基线  ：panda_joint7 std = 5.087e-07 rad | 全关节 std max = 2.161e-06 rad | 末端位置 std = 1.167e-06 m | 撞臂关节限位 env = 0/64 | 末端相对基座 1.166e-06 m
+[RESULT] B 注入后：panda_joint7 std = 5.056e-03 rad | 全关节 std max = 6.977e-02 rad | 末端位置 std = 1.605e-02 m | 撞臂关节限位 env = 0/64 | 末端相对基座 1.605e-02 m
+[RESULT] 分化倍率：末端关节 ×9.94e+03 | 末端位置 ×1.38e+04（B 组相对 A 组）
+[RESULT] 逐关节 std（B 组末步, rad）：['6.977e-02', '2.929e-02', '6.437e-02', '3.236e-02', '5.120e-02', '3.946e-02', '5.056e-03', '6.068e-06', '1.375e-05']
+[RESULT] 臂关节撞限位 env 数（A 基线 / B 注入，共 64 env）：
+[RESULT]   panda_joint1  :   0 /   0
+[RESULT]   panda_joint2  :   0 /   0
+[RESULT]   panda_joint3  :   0 /   0
+[RESULT]   panda_joint4  :   0 /   0
+[RESULT]   panda_joint5  :   0 /   0
+[RESULT]   panda_joint6  :   0 /   0
+[RESULT]   panda_joint7  :   0 /   0
+[RESULT] 任意关节撞限位 env 数（含手指）：A 64 / B 64（手指行程只有 4 cm，恒为 100% 属正常）
+[VERDICT] 同力不同态：PASS（阈值 0.001 rad / 0.001 m）
+[FRICTION] panda_joint4 上施加恒定 1 N·m，跑 100 步（所有臂关节 damping 置 0）：
+[FRICTION]   静摩擦 0 N·m     ：|Δq| mean = 5.1348e-01 rad（max 8.6768e-01）
+[FRICTION]   静摩擦 5 N·m   ：|Δq| mean = 2.0117e-07 rad（max 2.3842e-07）
+[FRICTION] 位移比（无摩擦/有摩擦）= 2.553e+06 -> 静摩擦确实进了求解器
+[OUT] 结果已写入 /data/zzh/embodied-arm/docs/results/w11_dr_64env.json
+[OUT] 显存：torch peak allocated 0.016 GiB | 跑完剩余 7.95 GiB（起始 10.00）
+==============================================================================

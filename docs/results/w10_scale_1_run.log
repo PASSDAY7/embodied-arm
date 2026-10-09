@@ -1,0 +1,127 @@
+Loading user config located at: '/home/zhihao/anaconda3/envs/py312/lib/python3.12/site-packages/isaacsim/kit/data/Kit/IsaacLab/3.0/user.config.json'
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1791448013.033144   19147 descriptor_database.cc:633] File already exists in database: grpc/health/v1/health.proto
+W0000 00:00:1791448013.033199   19147 message.cc:301] Protobuf GeneratedMessageFactory: File is already registered: grpc/health/v1/health.proto
+2026-10-08T08:26:53Z [0ms] [Warning] [omni.usd_config.extension] Enable omni.materialx.libs extension to use MaterialX
+Warp 1.17.0 initialized:
+   CUDA Toolkit 12.9, Driver 13.0
+   Devices:
+     "cpu"      : "x86_64"
+     "cuda:0"   : "NVIDIA GeForce RTX 2080 Ti" (11 GiB, sm_75, mempool enabled)
+   Kernel cache:
+     /home/zhihao/.cache/warp/1.17.0
+[ISAACLAB] AppLauncher initialization complete
+[ISAACLAB] Kit version: 110.3.0+feature.371399.00c488ae.gl
+[ISAACLAB] Kit kernel:  210.3.2+release.14366.2926fc80.gl
+[ISAACLAB] Kit hash:    00c488ae
+==============================================================================
+[ENV] torch 2.11.0+cu128 | warp 1.17.0 | isaacsim 6.1.0
+[ENV] device = cuda:0 | NVIDIA GeForce RTX 2080 Ti
+[ENV] GPU memory total = 10.56 GiB, free = 10.07 GiB
+2026-10-08T08:27:00Z [6,959ms] [Warning] [isaaclab.utils.assets] Serving remote assets from the local cache under '/tmp'. Each copy is checked against the server before use; delete the directory to force a full re-download.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/default_ground_plane.usda'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_albedo.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_albedo.png'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_roughness.png' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Environments/Grid/default_ground_plane_checker_v1/Materials/Textures/default_ground_plane_roughness.png'.
+[INFO]: Registered backend 'physx' for factory Articulation.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/panda_instanceable.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/panda_instanceable.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/instanceable_collision_meshes.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/instanceable_collision_meshes.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_rightfinger.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_rightfinger.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Materials/Materials.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Materials/Materials.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_leftfinger.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_leftfinger.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_hand.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_hand.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link7.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link7.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link6.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link6.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link5.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link5.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link4.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link4.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link3.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link3.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link2.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link2.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link1.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link1.usd'.
+[INFO]: Loading local copy of remote asset 'https://omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link0.usd' from '/tmp/https/omniverse-content-production.s3-us-west-2.amazonaws.com/Assets/Isaac/6.1/Isaac/IsaacLab/Robots/FrankaEmika/Legacy/Props/panda_link0.usd'.
+[INFO]: Physics scene prim path: /physicsScene
+2026-10-08T08:27:04Z [11,145ms] [Warning] [usdrt.population.plugin] Last global time was not created. Did you call setEnableUsdNoticeHandling?
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/physicsScene'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/physicsScene/defaultMaterial'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link0/visuals'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link0/collisions'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link0/panda_joint1'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/rootJoint'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link1/visuals'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link1/collisions'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link1/panda_joint2'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link2/visuals'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link2/collisions'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link2/panda_joint3'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link3/visuals'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link3/collisions'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link3/panda_joint4'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link4/visuals'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link4/collisions'
+2026-10-08T08:27:04Z [11,158ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link4/panda_joint5'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link5/visuals'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link5/collisions'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link5/panda_joint6'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link6/visuals'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link6/collisions'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link6/panda_joint7'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link7/visuals'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link7/collisions'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_link7/panda_hand_joint'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_hand/visuals'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_hand/collisions'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_hand/panda_finger_joint1'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_hand/panda_finger_joint2'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_leftfinger/visuals'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_leftfinger/collisions'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_rightfinger/visuals'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/envs/env_0/Robot/panda_rightfinger/collisions'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/defaultGroundPlane'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/defaultGroundPlane/Looks'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/defaultGroundPlane/Looks/theGrid'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/defaultGroundPlane/Looks/theGrid/Shader'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/defaultGroundPlane/GroundPlane'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/defaultGroundPlane/GroundPlane/CollisionPlane'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/defaultGroundPlane/Environment'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/defaultGroundPlane/Environment/Geometry'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/defaultGroundPlane/physicsMaterial'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/Light'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/collisions'
+2026-10-08T08:27:04Z [11,159ms] [Warning] [omni.physx.tensors.plugin] Failed to find rigid body at '/World/collisions/group0'
+[INFO]: Simulation parameters for joints in /World/envs/env_[^/]+/Robot:
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                   Simulation Joint Information (Prim path: /World/envs/env_[^/]+/Robot)                                                   |
++-------+---------------------+-----------+---------+----------+-----------------+------------------+------------------+------------------+-----------------+---------------+
+| Index | Name                | Stiffness | Damping | Armature | Static Friction | Dynamic Friction | Viscous Friction | Position Limits  | Velocity Limits | Effort Limits |
++-------+---------------------+-----------+---------+----------+-----------------+------------------+------------------+------------------+-----------------+---------------+
+|   0   | panda_joint1        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   1   | panda_joint2        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-1.763, 1.763]  |      2.175      |     87.000    |
+|   2   | panda_joint3        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   3   | panda_joint4        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-3.072, -0.070] |      2.175      |     87.000    |
+|   4   | panda_joint5        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   5   | panda_joint6        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-0.018, 3.753]  |      2.610      |     12.000    |
+|   6   | panda_joint7        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   7   | panda_finger_joint1 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
+|   8   | panda_finger_joint2 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
++-------+---------------------+-----------+---------+----------+-----------------+------------------+------------------+------------------+-----------------+---------------+
+[SCENE] num_envs=1 num_joints=9
+[SCENE] joint names : ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7', 'panda_finger_joint1', 'panda_finger_joint2']
+[SCENE] effort limits: [87.0, 87.0, 87.0, 87.0, 12.0, 12.0, 12.0, 200.0, 200.0]
+[DRIVER] τ = A ⊙ sin(φ + 2πft) | A = [10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0, 10.0] | f = 1.0 Hz | dt = 0.01000 s
+[CHECK] 命令缓冲写入误差 max|cmd − τ| = 0.000e+00
+[CHECK] applied_torque 误差 max|τ_applied − τ_cmd| = 0.000e+00 N·m
+[CHECK] computed_torque 遥测误差 max|τ_telemetry − τ_cmd| = 0.000e+00 N·m
+[CHECK] 零拷贝：effort.torch.data_ptr=12918497792 vs effort.warp.ptr=12918497792 -> 同一块显存（视图别名）
+------------------------------------------------------------------------------
+[RESULT] num_envs = 1, steps = 200, 累计物理步 = 200
+[RESULT] 平均 SPS = 361.5 steps/s  ( = 361 env-steps/s )
+[RESULT] 分段 SPS = [337.9, 388.7] (min 337.9 / max 388.7)
+[RESULT] 单步墙钟 = 2.77 ms  （其中主机侧算力矩+写命令缓冲 = 175.6 µs/步）
+[RESULT] 显存：进程占用 2.01 GiB | torch peak allocated 0.000 GiB / reserved 0.002 GiB | 跑完剩余 8.06 GiB（起始 10.07）
+[RESULT] τ 样例 (env0, joint1..3) = [-0.6278354525566101, 2.8240113258361816, 5.934152126312256]
+[ABLATE] ms/次 @ 1 envs（100 次/档）：full 2.390 | 去掉 scene.update 2.336 | 再去掉 sim.step 0.444 | 只剩张量通路 0.158
+[ABLATE] 归因 [ms/步]：scene.update 0.054 + sim.step 1.891 + write_data_to_sim 0.287 + 张量通路 0.158
+==============================================================================
+[INFO] 结果已写入 /tmp/w10_scale_1.json

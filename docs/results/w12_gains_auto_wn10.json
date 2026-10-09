@@ -1,0 +1,845 @@
+{
+  "config": {
+    "num_envs": 64,
+    "steps": 500,
+    "dt": 0.01,
+    "gravity": true,
+    "seed": 42,
+    "scenarios": [
+      "pd_ff_nodr",
+      "pd_ff_dr"
+    ],
+    "num_controlled_joints": 7,
+    "controlled_joints": [
+      "panda_joint1",
+      "panda_joint2",
+      "panda_joint3",
+      "panda_joint4",
+      "panda_joint5",
+      "panda_joint6",
+      "panda_joint7"
+    ],
+    "ee_body": "panda_hand",
+    "eval_skip": 0,
+    "gains_mode": "auto",
+    "pd_sign": "stabilizing",
+    "kpd_gains": {
+      "mode": "auto",
+      "wn_target_rad_s": 10.0,
+      "zeta": 1.0,
+      "mass_matrix_diag_kgm2_nominal": [
+        0.630957,
+        2.28026,
+        1.281139,
+        0.865781,
+        0.02687,
+        0.034795,
+        0.00289
+      ],
+      "wn_effective_rad_s": [
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0,
+        10.0
+      ],
+      "wn_dt": [
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1,
+        0.1
+      ],
+      "kp": [
+        63.096,
+        228.026,
+        128.114,
+        86.578,
+        2.687,
+        3.48,
+        0.289
+      ],
+      "kd": [
+        12.619,
+        45.605,
+        25.623,
+        17.316,
+        0.537,
+        0.696,
+        0.058
+      ],
+      "gain_is_matrix": false,
+      "multivariable_margin": {
+        "lambda_max_MinvKp_dt2": 0.15631793439388275,
+        "lambda_max_MinvKd_dt": 3.126358985900879,
+        "stable": false
+      }
+    },
+    "kp": [
+      63.096,
+      228.026,
+      128.114,
+      86.578,
+      2.687,
+      3.48,
+      0.289
+    ],
+    "kd": [
+      12.619,
+      45.605,
+      25.623,
+      17.316,
+      0.537,
+      0.696,
+      0.058
+    ],
+    "randomization_enabled": true,
+    "payload_mass_range_kg": [
+      0.0,
+      3.0
+    ],
+    "payload_body": "panda_hand",
+    "payload_com_m": [
+      0.0,
+      0.0,
+      0.05
+    ],
+    "payload_mode": "parallel_axis",
+    "link_mass_scale_range": [
+      0.8,
+      1.2
+    ],
+    "joint_damping_range_nms_per_rad": [
+      0.5,
+      2.0
+    ],
+    "joint_friction_range_nm": [
+      0.1,
+      1.0
+    ]
+  },
+  "trajectory": {
+    "formula": "q_d,i(t) = q0,i + sum_h A_i,h * sin(2*pi*f_i,h*t + phi_i,h)",
+    "joint_names": [
+      "panda_joint1",
+      "panda_joint2",
+      "panda_joint3",
+      "panda_joint4",
+      "panda_joint5",
+      "panda_joint6",
+      "panda_joint7"
+    ],
+    "harmonics": 1,
+    "center_q0_rad": [
+      0.0,
+      -0.4,
+      0.0,
+      -1.8,
+      0.0,
+      1.8,
+      0.0
+    ],
+    "amp_rad_sampled": [
+      0.326454,
+      0.333001,
+      0.226573,
+      0.341861,
+      0.22809,
+      0.270179,
+      0.201315
+    ],
+    "amp_rad_clamped": [
+      0.326454,
+      0.333001,
+      0.226573,
+      0.341861,
+      0.22809,
+      0.270179,
+      0.201315
+    ],
+    "freq_hz": [
+      0.517457,
+      0.576309,
+      0.253274,
+      0.573839,
+      0.437432,
+      0.547762,
+      0.427086
+    ],
+    "phase_rad": [
+      4.656431,
+      2.698028,
+      5.563402,
+      3.605948,
+      1.674972,
+      3.942379,
+      1.694146
+    ],
+    "amp_clamp_ratio": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "trajectory_limits": {
+    "max_abs_qd_rad": 2.1418604850769043,
+    "max_abs_qd_dot_rad_s": 1.2325557470321655,
+    "max_abs_qd_ddot_rad_s2": 4.444156169891357,
+    "min_margin_to_joint_limit_rad": 0.9299395084381104,
+    "inside_limits": true
+  },
+  "observation": {
+    "frame_layout": {
+      "e_q": [
+        0,
+        7
+      ],
+      "e_dot_q": [
+        7,
+        14
+      ],
+      "q_d": [
+        14,
+        21
+      ],
+      "qd_d": [
+        21,
+        28
+      ],
+      "tau_prev": [
+        28,
+        35
+      ]
+    },
+    "frame_dim": 35,
+    "history": 3,
+    "history_order": "oldest -> newest（拼接后最后一帧是当前帧）",
+    "warmup": "repeat",
+    "obs_dim": 105,
+    "formula": "s_t = [e_q, e_dot_q, q_d, qd_d, tau_prev]"
+  },
+  "reward": {
+    "weights": {
+      "pos": 10.0,
+      "vel": 0.1,
+      "tau": 0.001,
+      "jerk": 0.01
+    },
+    "formula": "r = -wp||e_q||^2 - wv||e_dot_q||^2 - wtau||tau||^2 - wj||tau_t - tau_{t-1}||^2",
+    "note": "落盘 terms 是各项被减掉的量值（正数），reward = -sum(terms)"
+  },
+  "fk": {
+    "chain": {
+      "source": "/data/zzh/IsaacLab/source/isaaclab/isaaclab/controllers/config/data/lula_franka_gen.urdf",
+      "ee_body": "panda_hand",
+      "chain_joint_names": [
+        "panda_joint1",
+        "panda_joint2",
+        "panda_joint3",
+        "panda_joint4",
+        "panda_joint5",
+        "panda_joint6",
+        "panda_joint7",
+        "panda_joint8",
+        "panda_hand_joint"
+      ],
+      "chain_link_names": [
+        "panda_link1",
+        "panda_link2",
+        "panda_link3",
+        "panda_link4",
+        "panda_link5",
+        "panda_link6",
+        "panda_link7",
+        "panda_link8",
+        "panda_hand"
+      ],
+      "num_steps": 9
+    },
+    "preflight": {
+      "source": "/data/zzh/IsaacLab/source/isaaclab/isaaclab/controllers/config/data/lula_franka_gen.urdf",
+      "max_err_m": 1.3696104588234448e-06,
+      "worst_link": "panda_link5",
+      "per_link_max_err_m": {
+        "panda_link1": 1.33e-07,
+        "panda_link2": 2.73e-07,
+        "panda_link3": 9.85e-07,
+        "panda_link4": 9.9e-07,
+        "panda_link5": 1.37e-06,
+        "panda_link6": 1.37e-06,
+        "panda_link7": 1.37e-06,
+        "panda_hand": 1.37e-06
+      }
+    },
+    "preflight_ok": true
+  },
+  "gravity_model": {
+    "ff_source": "nominal",
+    "G_nominal_nm": [
+      -0.0,
+      -13.7871,
+      -0.4327,
+      19.6535,
+      1.1009,
+      1.9663,
+      -0.0145
+    ],
+    "G_physx_nm": [
+      0.0,
+      -13.987,
+      -0.4327,
+      19.8733,
+      1.1009,
+      2.0318,
+      -0.0145
+    ],
+    "max_abs_diff_nm": 0.21980667114257812,
+    "max_rel_diff": 0.011060393460622266,
+    "validated": true
+  },
+  "dr": {
+    "applied": true,
+    "sampled": {
+      "payload_mass_kg": {
+        "min": 0.008782446384429932,
+        "mean": 1.4985475540161133,
+        "max": 2.9567651748657227,
+        "std": 0.9472925066947937
+      },
+      "link_mass_scale": {
+        "min": 0.8009382486343384,
+        "mean": 0.9919894933700562,
+        "max": 1.1999218463897705,
+        "std": 0.11666075140237808
+      },
+      "joint_damping_nms_per_rad": {
+        "min": 0.5063157081604004,
+        "mean": 1.2532117366790771,
+        "max": 1.9976855516433716,
+        "std": 0.4294000566005707
+      },
+      "joint_friction_static_nm": {
+        "min": 0.10345055907964706,
+        "mean": 0.5538947582244873,
+        "max": 0.9928509593009949,
+        "std": 0.2479376494884491
+      }
+    },
+    "readback": {
+      "hand_mass_kg": {
+        "min": 0.6142865419387817,
+        "mean": 2.173035144805908,
+        "max": 3.755971670150757,
+        "std": 0.964354395866394
+      },
+      "hand_inertia_min_eig": {
+        "min": 0.0004066584224347025,
+        "mean": 0.0007193397032096982,
+        "max": 0.0009534913115203381,
+        "std": 0.0001359303278150037
+      },
+      "hand_com_shift_m": {
+        "min": 0.00037267967127263546,
+        "mean": 0.015644770115613937,
+        "max": 0.021432606503367424,
+        "std": 0.006000914610922337
+      },
+      "joint_damping_nms_per_rad": {
+        "min": 0.5063157081604004,
+        "mean": 1.2532117366790771,
+        "max": 1.9976855516433716,
+        "std": 0.4294000566005707
+      },
+      "joint_friction_static_nm": {
+        "min": 0.10345055907964706,
+        "mean": 0.5538947582244873,
+        "max": 0.9928509593009949,
+        "std": 0.2479376494884491
+      },
+      "joint_friction_dynamic_nm": {
+        "min": 0.05172527953982353,
+        "mean": 0.27694737911224365,
+        "max": 0.49642547965049744,
+        "std": 0.12396882474422455
+      },
+      "hand_mass_nominal_kg": 0.6804429888725281
+    },
+    "com_write_path": "set_coms_index",
+    "mass_matrix_diag_kgm2_dr": [
+      1.6962,
+      2.97872,
+      1.84419,
+      1.2993,
+      0.04022,
+      0.0827,
+      0.00281
+    ],
+    "mass_matrix_diag_ratio_dr_over_nominal": [
+      2.688,
+      1.306,
+      1.439,
+      1.501,
+      1.497,
+      2.377,
+      0.972
+    ]
+  },
+  "scenarios": {
+    "pd_ff_nodr": {
+      "tag": "pd_ff_nodr",
+      "num_envs": 64,
+      "steps_counted": 500,
+      "eval_skip": 0,
+      "joint_rmse_rad": {
+        "mean_over_envs": 0.06373889744281769,
+        "max_over_envs": 0.18336814641952515,
+        "worst_env_joint": 0.21941286325454712,
+        "per_joint_mean_over_envs": [
+          0.18266886472702026,
+          0.018110055476427078,
+          0.024068957194685936,
+          0.02699856087565422,
+          0.05445283278822899,
+          0.078355573117733,
+          0.06151743233203888
+        ],
+        "per_joint_max_over_envs": [
+          0.18336814641952515,
+          0.01813393458724022,
+          0.02413030155003071,
+          0.027004336938261986,
+          0.05451587960124016,
+          0.07844270765781403,
+          0.061607882380485535
+        ],
+        "joint_names": [
+          "panda_joint1",
+          "panda_joint2",
+          "panda_joint3",
+          "panda_joint4",
+          "panda_joint5",
+          "panda_joint6",
+          "panda_joint7"
+        ]
+      },
+      "joint_rmse_per_env_rad": {
+        "mean_over_envs": 0.21884553134441376,
+        "max_over_envs": 0.21941286325454712,
+        "min_over_envs": 0.2176014631986618
+      },
+      "joint_mae_rad": {
+        "per_joint_mean_over_envs": [
+          0.11401718854904175,
+          0.015047404915094376,
+          0.017908677458763123,
+          0.023154696449637413,
+          0.045150626450777054,
+          0.06835398077964783,
+          0.05487595498561859
+        ],
+        "per_joint_max_over_envs": [
+          0.11447315663099289,
+          0.015059780329465866,
+          0.018000323325395584,
+          0.02316530980169773,
+          0.045255545526742935,
+          0.06843164563179016,
+          0.05495249480009079
+        ]
+      },
+      "joint_rmse_velocity_rad_s": {
+        "per_joint_mean_over_envs": [
+          1.4869996309280396,
+          0.12987831234931946,
+          1.3137274980545044,
+          0.30585354566574097,
+          0.5643738508224487,
+          0.6224537491798401,
+          0.3838488757610321
+        ],
+        "per_joint_max_over_envs": [
+          1.489881992340088,
+          0.13023705780506134,
+          1.3155438899993896,
+          0.3069360554218292,
+          0.564926266670227,
+          0.6241956353187561,
+          0.3844071924686432
+        ]
+      },
+      "cartesian_error_cm": {
+        "rmse_mean_over_envs": 9.858402252197266,
+        "rmse_max_over_envs": 9.898248672485352,
+        "mae_mean_over_envs": 7.35254430770874,
+        "max_over_envs_and_steps": 23.47443962097168,
+        "per_env_rmse_cm": [
+          9.874427,
+          9.805164,
+          9.895003,
+          9.884079,
+          9.882933,
+          9.893052,
+          9.805164,
+          9.874427,
+          9.892976,
+          9.834595,
+          9.823511,
+          9.811006,
+          9.811193,
+          9.825328,
+          9.834595,
+          9.892976,
+          9.888989,
+          9.838471,
+          9.85231,
+          9.857542,
+          9.85743,
+          9.852789,
+          9.838471,
+          9.888989,
+          9.895549,
+          9.771939,
+          9.89749,
+          9.861879,
+          9.875653,
+          9.897938,
+          9.771939,
+          9.895549,
+          9.896138,
+          9.778292,
+          9.882682,
+          9.890309,
+          9.88937,
+          9.882399,
+          9.778292,
+          9.896138,
+          9.888861,
+          9.830524,
+          9.898249,
+          9.892517,
+          9.892534,
+          9.898247,
+          9.830524,
+          9.888861,
+          9.892976,
+          9.834595,
+          9.823511,
+          9.811006,
+          9.811193,
+          9.825328,
+          9.834595,
+          9.892976,
+          9.874427,
+          9.805164,
+          9.895003,
+          9.884079,
+          9.882933,
+          9.893052,
+          9.805164,
+          9.874427
+        ]
+      },
+      "reward": {
+        "mean_return_per_env": -32003.10546875,
+        "mean_per_step_per_env": -64.00621032714844,
+        "terms_per_step_mean": {
+          "pos": 0.47893649339675903,
+          "vel": 0.4900778830051422,
+          "tau": 2.46347713470459,
+          "jerk": 60.57373046875
+        }
+      },
+      "controller": {
+        "mode": "pd_ff",
+        "sign": "stabilizing",
+        "ff_source": "nominal",
+        "sat_step_frac_any_joint": 0.0,
+        "sat_entry_frac": 0.0,
+        "sat_frac_per_joint": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean_abs_tau_per_joint": [
+          14.074,
+          13.722,
+          24.837,
+          18.734,
+          1.089,
+          1.742,
+          0.027
+        ]
+      },
+      "fk": {
+        "enabled": true,
+        "source": "/data/zzh/IsaacLab/source/isaaclab/isaaclab/controllers/config/data/lula_franka_gen.urdf",
+        "max_err_m": 4.266627001925372e-06,
+        "tolerance_m": 0.0001,
+        "valid": true,
+        "last_per_link_max_err_m": {
+          "panda_link1": 1.066e-06,
+          "panda_link2": 9.54e-07,
+          "panda_link3": 1.073e-06,
+          "panda_link4": 1.926e-06,
+          "panda_link5": 1.967e-06,
+          "panda_link6": 1.966e-06,
+          "panda_link7": 1.922e-06,
+          "panda_hand": 1.349e-06
+        },
+        "worst_link": "panda_link5"
+      },
+      "wall_time_s": 12.233,
+      "env_steps_per_s": 2615.8,
+      "trace": [
+        {
+          "t_s": 4.99,
+          "joint_rms_rad": 0.043263159692287445,
+          "ee_cm": 2.389479398727417,
+          "reward_mean": -147.05271911621094
+        }
+      ]
+    },
+    "pd_ff_dr": {
+      "tag": "pd_ff_dr",
+      "num_envs": 64,
+      "steps_counted": 500,
+      "eval_skip": 0,
+      "joint_rmse_rad": {
+        "mean_over_envs": 0.14709383249282837,
+        "max_over_envs": 0.46544745564460754,
+        "worst_env_joint": 0.598341703414917,
+        "per_joint_mean_over_envs": [
+          0.2023618221282959,
+          0.035308122634887695,
+          0.027786152437329292,
+          0.07514083385467529,
+          0.14584016799926758,
+          0.31603506207466125,
+          0.22718465328216553
+        ],
+        "per_joint_max_over_envs": [
+          0.22475069761276245,
+          0.057662736624479294,
+          0.031047238036990166,
+          0.14723217487335205,
+          0.16715794801712036,
+          0.46544745564460754,
+          0.2376549392938614
+        ],
+        "joint_names": [
+          "panda_joint1",
+          "panda_joint2",
+          "panda_joint3",
+          "panda_joint4",
+          "panda_joint5",
+          "panda_joint6",
+          "panda_joint7"
+        ]
+      },
+      "joint_rmse_per_env_rad": {
+        "mean_over_envs": 0.4794420301914215,
+        "max_over_envs": 0.598341703414917,
+        "min_over_envs": 0.3324023485183716
+      },
+      "joint_mae_rad": {
+        "per_joint_mean_over_envs": [
+          0.13442474603652954,
+          0.028501978144049644,
+          0.02108399197459221,
+          0.07107478380203247,
+          0.12082242220640182,
+          0.27516359090805054,
+          0.17977029085159302
+        ],
+        "per_joint_max_over_envs": [
+          0.15463374555110931,
+          0.04651641845703125,
+          0.02444903552532196,
+          0.14323267340660095,
+          0.13837569952011108,
+          0.41368696093559265,
+          0.18937666714191437
+        ]
+      },
+      "joint_rmse_velocity_rad_s": {
+        "per_joint_mean_over_envs": [
+          1.496791958808899,
+          0.13667796552181244,
+          1.3353347778320312,
+          0.23263175785541534,
+          0.5611180067062378,
+          0.6505622267723083,
+          0.37836533784866333
+        ],
+        "per_joint_max_over_envs": [
+          1.5720759630203247,
+          0.21610307693481445,
+          1.4226323366165161,
+          0.4919675886631012,
+          0.6789102554321289,
+          0.8695152401924133,
+          0.3895353674888611
+        ]
+      },
+      "cartesian_error_cm": {
+        "rmse_mean_over_envs": 13.263448715209961,
+        "rmse_max_over_envs": 17.085939407348633,
+        "mae_mean_over_envs": 11.70956039428711,
+        "max_over_envs_and_steps": 27.879255294799805,
+        "per_env_rmse_cm": [
+          14.332937,
+          10.697687,
+          14.495203,
+          14.249848,
+          9.994087,
+          13.604772,
+          13.237101,
+          14.886154,
+          15.513964,
+          10.158345,
+          16.011277,
+          15.762399,
+          14.360715,
+          9.925733,
+          11.985199,
+          11.764698,
+          12.66081,
+          16.219285,
+          14.38099,
+          16.434757,
+          12.195693,
+          13.325261,
+          14.869186,
+          10.442115,
+          10.151541,
+          10.848282,
+          14.835419,
+          10.411749,
+          10.707529,
+          13.907394,
+          14.637198,
+          16.811003,
+          10.373029,
+          10.711768,
+          14.892279,
+          16.402704,
+          15.729827,
+          14.540251,
+          15.353179,
+          16.29308,
+          10.849149,
+          11.610322,
+          16.385749,
+          10.845545,
+          11.65291,
+          15.709724,
+          13.659716,
+          14.464919,
+          12.043314,
+          14.373834,
+          16.319571,
+          10.936251,
+          13.30891,
+          15.567704,
+          10.532823,
+          17.08594,
+          10.927655,
+          12.694213,
+          12.034611,
+          10.760145,
+          10.417059,
+          14.719281,
+          13.534799,
+          10.312153
+        ]
+      },
+      "reward": {
+        "mean_return_per_env": -33715.6953125,
+        "mean_per_step_per_env": -67.43138885498047,
+        "terms_per_step_mean": {
+          "pos": 2.370985507965088,
+          "vel": 0.49929648637771606,
+          "tau": 3.137340784072876,
+          "jerk": 61.42376708984375
+        }
+      },
+      "controller": {
+        "mode": "pd_ff",
+        "sign": "stabilizing",
+        "ff_source": "nominal",
+        "sat_step_frac_any_joint": 0.0,
+        "sat_entry_frac": 0.0,
+        "sat_frac_per_joint": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "mean_abs_tau_per_joint": [
+          15.35,
+          19.762,
+          26.284,
+          25.691,
+          1.088,
+          2.607,
+          0.058
+        ]
+      },
+      "fk": {
+        "enabled": true,
+        "source": "/data/zzh/IsaacLab/source/isaaclab/isaaclab/controllers/config/data/lula_franka_gen.urdf",
+        "max_err_m": 4.089764843229204e-06,
+        "tolerance_m": 0.0001,
+        "valid": true,
+        "last_per_link_max_err_m": {
+          "panda_link1": 9.83e-07,
+          "panda_link2": 1.029e-06,
+          "panda_link3": 1.981e-06,
+          "panda_link4": 1.981e-06,
+          "panda_link5": 1.998e-06,
+          "panda_link6": 1.998e-06,
+          "panda_link7": 2.903e-06,
+          "panda_hand": 2.903e-06
+        },
+        "worst_link": "panda_link7"
+      },
+      "wall_time_s": 12.072,
+      "env_steps_per_s": 2650.9,
+      "trace": [
+        {
+          "t_s": 4.99,
+          "joint_rms_rad": 0.34212449193000793,
+          "ee_cm": 10.74012565612793,
+          "reward_mean": -141.3120574951172
+        }
+      ]
+    }
+  },
+  "verdict": {
+    "scenarios": [
+      "pd_ff_nodr",
+      "pd_ff_dr"
+    ],
+    "fk_valid": true
+  },
+  "gpu": {
+    "peak_allocated_gib": 0.0243,
+    "free_gib_after": 8.027,
+    "free_gib_start": 10.134
+  }
+}

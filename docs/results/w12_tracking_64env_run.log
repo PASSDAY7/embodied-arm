@@ -1,0 +1,121 @@
+# [整理说明] 本文件 = 该次运行的完整控制台输出，已剔除 Isaac Sim / PhysX / Warp / protobuf 的启动噪声。
+# 未删减原件：logs/raw_console_logs/w12_tracking_64env_run.log（可重跑生成，未提交到 git）。
+[ISAACLAB] AppLauncher initialization complete
+[ISAACLAB] Kit version: 110.3.0+feature.371399.00c488ae.gl
+[ISAACLAB] Kit kernel:  210.3.2+release.14366.2926fc80.gl
+[ISAACLAB] Kit hash:    00c488ae
+==============================================================================
+[ENV] torch 2.11.0+cu128 | warp 1.17.0 | isaacsim 6.1.0
+[ENV] device = cuda:0 | NVIDIA GeForce RTX 2080 Ti
+[ENV] GPU memory total = 10.56 GiB, free = 9.96 GiB
+|                                                   Simulation Joint Information (Prim path: /World/envs/env_[^/]+/Robot)                                                   |
+|   0   | panda_joint1        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   1   | panda_joint2        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-1.763, 1.763]  |      2.175      |     87.000    |
+|   2   | panda_joint3        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   3   | panda_joint4        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-3.072, -0.070] |      2.175      |     87.000    |
+|   4   | panda_joint5        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   5   | panda_joint6        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-0.018, 3.753]  |      2.610      |     12.000    |
+|   6   | panda_joint7        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   7   | panda_finger_joint1 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
+|   8   | panda_finger_joint2 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
+[SCENE] num_envs=64 | num_joints=9 | num_bodies=11
+[SCENE] joint names : ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7', 'panda_finger_joint1', 'panda_finger_joint2']
+[SCENE] body names  : ['panda_link0', 'panda_link1', 'panda_link2', 'panda_link3', 'panda_link4', 'panda_link5', 'panda_link6', 'panda_link7', 'panda_hand', 'panda_leftfinger', 'panda_rightfinger']
+[SCENE] effort limits [N·m] = [87.0, 87.0, 87.0, 87.0, 12.0, 12.0, 12.0, 200.0, 200.0]
+[SCENE] gravity = True | dt = 0.01000 s（100 Hz）
+[MDP] 被控关节（7 个）：['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']
+[MDP] 关节限位 [rad] = [[-2.8973, 2.8973], [-1.7628, 1.7628], [-2.8973, 2.8973], [-3.0718, -0.0698], [-2.8973, 2.8973], [-0.0175, 3.7525], [-2.8973, 2.8973]]
+[TRAJ] q_d(t) = q0 + Σ_h (A/h)·sin(2π·h·f·t + φ) | K=1 | seed=42
+[TRAJ] q0 [rad]        = [0.0, -0.4, 0.0, -1.8, 0.0, 1.8, 0.0]
+[TRAJ] A 采样 [rad]    = [0.326454, 0.333001, 0.226573, 0.341861, 0.22809, 0.270179, 0.201315]
+[TRAJ] A clamp 后 [rad] = [0.326454, 0.333001, 0.226573, 0.341861, 0.22809, 0.270179, 0.201315]（clamp 比例 [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]）
+[TRAJ] f [Hz]          = [0.517457, 0.576309, 0.253274, 0.573839, 0.437432, 0.547762, 0.427086]
+[TRAJ] φ [rad]         = [4.656431, 2.698028, 5.563402, 3.605948, 1.674972, 3.942379, 1.694146]
+[TRAJ] 全 episode 限位检查：max|q_d|=2.1419 rad，max|q̇_d|=1.2326 rad/s，max|q̈_d|=4.4442 rad/s²，离限位最近 0.9299 rad -> 不越限
+[OBS] 单帧 35 维 ('e_q', 'e_dot_q', 'q_d', 'qd_d', 'tau_prev') × 历史 3 帧 = 105 维
+[REW] r = -10‖e_q‖² - 0.1‖ė_q‖² - 0.001‖τ‖² - 0.01‖Δτ‖²
+[FK] 运动链来源 = /data/zzh/IsaacLab/source/isaaclab/isaaclab/controllers/config/data/lula_franka_gen.urdf
+[FK] 链 = panda_link1 -> panda_link2 -> panda_link3 -> panda_link4 -> panda_link5 -> panda_link6 -> panda_link7 -> panda_link8 -> panda_hand（9 段）
+[FK] 预检（默认位形）：max 残差 = 1.370e-06 m（最差连杆 panda_link5），阈值 0.0001 m -> 通过
+[FK] 逐连杆残差 [m] = {'panda_link1': 1.33e-07, 'panda_link2': 2.73e-07, 'panda_link3': 9.85e-07, 'panda_link4': 9.9e-07, 'panda_link5': 1.37e-06, 'panda_link6': 1.37e-06, 'panda_link7': 1.37e-06, 'panda_hand': 1.37e-06}
+[DR] 随机化 = 开启 | seed = 42
+[DR] 范围：负载 (0.0, 3.0) kg | 连杆 ×(0.8, 1.2) | damping (0.5, 2.0) N·m·s/rad | 静摩擦 (0.1, 1.0) N·m
+[GAIN] 矩阵增益 Kp=ωn²·M̂(q0)（计算力矩 PD）：ωn = 30 rad/s，ζ = 1
+[GAIN] M(q0) 对角元 I_jj [kg·m²] = [0.63096, 2.28026, 1.28114, 0.86578, 0.02687, 0.0348, 0.00289]
+[GAIN] Kp 对角元 [N·m/rad] = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]
+[GAIN] Kd 对角元 [N·m·s/rad] = [37.857, 136.816, 76.868, 51.947, 1.612, 2.088, 0.173]
+[GAIN] 等效带宽 ωn [rad/s] = [30.0, 30.0, 30.0, 30.0, 30.0, 30.0, 30.0]
+[GAIN] 多变量离散裕度：λmax(M⁻¹Kp)·dt² = 0.0900（稳定要 < 4）；λmax(M⁻¹Kd)·dt = 0.6000（稳定要 < 2）
+[FF] 标称重力模型自校验（当前位形，注入前）：G(q)|nominal = [-0.0, -13.787, -0.433, 19.654, 1.101, 1.966, -0.014] N·m
+[FF] PhysX gravity_compensation_forces        = [0.0, -13.987, -0.433, 19.873, 1.101, 2.032, -0.014] N·m
+[FF] max|ΔG| = 0.2198 N·m（相对 1.11%，阈值 0.5 N·m）-> 通过（标称模型与 PhysX 一致）
+[DR] 切换动力学 -> 标称动力学（0.000 s）
+--- [pd_nodr] PD 基线 + 标称动力学（不注入失配）
+--- 控制器 = pd（增益 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]，逐关节 kd = [37.857, 136.816, 76.868, 51.947, 1.612, 2.088, 0.173]），动力学 = 标称，跑 500 步 × 64 env
+  [pd_nodr] t= 0.990s  joint RMS=0.0687 rad  ee=0.793 cm  reward=-0.271
+  [pd_nodr] t= 1.990s  joint RMS=0.1168 rad  ee=1.689 cm  reward=-0.761
+  [pd_nodr] t= 2.990s  joint RMS=0.0503 rad  ee=1.169 cm  reward=-1.257
+  [pd_nodr] t= 3.990s  joint RMS=0.1110 rad  ee=1.629 cm  reward=-0.522
+  [pd_nodr] t= 4.990s  joint RMS=0.0788 rad  ee=1.647 cm  reward=-238.225
+[RESULT] pd_nodr   关节 RMSE = 0.033389 rad（最差 env/关节 0.095757 rad） | 末端 RMSE = 1.4367 cm（最大 2.5796 cm） | 回报/步 = -30.8111 | 吞吐 3448 env-steps/s
+--- [pd_ff_nodr] PD + 标称模型重力前馈 + 标称动力学（“前馈+PID”的理想上限）
+--- 控制器 = pd_ff（增益 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]，逐关节 kd = [37.857, 136.816, 76.868, 51.947, 1.612, 2.088, 0.173]），动力学 = 标称，跑 500 步 × 64 env
+  [pd_ff_nodr] t= 0.990s  joint RMS=0.0103 rad  ee=0.394 cm  reward=-0.220
+  [pd_ff_nodr] t= 1.990s  joint RMS=0.0088 rad  ee=0.214 cm  reward=-0.612
+  [pd_ff_nodr] t= 2.990s  joint RMS=0.0188 rad  ee=0.362 cm  reward=-1.213
+  [pd_ff_nodr] t= 3.990s  joint RMS=0.0093 rad  ee=0.225 cm  reward=-0.371
+  [pd_ff_nodr] t= 4.990s  joint RMS=0.0616 rad  ee=0.965 cm  reward=-237.175
+[RESULT] pd_ff_nodr 关节 RMSE = 0.015779 rad（最差 env/关节 0.051514 rad） | 末端 RMSE = 0.6269 cm（最大 1.8890 cm） | 回报/步 = -31.0545 | 吞吐 2620 env-steps/s
+[DR] 注入完成：关节 ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']（7 个），负载连杆 = body_id 8，质心写入路径 = set_coms_index
+[DR] 切换动力学 -> 注入失配（0.083 s）
+[DR] 采样（每 env 独立）：
+[DR]   负载质量 [kg]            : min 0.008782 / mean 1.499 / max 2.957 / std 0.9473
+[DR]   连杆质量比例             : min 0.8009 / mean 0.992 / max 1.2 / std 0.1167
+[DR]   关节 damping [N·m·s/rad] : min 0.5063 / mean 1.253 / max 1.998 / std 0.4294
+[DR]   关节静摩擦 [N·m]         : min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479
+[DR] PhysX 回读（证明写进去了）：
+[DR]   手部质量 [kg]            : min 0.6143 / mean 2.173 / max 3.756 / std 0.9644（标称 0.6804）
+[DR]   手部惯量最小特征值       : min 0.0004067 / mean 0.0007193 / max 0.0009535 / std 0.0001359（>0 表示正定）
+[DR]   手部质心位移 [m]         : min 0.0003727 / mean 0.01564 / max 0.02143 / std 0.006001
+[DR]   关节 damping [N·m·s/rad] : min 0.5063 / mean 1.253 / max 1.998 / std 0.4294
+[DR]   关节静摩擦 [N·m]         : min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479
+[DR]   关节动摩擦 [N·m]         : min 0.05173 / mean 0.2769 / max 0.4964 / std 0.124
+[DR]   质心写入路径             : set_coms_index
+[DR] 注入后 M(q) 对角元 [kg·m²] = [1.6424, 3.01918, 1.84085, 1.29627, 0.0409, 0.08257, 0.00281]
+[DR] 相对标称的倍率          = [2.603, 1.324, 1.437, 1.497, 1.522, 2.373, 0.972]（这就是 PD 控制器面对的模型失配）
+--- [pd_dr] PD 基线 + 注入失配 —— ★ 任务书要求的基线追踪测试
+--- 控制器 = pd（增益 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]，逐关节 kd = [37.857, 136.816, 76.868, 51.947, 1.612, 2.088, 0.173]），动力学 = 注入失配，跑 500 步 × 64 env
+  [pd_dr] t= 0.990s  joint RMS=0.2902 rad  ee=2.019 cm  reward=-1.405
+  [pd_dr] t= 1.990s  joint RMS=0.1608 rad  ee=2.182 cm  reward=-1.533
+  [pd_dr] t= 2.990s  joint RMS=0.1710 rad  ee=2.114 cm  reward=-2.464
+  [pd_dr] t= 3.990s  joint RMS=0.1717 rad  ee=2.584 cm  reward=-1.272
+  [pd_dr] t= 4.990s  joint RMS=0.0940 rad  ee=2.316 cm  reward=-205.541
+[RESULT] pd_dr     关节 RMSE = 0.060948 rad（最差 env/关节 0.273472 rad） | 末端 RMSE = 2.3016 cm（最大 3.9329 cm） | 回报/步 = -22.7575 | 吞吐 3279 env-steps/s
+--- [pd_ff_dr] PD + 重力前馈 + 注入失配（前馈来源见 --ff，默认标称模型）
+--- 控制器 = pd_ff（增益 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]，逐关节 kd = [37.857, 136.816, 76.868, 51.947, 1.612, 2.088, 0.173]），动力学 = 注入失配，跑 500 步 × 64 env
+  [pd_ff_dr] t= 0.990s  joint RMS=0.2964 rad  ee=1.092 cm  reward=-1.430
+  [pd_ff_dr] t= 1.990s  joint RMS=0.1205 rad  ee=0.892 cm  reward=-1.388
+  [pd_ff_dr] t= 2.990s  joint RMS=0.1830 rad  ee=1.104 cm  reward=-2.470
+  [pd_ff_dr] t= 3.990s  joint RMS=0.1387 rad  ee=1.302 cm  reward=-1.119
+  [pd_ff_dr] t= 4.990s  joint RMS=0.1013 rad  ee=1.418 cm  reward=-206.124
+[RESULT] pd_ff_dr  关节 RMSE = 0.051866 rad（最差 env/关节 0.273412 rad） | 末端 RMSE = 1.3259 cm（最大 3.0303 cm） | 回报/步 = -22.2425 | 吞吐 2544 env-steps/s
+--- [zero_dr] 零力矩（完全不控制）+ 注入失配 —— 误差上界
+--- 控制器 = zero（增益 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]，逐关节 kd = [37.857, 136.816, 76.868, 51.947, 1.612, 2.088, 0.173]），动力学 = 注入失配，跑 500 步 × 64 env
+  [zero_dr] t= 0.990s  joint RMS=1.8813 rad  ee=91.201 cm  reward=-35.758
+  [zero_dr] t= 1.990s  joint RMS=3.1825 rad  ee=58.579 cm  reward=-103.650
+  [zero_dr] t= 2.990s  joint RMS=3.1620 rad  ee=83.656 cm  reward=-100.142
+  [zero_dr] t= 3.990s  joint RMS=3.5860 rad  ee=67.100 cm  reward=-128.792
+  [zero_dr] t= 4.990s  joint RMS=3.1457 rad  ee=77.208 cm  reward=-99.246
+[RESULT] zero_dr   关节 RMSE = 0.972252 rad（最差 env/关节 2.946950 rad） | 末端 RMSE = 73.1780 cm（最大 92.0173 cm） | 回报/步 = -80.9467 | 吞吐 3352 env-steps/s
+==============================================================================
+[SUMMARY] scenario 对比（关节 RMSE [rad] / 末端 RMSE [cm] / 回报每步）
+  pd_nodr   joint RMSE = 0.033389 rad  |  末端 RMSE = 1.4367 cm  |  回报/步 = -30.8111  |  饱和步占比 = 0.000
+  pd_ff_nodr joint RMSE = 0.015779 rad  |  末端 RMSE = 0.6269 cm  |  回报/步 = -31.0545  |  饱和步占比 = 0.000
+  pd_dr     joint RMSE = 0.060948 rad  |  末端 RMSE = 2.3016 cm  |  回报/步 = -22.7575  |  饱和步占比 = 0.000
+  pd_ff_dr  joint RMSE = 0.051866 rad  |  末端 RMSE = 1.3259 cm  |  回报/步 = -22.2425  |  饱和步占比 = 0.000
+  zero_dr   joint RMSE = 0.972252 rad  |  末端 RMSE = 73.1780 cm  |  回报/步 = -80.9467  |  饱和步占比 = 0.000
+[VERDICT] 注入失配后 PD 基线关节 RMSE ×1.83、末端误差 ×1.60 -> 失配确实让开环基线变差（RL 残差策略有可学的空间）
+[VERDICT] FK 自校验：通过
+[OUT] 结果已写入 /data/zzh/embodied-arm/docs/results/w12_tracking_64env.json
+[OUT] 显存：torch peak allocated 0.024 GiB | 跑完剩余 7.86 GiB（起始 9.96）
+==============================================================================

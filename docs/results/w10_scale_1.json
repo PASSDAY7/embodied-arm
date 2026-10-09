@@ -1,0 +1,46 @@
+{
+  "num_envs": 1,
+  "steps": 200,
+  "blocks": 2,
+  "dt": 0.01,
+  "torque_amp": 10.0,
+  "freq": 1.0,
+  "gravity_on": false,
+  "sps_mean": 361.4923159035546,
+  "sps_blocks": [
+    337.87651442464903,
+    388.65743841761844
+  ],
+  "sps_min": 337.87651442464903,
+  "sps_max": 388.65743841761844,
+  "ms_per_step": 2.766310530005285,
+  "env_steps_per_s": 361.4923159035546,
+  "host_bench_us_per_step": 175.55660600010015,
+  "vram_process_gib": 2.013916015625,
+  "torch_peak_allocated_gib": 2.193450927734375e-05,
+  "torch_peak_reserved_gib": 0.001953125,
+  "free_vram_after_gib": 8.056640625,
+  "gpu": "NVIDIA GeForce RTX 2080 Ti",
+  "self_check": {
+    "cmd_buffer_err": 0.0,
+    "applied_torque_err": 0.0,
+    "telemetry_err": 0.0,
+    "cmd_view_ptr": 12918497792,
+    "cmd_warp_ptr": 12918497792,
+    "view_is_alias": true,
+    "tau_is_cuda": true,
+    "tau_dtype": "torch.float32"
+  },
+  "partial_reset_probe": null,
+  "ablation_ms_per_step": {
+    "full": 2.3901044000012917,
+    "no_scene_update": 2.335974569996324,
+    "no_sim_step": 0.44448679000197444,
+    "host_only": 0.15791030999935174,
+    "cost_scene_update": 0.054129830004967516,
+    "cost_sim_step": 1.8914877799943497,
+    "cost_write_data_to_sim": 0.2865764800026227,
+    "cost_tensor_path": 0.15791030999935174,
+    "steps_per_variant": 100
+  }
+}

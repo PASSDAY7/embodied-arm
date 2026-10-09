@@ -1,0 +1,241 @@
+# [整理说明] 本文件 = 该次运行的完整控制台输出，已剔除 Isaac Sim / PhysX / Warp / protobuf 的启动噪声。
+# 未删减原件：logs/raw_console_logs/w13_residual_sac_ee50k.log（可重跑生成，未提交到 git）。
+[ISAACLAB] AppLauncher initialization complete
+[ISAACLAB] Kit version: 110.3.0+feature.371399.00c488ae.gl
+[ISAACLAB] Kit kernel:  210.3.2+release.14366.2926fc80.gl
+[ISAACLAB] Kit hash:    00c488ae
+==============================================================================================
+[ENV] torch 2.11.0+cu128 | warp 1.17.0 | isaacsim 6.1.0
+[ENV] device = cuda:0 | NVIDIA GeForce RTX 2080 Ti
+[ENV] GPU memory total = 10.56 GiB, free = 9.90 GiB
+[W13/W14] 双层控制：τ_exec = clip(τ_base + Δτ, ±τ_lim) | τ_base = pd_ff（ff=nominal，符号=stabilizing）| |Δτ| ≤ 1.5 N·m
+|                                                   Simulation Joint Information (Prim path: /World/envs/env_[^/]+/Robot)                                                   |
+|   0   | panda_joint1        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   1   | panda_joint2        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-1.763, 1.763]  |      2.175      |     87.000    |
+|   2   | panda_joint3        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   3   | panda_joint4        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-3.072, -0.070] |      2.175      |     87.000    |
+|   4   | panda_joint5        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   5   | panda_joint6        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-0.018, 3.753]  |      2.610      |     12.000    |
+|   6   | panda_joint7        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   7   | panda_finger_joint1 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
+|   8   | panda_finger_joint2 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
+[SCENE] num_envs=64 | num_joints=9 | num_bodies=11 | gravity=True | dt=0.01000 s（100 Hz）
+[MDP] 被控关节（7 个）：['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']
+[MDP] 力矩上限 [N·m] = [87.0, 87.0, 87.0, 87.0, 12.0, 12.0, 12.0] | 关节限位 [rad] = [[-2.8973, 2.8973], [-1.7628, 1.7628], [-2.8973, 2.8973], [-3.0718, -0.0698], [-2.8973, 2.8973], [-0.0175, 3.7525], [-2.8973, 2.8973]]
+[TRAJ] K=1 | seed=42 | q0=[0.0, -0.4, 0.0, -1.8, 0.0, 1.8, 0.0]
+[TRAJ] A=[0.326454, 0.333001, 0.226573, 0.341861, 0.22809, 0.270179, 0.201315] rad | f=[0.517457, 0.576309, 0.253274, 0.573839, 0.437432, 0.547762, 0.427086] Hz | φ=[4.656431, 2.698028, 5.563402, 3.605948, 1.674972, 3.942379, 1.694146]
+[TRAJ] 限位检查：max|q_d|=2.1419 rad，离限位最近 0.9299 rad -> 不越限
+[OBS] 单帧 35 维 ('e_q', 'e_dot_q', 'q_d', 'qd_d', 'tau_prev') × H=3 帧 = 105 维（策略输入；历史顺序旧→新）
+[REW] 策略奖励 = r = -wp‖e_q‖² - wv‖ė_q‖² - wτ‖τ_exec‖² - wj‖u_t - u_{t-1}‖² - w_mag‖Δτ‖² - w_ee‖p(q)-p(q_d)‖²，jerk 项用 Δτ (residual)
+[REW] env 原生（W12 口径，用于对账）= 同样四项，但 jerk 项用 τ_exec 的差分
+[FK] 运动链来源 = builtin_constants | 链 = panda_link1 -> panda_link2 -> panda_link3 -> panda_link4 -> panda_link5 -> panda_link6 -> panda_link7 -> panda_link8 -> panda_hand（9 段）
+[FK] 预检 max 残差 = 1.370e-06 m（最差连杆 panda_link5），阈值 0.0001 m -> 通过
+[DR] 随机化 = 开启 | seed = 42 | 负载 (0.0, 3.0) kg | 连杆 ×(0.8, 1.2) | damping (0.5, 2.0) | 静摩擦 (0.1, 1.0)
+[GAIN] 矩阵增益 Kp=ωn²·M̂(q0)（计算力矩 PD）：ωn = 30 rad/s，ζ = 1
+[GAIN] M(q0) 对角元 I_jj [kg·m²] = [0.63096, 2.28026, 1.28114, 0.86578, 0.02687, 0.0348, 0.00289]
+[GAIN] kp对角元 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601] | kd对角元 = [37.857, 136.816, 76.868, 51.947, 1.612, 2.088, 0.173]
+[GAIN] 多变量离散裕度：λmax(M⁻¹Kp)·dt² = 0.0900（<4）；λmax(M⁻¹Kd)·dt = 0.6000（<2）-> 稳定
+[FF] 标称重力模型自校验（当前位形，注入前）：max|ΔG| = 0.2198 N·m（相对 1.11%，阈值 0.5 N·m）-> 通过
+[DR] 注入完成：关节 ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']（7 个），负载连杆 = body_id 8，质心写入路径 = set_coms_index
+[DR] 采样（每 env 独立）：
+[DR]   负载质量 [kg]            : min 0.008782 / mean 1.499 / max 2.957 / std 0.9473
+[DR]   连杆质量比例             : min 0.8009 / mean 0.992 / max 1.2 / std 0.1167
+[DR]   关节 damping [N·m·s/rad] : min 0.5063 / mean 1.253 / max 1.998 / std 0.4294
+[DR]   关节静摩擦 [N·m]         : min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479
+[DR] PhysX 回读（证明写进去了）：
+[DR]   手部质量 [kg]            : min 0.6143 / mean 2.173 / max 3.756 / std 0.9644（标称 0.6804）
+[DR]   手部惯量最小特征值       : min 0.0004067 / mean 0.0007193 / max 0.0009535 / std 0.0001359（>0 表示正定）
+[DR]   手部质心位移 [m]         : min 0.0003727 / mean 0.01564 / max 0.02143 / std 0.006001
+[DR]   关节 damping [N·m·s/rad] : min 0.5063 / mean 1.253 / max 1.998 / std 0.4294
+[DR]   关节静摩擦 [N·m]         : min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479
+[DR]   关节动摩擦 [N·m]         : min 0.05173 / mean 0.2769 / max 0.4964 / std 0.124
+[DR]   质心写入路径             : set_coms_index
+[DR] 注入后 M(q) 对角元 [kg·m²] = [0.94502, 2.77797, 1.75173, 1.2495, 0.05315, 0.08307, 0.00287] | 相对标称 ×[1.498, 1.218, 1.367, 1.443, 1.978, 2.387, 0.991]（这就是基座面对的模型失配）
+[SAC] 观测 105 维 → 动作 7 维 × ±1.5 N·m | Actor 96526 参数 （2×256）| Double-Q 189954 参数 | γ=0.99 τ=0.005 | α0=0.02 目标熵=None | lr=(actor 0.0003, critic 0.001, alpha 0.0003)
+[RES] 残差动作空间：mode=kp | 硬上限 1.5 N·m | 逐关节 scale [N·m] = [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 0.5202]（= 0.2 rad × Kp 对角元，再夹到硬上限）
+--- [pd_dr] PD 基线 + 注入失配 —— ★ 任务书要求的基线追踪测试
+--- 控制器 = pd（增益 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]），动力学 = 注入失配，跑 500 步 × 64 env
+[RESULT] pd_dr     关节 RMSE = 0.060948 rad（最差 env/关节 0.273472 rad） | 末端 RMSE = 2.3016 cm（最大 3.9329 cm） | 回报/步 = -22.7575 | 吞吐 3464 env-steps/s
+--- [pd_ff_dr] PD + 重力前馈 + 注入失配（前馈来源见 --ff，默认标称模型）
+--- 控制器 = pd_ff（增益 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]），动力学 = 注入失配，跑 500 步 × 64 env
+[RESULT] pd_ff_dr  关节 RMSE = 0.051866 rad（最差 env/关节 0.273412 rad） | 末端 RMSE = 1.3259 cm（最大 3.0303 cm） | 回报/步 = -22.2425 | 吞吐 2754 env-steps/s
+[CHECK] 与 W12 对账 pd_dr     关节 RMSE 0.060948 vs 0.060948（rel 0.00e+00） | 末端 2.3016 vs 2.3016 cm（rel 0.00e+00）
+[CHECK] 与 W12 对账 pd_ff_dr  关节 RMSE 0.051866 vs 0.051866（rel 0.00e+00） | 末端 1.3259 vs 1.3259 cm（rel 0.00e+00）
+[CHECK] 最大相对偏差 0.00e+00（阈值 0.001）-> 通过：W13 的失配环境就是 W12 报告里的那一套
+[RESULT] zero_res[pd_ff_dr] 关节 RMSE = 0.051866 rad（最差 env/关节 0.273412 rad） | 末端 RMSE = 1.3259 cm（最大 3.0303 cm） | 回报/步 = -11.8997 | |Δτ| = 0.000 N·m | 饱和步占比 = 0.000 | 吞吐 2587 env-steps/s
+[CHECK] 零残差等价性（Δτ≡0 vs W12 run_episode）：关节 RMSE 差 0.000e+00 rad | 末端 RMSE 差 0.000e+00 cm | 回报/步 rel 0.00e+00 -> 两套指标代码一致
+==============================================================================================
+[TRAIN] 预算 450000 环境步 = 7032 次 rollout（每次 64 env）| 热身 20000 环境步 ≈ 313 rollout（±1 N·m 随机残差）| 每 1 步更新 2×batch(256) | buffer=gpu(300000) | α0=0.02 目标熵=fixed | 归一化=开 | jerk 口径=residual | 奖励缩放=1
+[TRAIN] Critic 热身：前 1000 次更新把 Actor 学习率压到 0（只学 Q），之后放开 0.0003（见 docstring §四）
+[STEP    5056/450000 | rollout    79] 热身 | 回报/步 -8.2320（env 口径 -1.6404）| ‖e_q‖ RMS 0.1296 rad | 末端 0.971 cm | |Δτ| 0.392 N·m | |τ| 7.29 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q +nan | critic nan | actor +nan | buffer 1.7% | 2489 env-steps/s
+[STEP   10112/450000 | rollout   158] 热身 | 回报/步 -17.0352（env 口径 -57.0290）| ‖e_q‖ RMS 0.2395 rad | 末端 1.453 cm | |Δτ| 0.393 N·m | |τ| 12.95 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q +nan | critic nan | actor +nan | buffer 3.4% | 2504 env-steps/s
+[STEP   15168/450000 | rollout   237] 热身 | 回报/步 -10.0548（env 口径 -10.9627）| ‖e_q‖ RMS 0.1429 rad | 末端 1.135 cm | |Δτ| 0.389 N·m | |τ| 9.73 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q +nan | critic nan | actor +nan | buffer 5.1% | 2523 env-steps/s
+/data/zzh/embodied-arm/src/sac.py:963: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  "td_abs_mean": float(torch.abs(torch.stack(q_values).mean(0) - target_q).mean()),
+[STEP   20224/450000 | rollout   316] Critic 热身 | 回报/步 -13.2343（env 口径 -29.4883）| ‖e_q‖ RMS 0.1553 rad | 末端 1.348 cm | |Δτ| 0.398 N·m | |τ| 9.27 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -5.795 | critic 234 | actor +7.270 | buffer 6.7% | 2489 env-steps/s
+[RESULT] residual@25024 关节 RMSE = 0.051919 rad（最差 env/关节 0.273422 rad） | 末端 RMSE = 1.3278 cm（最大 3.0303 cm） | 回报/步 = -11.9215 | |Δτ| = 0.001 N·m | 饱和步占比 = 0.000 | 吞吐 2572 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[BEST] 末端 RMSE 刷新到 1.3278 cm（关节 0.051919 rad）@ 25024 环境步 → /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[EVAL   25024] 关节 RMSE 0.051919 rad | 末端 1.3278 cm（最大 3.0303）| 回报/步 -11.9215 | |Δτ| 0.001 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP   25280/450000 | rollout   395] Critic 热身 | 回报/步 -17.2156（env 口径 -45.7399）| ‖e_q‖ RMS 0.2023 rad | 末端 1.418 cm | |Δτ| 0.550 N·m | |τ| 13.69 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -20.831 | critic 8.35 | actor +21.289 | buffer 8.4% | 1044 env-steps/s
+[STEP   30336/450000 | rollout   474] Critic 热身 | 回报/步 -8.8872（env 口径 -1.6033）| ‖e_q‖ RMS 0.1507 rad | 末端 1.037 cm | |Δτ| 0.550 N·m | |τ| 7.11 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -25.609 | critic 4.32 | actor +26.256 | buffer 10.1% | 1087 env-steps/s
+[STEP   35392/450000 | rollout   553] Critic 热身 | 回报/步 -18.6978（env 口径 -63.6196）| ‖e_q‖ RMS 0.2600 rad | 末端 1.519 cm | |Δτ| 0.550 N·m | |τ| 13.83 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -36.196 | critic 9.05 | actor +36.706 | buffer 11.8% | 1121 env-steps/s
+[STEP   40448/450000 | rollout   632] Critic 热身 | 回报/步 -9.1521（env 口径 -5.8030）| ‖e_q‖ RMS 0.1418 rad | 末端 1.095 cm | |Δτ| 0.550 N·m | |τ| 8.98 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -43.378 | critic 5.2 | actor +43.432 | buffer 13.5% | 1150 env-steps/s
+[STEP   45504/450000 | rollout   711] Critic 热身 | 回报/步 -13.9997（env 口径 -39.3940）| ‖e_q‖ RMS 0.1659 rad | 末端 1.367 cm | |Δτ| 0.552 N·m | |τ| 10.32 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -46.503 | critic 5.87 | actor +47.101 | buffer 15.2% | 1172 env-steps/s
+[RESULT] residual@50048 关节 RMSE = 0.051918 rad（最差 env/关节 0.273422 rad） | 末端 RMSE = 1.3278 cm（最大 3.0303 cm） | 回报/步 = -11.9212 | |Δτ| = 0.001 N·m | 饱和步占比 = 0.000 | 吞吐 2583 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[BEST] 末端 RMSE 刷新到 1.3278 cm（关节 0.051918 rad）@ 50048 环境步 → /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[EVAL   50048] 关节 RMSE 0.051918 rad | 末端 1.3278 cm（最大 3.0303）| 回报/步 -11.9212 | |Δτ| 0.001 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP   50560/450000 | rollout   790] Critic 热身 | 回报/步 -16.2300（env 口径 -37.7970）| ‖e_q‖ RMS 0.2094 rad | 末端 1.346 cm | |Δτ| 0.549 N·m | |τ| 13.07 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -61.791 | critic 8.07 | actor +62.381 | buffer 16.9% | 922 env-steps/s
+[TRAIN] Critic 热身结束（1000 次更新）：Actor 学习率放开到 0.0003
+[STEP   55616/450000 | rollout   869] 训练 | 回报/步 -9.7870（env 口径 -1.5666）| ‖e_q‖ RMS 0.1803 rad | 末端 1.068 cm | |Δτ| 0.792 N·m | |τ| 6.80 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -75.775 | critic 10.4 | actor +74.002 | buffer 18.5% | 951 env-steps/s
+[STEP   60672/450000 | rollout   948] 训练 | 回报/步 -19.0158（env 口径 -56.8222）| ‖e_q‖ RMS 0.2990 rad | 末端 1.510 cm | |Δτ| 0.911 N·m | |τ| 13.88 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -81.237 | critic 11.2 | actor +80.859 | buffer 20.2% | 978 env-steps/s
+[STEP   65728/450000 | rollout  1027] 训练 | 回报/步 -9.7147（env 口径 -2.5606）| ‖e_q‖ RMS 0.1132 rad | 末端 1.174 cm | |Δτ| 0.879 N·m | |τ| 8.29 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -89.688 | critic 8.66 | actor +89.394 | buffer 21.9% | 1001 env-steps/s
+[STEP   70784/450000 | rollout  1106] 训练 | 回报/步 -10.8742（env 口径 -40.7722）| ‖e_q‖ RMS 0.1419 rad | 末端 1.056 cm | |Δτ| 0.983 N·m | |τ| 10.76 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -103.845 | critic 20.5 | actor +102.690 | buffer 23.6% | 1022 env-steps/s
+[RESULT] residual@75072 关节 RMSE = 0.049194 rad（最差 env/关节 0.257450 rad） | 末端 RMSE = 1.0998 cm（最大 3.1253 cm） | 回报/步 = -9.4951 | |Δτ| = 0.866 N·m | 饱和步占比 = 0.000 | 吞吐 2536 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[BEST] 末端 RMSE 刷新到 1.0998 cm（关节 0.049194 rad）@ 75072 环境步 → /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[EVAL   75072] 关节 RMSE 0.049194 rad | 末端 1.0998 cm（最大 3.1253）| 回报/步 -9.4951 | |Δτ| 0.866 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP   75840/450000 | rollout  1185] 训练 | 回报/步 -13.6556（env 口径 -25.7496）| ‖e_q‖ RMS 0.1883 rad | 末端 1.163 cm | |Δτ| 0.937 N·m | |τ| 12.17 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -112.721 | critic 16.7 | actor +111.554 | buffer 25.3% | 886 env-steps/s
+[STEP   80896/450000 | rollout  1264] 训练 | 回报/步 -6.6565（env 口径 -1.3806）| ‖e_q‖ RMS 0.1874 rad | 末端 0.895 cm | |Δτ| 0.907 N·m | |τ| 6.42 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -118.520 | critic 17.8 | actor +117.543 | buffer 27.0% | 907 env-steps/s
+[STEP   85952/450000 | rollout  1343] 训练 | 回报/步 -15.4447（env 口径 -55.4251）| ‖e_q‖ RMS 0.2993 rad | 末端 1.275 cm | |Δτ| 0.906 N·m | |τ| 14.11 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -118.892 | critic 21.1 | actor +118.984 | buffer 28.7% | 925 env-steps/s
+[STEP   91008/450000 | rollout  1422] 训练 | 回报/步 -6.7838（env 口径 -1.8570）| ‖e_q‖ RMS 0.1238 rad | 末端 0.931 cm | |Δτ| 0.934 N·m | |τ| 7.96 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -130.218 | critic 32.5 | actor +127.381 | buffer 30.3% | 942 env-steps/s
+[STEP   96064/450000 | rollout  1501] 训练 | 回报/步 -10.5213（env 口径 -47.7904）| ‖e_q‖ RMS 0.1608 rad | 末端 1.036 cm | |Δτ| 0.917 N·m | |τ| 11.66 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -131.757 | critic 19.3 | actor +131.010 | buffer 32.0% | 957 env-steps/s
+[RESULT] residual@100096 关节 RMSE = 0.048577 rad（最差 env/关节 0.246100 rad） | 末端 RMSE = 1.0526 cm（最大 2.9235 cm） | 回报/步 = -9.0072 | |Δτ| = 0.850 N·m | 饱和步占比 = 0.000 | 吞吐 2612 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[BEST] 末端 RMSE 刷新到 1.0526 cm（关节 0.048577 rad）@ 100096 环境步 → /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[EVAL  100096] 关节 RMSE 0.048577 rad | 末端 1.0526 cm（最大 2.9235）| 回报/步 -9.0072 | |Δτ| 0.850 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  101120/450000 | rollout  1580] 训练 | 回报/步 -9.5645（env 口径 -20.0929）| ‖e_q‖ RMS 0.1507 rad | 末端 0.930 cm | |Δτ| 0.923 N·m | |τ| 11.69 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -135.834 | critic 42.4 | actor +136.336 | buffer 33.7% | 870 env-steps/s
+[STEP  106176/450000 | rollout  1659] 训练 | 回报/步 -6.5552（env 口径 -1.4035）| ‖e_q‖ RMS 0.2050 rad | 末端 0.847 cm | |Δτ| 0.869 N·m | |τ| 6.15 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -131.873 | critic 34.9 | actor +132.209 | buffer 35.4% | 887 env-steps/s
+[STEP  111232/450000 | rollout  1738] 训练 | 回报/步 -12.3458（env 口径 -58.3718）| ‖e_q‖ RMS 0.2722 rad | 末端 1.071 cm | |Δτ| 0.950 N·m | |τ| 14.73 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -151.686 | critic 25.1 | actor +150.657 | buffer 37.1% | 903 env-steps/s
+[STEP  116288/450000 | rollout  1817] 训练 | 回报/步 -6.4477（env 口径 -1.3672）| ‖e_q‖ RMS 0.1167 rad | 末端 0.900 cm | |Δτ| 0.871 N·m | |τ| 7.52 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -148.954 | critic 36.9 | actor +147.158 | buffer 38.8% | 919 env-steps/s
+[STEP  121344/450000 | rollout  1896] 训练 | 回报/步 -11.8564（env 口径 -54.0994）| ‖e_q‖ RMS 0.1656 rad | 末端 1.080 cm | |Δτ| 0.966 N·m | |τ| 12.43 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -155.775 | critic 25.9 | actor +155.623 | buffer 40.4% | 934 env-steps/s
+[RESULT] residual@125120 关节 RMSE = 0.049338 rad（最差 env/关节 0.249056 rad） | 末端 RMSE = 1.0078 cm（最大 2.7663 cm） | 回报/步 = -8.5555 | |Δτ| = 0.969 N·m | 饱和步占比 = 0.000 | 吞吐 2574 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[BEST] 末端 RMSE 刷新到 1.0078 cm（关节 0.049338 rad）@ 125120 环境步 → /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[EVAL  125120] 关节 RMSE 0.049338 rad | 末端 1.0078 cm（最大 2.7663）| 回报/步 -8.5555 | |Δτ| 0.969 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  126400/450000 | rollout  1975] 训练 | 回报/步 -7.9808（env 口径 -13.3399）| ‖e_q‖ RMS 0.1405 rad | 末端 0.846 cm | |Δτ| 0.954 N·m | |τ| 11.06 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -161.217 | critic 45.3 | actor +159.407 | buffer 42.1% | 867 env-steps/s
+[STEP  131456/450000 | rollout  2054] 训练 | 回报/步 -6.3732（env 口径 -1.1225）| ‖e_q‖ RMS 0.1601 rad | 末端 0.873 cm | |Δτ| 0.850 N·m | |τ| 6.00 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -157.650 | critic 60.6 | actor +156.190 | buffer 43.8% | 880 env-steps/s
+[STEP  136512/450000 | rollout  2133] 训练 | 回报/步 -11.0448（env 口径 -57.9626）| ‖e_q‖ RMS 0.1998 rad | 末端 0.983 cm | |Δτ| 0.980 N·m | |τ| 15.06 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -197.316 | critic 42.5 | actor +195.243 | buffer 45.5% | 892 env-steps/s
+[STEP  141568/450000 | rollout  2212] 训练 | 回报/步 -6.5200（env 口径 -1.4281）| ‖e_q‖ RMS 0.1795 rad | 末端 0.891 cm | |Δτ| 0.842 N·m | |τ| 7.09 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -182.614 | critic 59.9 | actor +182.384 | buffer 47.2% | 904 env-steps/s
+[STEP  146624/450000 | rollout  2291] 训练 | 回报/步 -12.3805（env 口径 -56.1648）| ‖e_q‖ RMS 0.1383 rad | 末端 1.105 cm | |Δτ| 0.986 N·m | |τ| 13.06 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -198.388 | critic 31 | actor +196.688 | buffer 48.9% | 914 env-steps/s
+[RESULT] residual@150144 关节 RMSE = 0.044838 rad（最差 env/关节 0.248659 rad） | 末端 RMSE = 0.9653 cm（最大 2.8092 cm） | 回报/步 = -8.0247 | |Δτ| = 0.836 N·m | 饱和步占比 = 0.000 | 吞吐 2555 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[BEST] 末端 RMSE 刷新到 0.9653 cm（关节 0.044838 rad）@ 150144 环境步 → /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[EVAL  150144] 关节 RMSE 0.044838 rad | 末端 0.9653 cm（最大 2.8092）| 回报/步 -8.0247 | |Δτ| 0.836 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  151680/450000 | rollout  2370] 训练 | 回报/步 -6.2986（env 口径 -7.5635）| ‖e_q‖ RMS 0.1414 rad | 末端 0.724 cm | |Δτ| 0.877 N·m | |τ| 10.42 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -177.498 | critic 36.9 | actor +175.837 | buffer 50.6% | 859 env-steps/s
+[STEP  156736/450000 | rollout  2449] 训练 | 回报/步 -6.1578（env 口径 -1.3480）| ‖e_q‖ RMS 0.2221 rad | 末端 0.822 cm | |Δτ| 0.840 N·m | |τ| 5.86 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -201.123 | critic 39.2 | actor +198.517 | buffer 52.2% | 870 env-steps/s
+[STEP  161792/450000 | rollout  2528] 训练 | 回报/步 -12.0449（env 口径 -59.2684）| ‖e_q‖ RMS 0.2440 rad | 末端 1.045 cm | |Δτ| 0.990 N·m | |τ| 15.46 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -251.109 | critic 104 | actor +250.857 | buffer 53.9% | 880 env-steps/s
+[STEP  166848/450000 | rollout  2607] 训练 | 回报/步 -5.8569（env 口径 -1.1048）| ‖e_q‖ RMS 0.1003 rad | 末端 0.841 cm | |Δτ| 0.764 N·m | |τ| 6.74 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -197.889 | critic 66.7 | actor +195.629 | buffer 55.6% | 890 env-steps/s
+[STEP  171904/450000 | rollout  2686] 训练 | 回报/步 -12.8463（env 口径 -63.5711）| ‖e_q‖ RMS 0.1590 rad | 末端 1.109 cm | |Δτ| 0.991 N·m | |τ| 14.03 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -233.086 | critic 171 | actor +234.302 | buffer 57.3% | 899 env-steps/s
+[RESULT] residual@175168 关节 RMSE = 0.046228 rad（最差 env/关节 0.250508 rad） | 末端 RMSE = 0.9216 cm（最大 2.6169 cm） | 回报/步 = -7.7113 | |Δτ| = 0.900 N·m | 饱和步占比 = 0.000 | 吞吐 2618 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[BEST] 末端 RMSE 刷新到 0.9216 cm（关节 0.046228 rad）@ 175168 环境步 → /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[EVAL  175168] 关节 RMSE 0.046228 rad | 末端 0.9216 cm（最大 2.6169）| 回报/步 -7.7113 | |Δτ| 0.900 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  176960/450000 | rollout  2765] 训练 | 回报/步 -5.5945（env 口径 -3.6729）| ‖e_q‖ RMS 0.1212 rad | 末端 0.710 cm | |Δτ| 0.845 N·m | |τ| 9.89 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -244.806 | critic 73 | actor +242.909 | buffer 59.0% | 855 env-steps/s
+[STEP  182016/450000 | rollout  2844] 训练 | 回报/步 -5.9462（env 口径 -1.3736）| ‖e_q‖ RMS 0.2370 rad | 末端 0.804 cm | |Δτ| 0.849 N·m | |τ| 5.79 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -216.617 | critic 61.3 | actor +215.973 | buffer 60.7% | 864 env-steps/s
+[STEP  187072/450000 | rollout  2923] 训练 | 回报/步 -10.9923（env 口径 -52.2955）| ‖e_q‖ RMS 0.2044 rad | 末端 0.974 cm | |Δτ| 0.974 N·m | |τ| 15.18 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -261.344 | critic 1.21e+03 | actor +261.673 | buffer 62.4% | 874 env-steps/s
+[STEP  192128/450000 | rollout  3002] 训练 | 回报/步 -6.1015（env 口径 -1.0732）| ‖e_q‖ RMS 0.1190 rad | 末端 0.866 cm | |Δτ| 0.832 N·m | |τ| 6.41 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -242.360 | critic 74.3 | actor +241.496 | buffer 64.0% | 882 env-steps/s
+[STEP  197184/450000 | rollout  3081] 训练 | 回报/步 -12.9400（env 口径 -63.5180）| ‖e_q‖ RMS 0.1697 rad | 末端 1.105 cm | |Δτ| 1.045 N·m | |τ| 14.43 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -252.967 | critic 63 | actor +254.147 | buffer 65.7% | 890 env-steps/s
+[RESULT] residual@200192 关节 RMSE = 0.046804 rad（最差 env/关节 0.240239 rad） | 末端 RMSE = 0.9269 cm（最大 2.6438 cm） | 回报/步 = -7.7182 | |Δτ| = 0.886 N·m | 饱和步占比 = 0.000 | 吞吐 2575 env-steps/s
+[EVAL  200192] 关节 RMSE 0.046804 rad | 末端 0.9269 cm（最大 2.6438）| 回报/步 -7.7182 | |Δτ| 0.886 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  202240/450000 | rollout  3160] 训练 | 回报/步 -4.6846（env 口径 -2.2857）| ‖e_q‖ RMS 0.1293 rad | 末端 0.641 cm | |Δτ| 0.767 N·m | |τ| 9.53 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -244.315 | critic 70.3 | actor +243.602 | buffer 67.4% | 851 env-steps/s
+[STEP  207296/450000 | rollout  3239] 训练 | 回报/步 -5.6559（env 口径 -1.0659）| ‖e_q‖ RMS 0.1775 rad | 末端 0.791 cm | |Δτ| 0.933 N·m | |τ| 5.89 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -298.675 | critic 965 | actor +296.049 | buffer 69.1% | 859 env-steps/s
+[STEP  212352/450000 | rollout  3318] 训练 | 回报/步 -10.2209（env 口径 -53.2787）| ‖e_q‖ RMS 0.1812 rad | 末端 0.904 cm | |Δτ| 1.042 N·m | |τ| 15.21 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -240.853 | critic 128 | actor +238.480 | buffer 70.8% | 867 env-steps/s
+[STEP  217408/450000 | rollout  3397] 训练 | 回报/步 -6.2533（env 口径 -1.1510）| ‖e_q‖ RMS 0.1685 rad | 末端 0.865 cm | |Δτ| 0.853 N·m | |τ| 6.17 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -269.302 | critic 93.5 | actor +267.030 | buffer 72.5% | 874 env-steps/s
+[STEP  222464/450000 | rollout  3476] 训练 | 回报/步 -13.1154（env 口径 -63.7506）| ‖e_q‖ RMS 0.1734 rad | 末端 1.110 cm | |Δτ| 1.052 N·m | |τ| 14.78 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -303.457 | critic 565 | actor +303.935 | buffer 74.2% | 882 env-steps/s
+[RESULT] residual@225216 关节 RMSE = 0.047008 rad（最差 env/关节 0.237949 rad） | 末端 RMSE = 0.8960 cm（最大 2.5424 cm） | 回报/步 = -7.4683 | |Δτ| = 0.906 N·m | 饱和步占比 = 0.000 | 吞吐 2493 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[BEST] 末端 RMSE 刷新到 0.8960 cm（关节 0.047008 rad）@ 225216 环境步 → /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[EVAL  225216] 关节 RMSE 0.047008 rad | 末端 0.8960 cm（最大 2.5424）| 回报/步 -7.4683 | |Δτ| 0.906 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  227520/450000 | rollout  3555] 训练 | 回报/步 -4.3822（env 口径 -1.9281）| ‖e_q‖ RMS 0.1098 rad | 末端 0.609 cm | |Δτ| 0.822 N·m | |τ| 9.27 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -294.959 | critic 106 | actor +294.388 | buffer 75.8% | 846 env-steps/s
+[STEP  232576/450000 | rollout  3634] 训练 | 回报/步 -5.7459（env 口径 -1.0648）| ‖e_q‖ RMS 0.1803 rad | 末端 0.806 cm | |Δτ| 0.987 N·m | |τ| 5.98 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -273.566 | critic 112 | actor +270.623 | buffer 77.5% | 853 env-steps/s
+[STEP  237632/450000 | rollout  3713] 训练 | 回报/步 -9.5549（env 口径 -50.4955）| ‖e_q‖ RMS 0.1771 rad | 末端 0.883 cm | |Δτ| 1.031 N·m | |τ| 14.95 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -320.396 | critic 148 | actor +319.077 | buffer 79.2% | 860 env-steps/s
+[STEP  242688/450000 | rollout  3792] 训练 | 回报/步 -7.2851（env 口径 -1.4932）| ‖e_q‖ RMS 0.2547 rad | 末端 0.946 cm | |Δτ| 0.964 N·m | |τ| 6.05 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -286.562 | critic 126 | actor +285.316 | buffer 80.9% | 866 env-steps/s
+[STEP  247744/450000 | rollout  3871] 训练 | 回报/步 -12.3210（env 口径 -61.6594）| ‖e_q‖ RMS 0.1417 rad | 末端 1.059 cm | |Δτ| 1.022 N·m | |τ| 15.04 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -324.178 | critic 169 | actor +320.044 | buffer 82.6% | 873 env-steps/s
+[RESULT] residual@250240 关节 RMSE = 0.053509 rad（最差 env/关节 0.239344 rad） | 末端 RMSE = 1.0180 cm（最大 3.1613 cm） | 回报/步 = -8.9388 | |Δτ| = 0.993 N·m | 饱和步占比 = 0.000 | 吞吐 2624 env-steps/s
+[EVAL  250240] 关节 RMSE 0.053509 rad | 末端 1.0180 cm（最大 3.1613）| 回报/步 -8.9388 | |Δτ| 0.993 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  252800/450000 | rollout  3950] 训练 | 回报/步 -4.6162（env 口径 -1.7121）| ‖e_q‖ RMS 0.0955 rad | 末端 0.650 cm | |Δτ| 0.879 N·m | |τ| 9.03 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -343.830 | critic 680 | actor +342.082 | buffer 84.3% | 844 env-steps/s
+[STEP  257856/450000 | rollout  4029] 训练 | 回报/步 -6.0090（env 口径 -1.1471）| ‖e_q‖ RMS 0.1965 rad | 末端 0.832 cm | |Δτ| 0.928 N·m | |τ| 6.08 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -320.028 | critic 388 | actor +321.207 | buffer 86.0% | 851 env-steps/s
+[STEP  262912/450000 | rollout  4108] 训练 | 回报/步 -11.2434（env 口径 -58.4014）| ‖e_q‖ RMS 0.1780 rad | 末端 1.020 cm | |Δτ| 1.011 N·m | |τ| 15.53 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -335.917 | critic 377 | actor +335.436 | buffer 87.6% | 857 env-steps/s
+[STEP  267968/450000 | rollout  4187] 训练 | 回报/步 -6.6085（env 口径 -1.0683）| ‖e_q‖ RMS 0.1667 rad | 末端 0.910 cm | |Δτ| 0.902 N·m | |τ| 5.75 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -307.958 | critic 391 | actor +310.615 | buffer 89.3% | 863 env-steps/s
+[STEP  273024/450000 | rollout  4266] 训练 | 回报/步 -13.9939（env 口径 -62.2535）| ‖e_q‖ RMS 0.1592 rad | 末端 1.186 cm | |Δτ| 1.050 N·m | |τ| 15.41 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -357.706 | critic 325 | actor +356.471 | buffer 91.0% | 869 env-steps/s
+[RESULT] residual@275264 关节 RMSE = 0.053345 rad（最差 env/关节 0.251655 rad） | 末端 RMSE = 1.0173 cm（最大 2.9766 cm） | 回报/步 = -8.7666 | |Δτ| = 0.937 N·m | 饱和步占比 = 0.000 | 吞吐 2581 env-steps/s
+[EVAL  275264] 关节 RMSE 0.053345 rad | 末端 1.0173 cm（最大 2.9766）| 回报/步 -8.7666 | |Δτ| 0.937 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  278080/450000 | rollout  4345] 训练 | 回报/步 -6.5241（env 口径 -1.7216）| ‖e_q‖ RMS 0.1128 rad | 末端 0.831 cm | |Δτ| 0.878 N·m | |τ| 8.66 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -346.965 | critic 248 | actor +346.972 | buffer 92.7% | 842 env-steps/s
+[STEP  283136/450000 | rollout  4424] 训练 | 回报/步 -6.2431（env 口径 -1.7312）| ‖e_q‖ RMS 0.3035 rad | 末端 0.799 cm | |Δτ| 1.055 N·m | |τ| 6.18 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -374.804 | critic 337 | actor +371.898 | buffer 94.4% | 848 env-steps/s
+[STEP  288192/450000 | rollout  4503] 训练 | 回报/步 -9.0289（env 口径 -49.6737）| ‖e_q‖ RMS 0.1810 rad | 末端 0.852 cm | |Δτ| 1.087 N·m | |τ| 14.78 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -374.393 | critic 502 | actor +374.084 | buffer 96.1% | 853 env-steps/s
+[STEP  293248/450000 | rollout  4582] 训练 | 回报/步 -6.4428（env 口径 -0.9250）| ‖e_q‖ RMS 0.1304 rad | 末端 0.909 cm | |Δτ| 0.964 N·m | |τ| 5.67 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -392.866 | critic 504 | actor +390.369 | buffer 97.7% | 859 env-steps/s
+[STEP  298304/450000 | rollout  4661] 训练 | 回报/步 -13.8947（env 口径 -57.1603）| ‖e_q‖ RMS 0.2254 rad | 末端 1.154 cm | |Δτ| 1.086 N·m | |τ| 15.26 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -353.810 | critic 213 | actor +353.258 | buffer 99.4% | 864 env-steps/s
+[RESULT] residual@300288 关节 RMSE = 0.050392 rad（最差 env/关节 0.249163 rad） | 末端 RMSE = 0.9408 cm（最大 2.7429 cm） | 回报/步 = -7.9284 | |Δτ| = 0.973 N·m | 饱和步占比 = 0.000 | 吞吐 2567 env-steps/s
+[EVAL  300288] 关节 RMSE 0.050392 rad | 末端 0.9408 cm（最大 2.7429）| 回报/步 -7.9284 | |Δτ| 0.973 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  303360/450000 | rollout  4740] 训练 | 回报/步 -5.2865（env 口径 -1.7048）| ‖e_q‖ RMS 0.1139 rad | 末端 0.737 cm | |Δτ| 0.900 N·m | |τ| 8.53 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -344.958 | critic 239 | actor +344.462 | buffer 100.0% | 839 env-steps/s
+[STEP  308416/450000 | rollout  4819] 训练 | 回报/步 -5.9591（env 口径 -1.2256）| ‖e_q‖ RMS 0.2017 rad | 末端 0.821 cm | |Δτ| 1.028 N·m | |τ| 6.43 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -347.672 | critic 210 | actor +348.939 | buffer 100.0% | 846 env-steps/s
+[STEP  313472/450000 | rollout  4898] 训练 | 回报/步 -9.0375（env 口径 -50.8546）| ‖e_q‖ RMS 0.1839 rad | 末端 0.850 cm | |Δτ| 1.011 N·m | |τ| 14.68 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -358.987 | critic 177 | actor +358.706 | buffer 100.0% | 852 env-steps/s
+[STEP  318528/450000 | rollout  4977] 训练 | 回报/步 -6.9389（env 口径 -1.2012）| ‖e_q‖ RMS 0.2136 rad | 末端 0.908 cm | |Δτ| 0.969 N·m | |τ| 5.63 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -394.544 | critic 223 | actor +394.702 | buffer 100.0% | 857 env-steps/s
+[STEP  323584/450000 | rollout  5056] 训练 | 回报/步 -13.0268（env 口径 -55.9121）| ‖e_q‖ RMS 0.1483 rad | 末端 1.104 cm | |Δτ| 1.061 N·m | |τ| 15.37 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -364.603 | critic 163 | actor +364.083 | buffer 100.0% | 862 env-steps/s
+[RESULT] residual@325312 关节 RMSE = 0.049064 rad（最差 env/关节 0.248646 rad） | 末端 RMSE = 0.9843 cm（最大 2.7291 cm） | 回报/步 = -8.3438 | |Δτ| = 0.963 N·m | 饱和步占比 = 0.000 | 吞吐 2602 env-steps/s
+[EVAL  325312] 关节 RMSE 0.049064 rad | 末端 0.9843 cm（最大 2.7291）| 回报/步 -8.3438 | |Δτ| 0.963 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  328640/450000 | rollout  5135] 训练 | 回报/步 -5.2184（env 口径 -1.6271）| ‖e_q‖ RMS 0.0993 rad | 末端 0.725 cm | |Δτ| 0.902 N·m | |τ| 8.28 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -383.464 | critic 189 | actor +383.224 | buffer 100.0% | 840 env-steps/s
+[STEP  333696/450000 | rollout  5214] 训练 | 回报/步 -6.1403（env 口径 -1.4639）| ‖e_q‖ RMS 0.2169 rad | 末端 0.826 cm | |Δτ| 0.982 N·m | |τ| 6.67 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -408.367 | critic 217 | actor +406.860 | buffer 100.0% | 845 env-steps/s
+[STEP  338752/450000 | rollout  5293] 训练 | 回报/步 -9.3986（env 口径 -44.5420）| ‖e_q‖ RMS 0.1733 rad | 末端 0.879 cm | |Δτ| 0.981 N·m | |τ| 14.15 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -375.258 | critic 176 | actor +375.896 | buffer 100.0% | 850 env-steps/s
+[STEP  343808/450000 | rollout  5372] 训练 | 回报/步 -5.9858（env 口径 -0.9992）| ‖e_q‖ RMS 0.1617 rad | 末端 0.846 cm | |Δτ| 0.973 N·m | |τ| 5.64 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -391.477 | critic 155 | actor +392.665 | buffer 100.0% | 855 env-steps/s
+[STEP  348864/450000 | rollout  5451] 训练 | 回报/步 -12.4086（env 口径 -57.7332）| ‖e_q‖ RMS 0.1645 rad | 末端 1.067 cm | |Δτ| 1.062 N·m | |τ| 15.58 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -417.874 | critic 172 | actor +419.173 | buffer 100.0% | 860 env-steps/s
+[RESULT] residual@350336 关节 RMSE = 0.046055 rad（最差 env/关节 0.246235 rad） | 末端 RMSE = 0.9413 cm（最大 2.6164 cm） | 回报/步 = -7.7947 | |Δτ| = 1.008 N·m | 饱和步占比 = 0.000 | 吞吐 2583 env-steps/s
+[EVAL  350336] 关节 RMSE 0.046055 rad | 末端 0.9413 cm（最大 2.6164）| 回报/步 -7.7947 | |Δτ| 1.008 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  353920/450000 | rollout  5530] 训练 | 回报/步 -5.0048（env 口径 -1.6044）| ‖e_q‖ RMS 0.1071 rad | 末端 0.692 cm | |Δτ| 0.909 N·m | |τ| 8.14 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -403.925 | critic 166 | actor +403.207 | buffer 100.0% | 839 env-steps/s
+[STEP  358976/450000 | rollout  5609] 训练 | 回报/步 -5.6553（env 口径 -1.9516）| ‖e_q‖ RMS 0.2605 rad | 末端 0.736 cm | |Δτ| 1.050 N·m | |τ| 6.96 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -361.137 | critic 127 | actor +360.138 | buffer 100.0% | 843 env-steps/s
+[STEP  364032/450000 | rollout  5688] 训练 | 回报/步 -9.1572（env 口径 -44.5629）| ‖e_q‖ RMS 0.1732 rad | 末端 0.894 cm | |Δτ| 0.992 N·m | |τ| 13.95 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -405.231 | critic 124 | actor +403.748 | buffer 100.0% | 848 env-steps/s
+[STEP  369088/450000 | rollout  5767] 训练 | 回报/步 -6.0858（env 口径 -0.9821）| ‖e_q‖ RMS 0.1489 rad | 末端 0.857 cm | |Δτ| 1.027 N·m | |τ| 5.72 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -431.042 | critic 170 | actor +431.985 | buffer 100.0% | 853 env-steps/s
+[STEP  374144/450000 | rollout  5846] 训练 | 回报/步 -12.2993（env 口径 -59.1372）| ‖e_q‖ RMS 0.1714 rad | 末端 1.058 cm | |Δτ| 1.096 N·m | |τ| 15.68 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -380.335 | critic 183 | actor +381.783 | buffer 100.0% | 857 env-steps/s
+[RESULT] residual@375360 关节 RMSE = 0.046754 rad（最差 env/关节 0.235708 rad） | 末端 RMSE = 0.9107 cm（最大 2.6282 cm） | 回报/步 = -7.5720 | |Δτ| = 1.000 N·m | 饱和步占比 = 0.000 | 吞吐 2590 env-steps/s
+[EVAL  375360] 关节 RMSE 0.046754 rad | 末端 0.9107 cm（最大 2.6282）| 回报/步 -7.5720 | |Δτ| 1.000 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  379200/450000 | rollout  5925] 训练 | 回报/步 -4.6190（env 口径 -1.5781）| ‖e_q‖ RMS 0.1057 rad | 末端 0.644 cm | |Δτ| 0.894 N·m | |τ| 7.99 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -378.677 | critic 151 | actor +380.804 | buffer 100.0% | 839 env-steps/s
+[STEP  384256/450000 | rollout  6004] 训练 | 回报/步 -5.7393（env 口径 -5.2063）| ‖e_q‖ RMS 0.2489 rad | 末端 0.715 cm | |Δτ| 1.062 N·m | |τ| 7.56 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -439.273 | critic 214 | actor +442.154 | buffer 100.0% | 843 env-steps/s
+[STEP  389312/450000 | rollout  6083] 训练 | 回报/步 -8.7037（env 口径 -41.3998）| ‖e_q‖ RMS 0.1627 rad | 末端 0.869 cm | |Δτ| 0.954 N·m | |τ| 13.48 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -405.015 | critic 212 | actor +405.790 | buffer 100.0% | 848 env-steps/s
+[STEP  394368/450000 | rollout  6162] 训练 | 回报/步 -5.9077（env 口径 -0.9601）| ‖e_q‖ RMS 0.1335 rad | 末端 0.821 cm | |Δτ| 1.056 N·m | |τ| 5.87 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -406.828 | critic 237 | actor +409.524 | buffer 100.0% | 852 env-steps/s
+[STEP  399424/450000 | rollout  6241] 训练 | 回报/步 -12.0470（env 口径 -60.9583）| ‖e_q‖ RMS 0.1744 rad | 末端 1.036 cm | |Δτ| 1.086 N·m | |τ| 15.78 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -398.327 | critic 236 | actor +399.621 | buffer 100.0% | 856 env-steps/s
+[RESULT] residual@400384 关节 RMSE = 0.045967 rad（最差 env/关节 0.245473 rad） | 末端 RMSE = 0.8612 cm（最大 2.4579 cm） | 回报/步 = -7.1394 | |Δτ| = 1.001 N·m | 饱和步占比 = 0.000 | 吞吐 2584 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[BEST] 末端 RMSE 刷新到 0.8612 cm（关节 0.045967 rad）@ 400384 环境步 → /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[EVAL  400384] 关节 RMSE 0.045967 rad | 末端 0.8612 cm（最大 2.4579）| 回报/步 -7.1394 | |Δτ| 1.001 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  404480/450000 | rollout  6320] 训练 | 回报/步 -4.8471（env 口径 -1.5666）| ‖e_q‖ RMS 0.1093 rad | 末端 0.683 cm | |Δτ| 0.933 N·m | |τ| 7.83 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -443.035 | critic 181 | actor +447.020 | buffer 100.0% | 839 env-steps/s
+[STEP  409536/450000 | rollout  6399] 训练 | 回报/步 -5.7286（env 口径 -8.5377）| ‖e_q‖ RMS 0.2176 rad | 末端 0.709 cm | |Δτ| 1.080 N·m | |τ| 8.16 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -432.864 | critic 137 | actor +435.562 | buffer 100.0% | 843 env-steps/s
+[STEP  414592/450000 | rollout  6478] 训练 | 回报/步 -8.2820（env 口径 -38.9371）| ‖e_q‖ RMS 0.1925 rad | 末端 0.842 cm | |Δτ| 0.981 N·m | |τ| 12.97 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -448.092 | critic 351 | actor +449.843 | buffer 100.0% | 847 env-steps/s
+[STEP  419648/450000 | rollout  6557] 训练 | 回报/步 -6.0384（env 口径 -1.0868）| ‖e_q‖ RMS 0.1304 rad | 末端 0.825 cm | |Δτ| 1.093 N·m | |τ| 6.06 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -438.559 | critic 111 | actor +440.786 | buffer 100.0% | 851 env-steps/s
+[STEP  424704/450000 | rollout  6636] 训练 | 回报/步 -11.7320（env 口径 -60.7784）| ‖e_q‖ RMS 0.1576 rad | 末端 1.033 cm | |Δτ| 1.100 N·m | |τ| 15.62 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -443.021 | critic 137 | actor +442.345 | buffer 100.0% | 855 env-steps/s
+[RESULT] residual@425408 关节 RMSE = 0.045736 rad（最差 env/关节 0.245545 rad） | 末端 RMSE = 0.8716 cm（最大 2.5436 cm） | 回报/步 = -7.1499 | |Δτ| = 1.014 N·m | 饱和步占比 = 0.000 | 吞吐 2602 env-steps/s
+[EVAL  425408] 关节 RMSE 0.045736 rad | 末端 0.8716 cm（最大 2.5436）| 回报/步 -7.1499 | |Δτ| 1.014 N·m | α 0.02 | obsΔ 0.0e+00
+[STEP  429760/450000 | rollout  6715] 训练 | 回报/步 -4.9167（env 口径 -1.5566）| ‖e_q‖ RMS 0.1138 rad | 末端 0.679 cm | |Δτ| 0.930 N·m | |τ| 7.65 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -441.784 | critic 247 | actor +443.591 | buffer 100.0% | 838 env-steps/s
+[STEP  434816/450000 | rollout  6794] 训练 | 回报/步 -5.5746（env 口径 -12.1938）| ‖e_q‖ RMS 0.2101 rad | 末端 0.674 cm | |Δτ| 1.105 N·m | |τ| 8.75 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -428.864 | critic 152 | actor +433.362 | buffer 100.0% | 842 env-steps/s
+[STEP  439872/450000 | rollout  6873] 训练 | 回报/步 -8.1072（env 口径 -31.2930）| ‖e_q‖ RMS 0.1892 rad | 末端 0.891 cm | |Δτ| 0.949 N·m | |τ| 12.14 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -459.527 | critic 149 | actor +460.041 | buffer 100.0% | 846 env-steps/s
+[STEP  444928/450000 | rollout  6952] 训练 | 回报/步 -6.0847（env 口径 -2.2576）| ‖e_q‖ RMS 0.1131 rad | 末端 0.826 cm | |Δτ| 1.034 N·m | |τ| 6.47 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -446.587 | critic 174 | actor +450.463 | buffer 100.0% | 850 env-steps/s
+[STEP  449984/450000 | rollout  7031] 训练 | 回报/步 -12.4288（env 口径 -59.1132）| ‖e_q‖ RMS 0.1605 rad | 末端 1.097 cm | |Δτ| 1.111 N·m | |τ| 15.31 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -508.874 | critic 166 | actor +511.364 | buffer 100.0% | 854 env-steps/s
+[TRAIN] 结束：450048 环境步 / 13438 次更新 / 527.1 s（854 env-steps/s，26 updates/s）| 回放池 300000/300000 | α = 0.02
+==============================================================================================
+[MAIN] 训练结束后的确定性评估（最终指标）
+[RESULT] residual@450048 关节 RMSE = 0.045955 rad（最差 env/关节 0.245057 rad） | 末端 RMSE = 0.8651 cm（最大 2.5302 cm） | 回报/步 = -7.1230 | |Δτ| = 1.029 N·m | 饱和步占比 = 0.000 | 吞吐 2578 env-steps/s
+[EVAL  450048] 关节 RMSE 0.045955 rad | 末端 0.8651 cm（最大 2.5302）| 回报/步 -7.1230 | |Δτ| 1.029 N·m | α 0.02 | obsΔ 0.0e+00
+[MAIN] 训练后复测开环基线（同一次 DR 采样 ⇒ 应与训练前逐位相同：环境没被训练搞坏）
+--- [pd_dr] PD 基线 + 注入失配 —— ★ 任务书要求的基线追踪测试
+--- 控制器 = pd（增益 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]），动力学 = 注入失配，跑 500 步 × 64 env
+[RESULT] pd_dr     关节 RMSE = 0.060948 rad（最差 env/关节 0.273472 rad） | 末端 RMSE = 2.3016 cm（最大 3.9329 cm） | 回报/步 = -22.7575 | 吞吐 3631 env-steps/s
+--- [pd_ff_dr] PD + 重力前馈 + 注入失配（前馈来源见 --ff，默认标称模型）
+--- 控制器 = pd_ff（增益 = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601]），动力学 = 注入失配，跑 500 步 × 64 env
+[RESULT] pd_ff_dr  关节 RMSE = 0.051866 rad（最差 env/关节 0.273412 rad） | 末端 RMSE = 1.3259 cm（最大 3.0303 cm） | 回报/步 = -22.2425 | 吞吐 2773 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_final.pt
+[OUT] 训练曲线 CSV 已写入 /data/zzh/embodied-arm/docs/results/w13_residual_sac_ee50k_history.csv（18 行 × 28 列）
+[OUT] 验收最好点权重（末端 0.8612 cm / 关节 0.045967 rad @ 400384 环境步）→ /data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt
+[OUT] 训练曲线图已写入 /data/zzh/embodied-arm/docs/figures/w13_residual_sac_ee50k_curves.png
+[OUT] 结果已写入 docs/results/w13_residual_sac_ee50k.json
+[OUT] 显存：torch peak allocated 0.277 GiB | 跑完剩余 7.79 GiB（起始 9.90）
+==============================================================================================
+[SUMMARY] 双层残差控制：开环基线 vs 残差 SAC（同一次 DR 采样、同一套指标代码）
+  pd_dr     joint RMSE = 0.060948 rad  |  末端 RMSE = 2.3016 cm  |  饱和步占比 = 0.000
+  pd_ff_dr  joint RMSE = 0.051866 rad  |  末端 RMSE = 1.3259 cm  |  饱和步占比 = 0.000
+  residual  joint RMSE = 0.045955 rad  |  末端 RMSE = 0.8651 cm  |  |Δτ| = 1.029 N·m  |  饱和步占比 = 0.000
+[VERDICT] 相对 pd_ff_dr 基线：末端 RMSE 1.3259 → 0.8651 cm（降 0.4608 cm，×1.53）；关节 RMSE ×1.13
+[VERDICT] 验收：关节 < 0.0519 rad -> 达标；末端 < 1.0 cm -> 达标；冲刺 < 0.5 cm -> 未达标（首次同时达标 @ 150144 环境步）
+[VERDICT] 环境自检：FK max 残差 4.292e-06 m（通过）| obs 环 vs env.step 最大偏差 0.0 | 与 W12 对账 True | 训练后基线复测 True
+==============================================================================================

@@ -1,0 +1,637 @@
+{
+  "config": {
+    "num_envs": 64,
+    "steps": 300,
+    "dt": 0.01,
+    "gravity": true,
+    "seed": 42,
+    "scenarios": [
+      "pd_dr"
+    ],
+    "num_controlled_joints": 7,
+    "controlled_joints": [
+      "panda_joint1",
+      "panda_joint2",
+      "panda_joint3",
+      "panda_joint4",
+      "panda_joint5",
+      "panda_joint6",
+      "panda_joint7"
+    ],
+    "ee_body": "panda_hand",
+    "eval_skip": 0,
+    "gains_mode": "mweighted",
+    "pd_sign": "literal",
+    "kpd_gains": {
+      "mode": "mweighted",
+      "wn_target_rad_s": 30.0,
+      "zeta": 1.0,
+      "mass_matrix_diag_kgm2_nominal": [
+        0.630957,
+        2.28026,
+        1.281139,
+        0.865781,
+        0.02687,
+        0.034795,
+        0.00289
+      ],
+      "wn_effective_rad_s": [
+        30.0,
+        30.0,
+        30.0,
+        30.0,
+        30.0,
+        30.0,
+        30.0
+      ],
+      "wn_dt": [
+        0.3,
+        0.3,
+        0.3,
+        0.3,
+        0.3,
+        0.3,
+        0.3
+      ],
+      "kp": [
+        567.861,
+        2052.234,
+        1153.025,
+        779.203,
+        24.183,
+        31.316,
+        2.601
+      ],
+      "kd": [
+        37.857,
+        136.816,
+        76.868,
+        51.947,
+        1.612,
+        2.088,
+        0.173
+      ],
+      "gain_is_matrix": true,
+      "multivariable_margin": {
+        "lambda_max_MinvKp_dt2": 0.09000013768672943,
+        "lambda_max_MinvKd_dt": 0.60000079870224,
+        "stable": true
+      }
+    },
+    "kp": [
+      567.861,
+      2052.234,
+      1153.025,
+      779.203,
+      24.183,
+      31.316,
+      2.601
+    ],
+    "kd": [
+      37.857,
+      136.816,
+      76.868,
+      51.947,
+      1.612,
+      2.088,
+      0.173
+    ],
+    "randomization_enabled": true,
+    "payload_mass_range_kg": [
+      0.0,
+      3.0
+    ],
+    "payload_body": "panda_hand",
+    "payload_com_m": [
+      0.0,
+      0.0,
+      0.05
+    ],
+    "payload_mode": "parallel_axis",
+    "link_mass_scale_range": [
+      0.8,
+      1.2
+    ],
+    "joint_damping_range_nms_per_rad": [
+      0.5,
+      2.0
+    ],
+    "joint_friction_range_nm": [
+      0.1,
+      1.0
+    ]
+  },
+  "trajectory": {
+    "formula": "q_d,i(t) = q0,i + sum_h A_i,h * sin(2*pi*f_i,h*t + phi_i,h)",
+    "joint_names": [
+      "panda_joint1",
+      "panda_joint2",
+      "panda_joint3",
+      "panda_joint4",
+      "panda_joint5",
+      "panda_joint6",
+      "panda_joint7"
+    ],
+    "harmonics": 1,
+    "center_q0_rad": [
+      0.0,
+      -0.4,
+      0.0,
+      -1.8,
+      0.0,
+      1.8,
+      0.0
+    ],
+    "amp_rad_sampled": [
+      0.326454,
+      0.333001,
+      0.226573,
+      0.341861,
+      0.22809,
+      0.270179,
+      0.201315
+    ],
+    "amp_rad_clamped": [
+      0.326454,
+      0.333001,
+      0.226573,
+      0.341861,
+      0.22809,
+      0.270179,
+      0.201315
+    ],
+    "freq_hz": [
+      0.517457,
+      0.576309,
+      0.253274,
+      0.573839,
+      0.437432,
+      0.547762,
+      0.427086
+    ],
+    "phase_rad": [
+      4.656431,
+      2.698028,
+      5.563402,
+      3.605948,
+      1.674972,
+      3.942379,
+      1.694146
+    ],
+    "amp_clamp_ratio": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "trajectory_limits": {
+    "max_abs_qd_rad": 2.1418604850769043,
+    "max_abs_qd_dot_rad_s": 1.2325419187545776,
+    "max_abs_qd_ddot_rad_s2": 4.444156169891357,
+    "min_margin_to_joint_limit_rad": 0.9299395084381104,
+    "inside_limits": true
+  },
+  "observation": {
+    "frame_layout": {
+      "e_q": [
+        0,
+        7
+      ],
+      "e_dot_q": [
+        7,
+        14
+      ],
+      "q_d": [
+        14,
+        21
+      ],
+      "qd_d": [
+        21,
+        28
+      ],
+      "tau_prev": [
+        28,
+        35
+      ]
+    },
+    "frame_dim": 35,
+    "history": 3,
+    "history_order": "oldest -> newest（拼接后最后一帧是当前帧）",
+    "warmup": "repeat",
+    "obs_dim": 105,
+    "formula": "s_t = [e_q, e_dot_q, q_d, qd_d, tau_prev]"
+  },
+  "reward": {
+    "weights": {
+      "pos": 10.0,
+      "vel": 0.1,
+      "tau": 0.001,
+      "jerk": 0.01
+    },
+    "formula": "r = -wp||e_q||^2 - wv||e_dot_q||^2 - wtau||tau||^2 - wj||tau_t - tau_{t-1}||^2",
+    "note": "落盘 terms 是各项被减掉的量值（正数），reward = -sum(terms)"
+  },
+  "fk": {
+    "chain": {
+      "source": "/data/zzh/IsaacLab/source/isaaclab/isaaclab/controllers/config/data/lula_franka_gen.urdf",
+      "ee_body": "panda_hand",
+      "chain_joint_names": [
+        "panda_joint1",
+        "panda_joint2",
+        "panda_joint3",
+        "panda_joint4",
+        "panda_joint5",
+        "panda_joint6",
+        "panda_joint7",
+        "panda_joint8",
+        "panda_hand_joint"
+      ],
+      "chain_link_names": [
+        "panda_link1",
+        "panda_link2",
+        "panda_link3",
+        "panda_link4",
+        "panda_link5",
+        "panda_link6",
+        "panda_link7",
+        "panda_link8",
+        "panda_hand"
+      ],
+      "num_steps": 9
+    },
+    "preflight": {
+      "source": "/data/zzh/IsaacLab/source/isaaclab/isaaclab/controllers/config/data/lula_franka_gen.urdf",
+      "max_err_m": 1.3696104588234448e-06,
+      "worst_link": "panda_link5",
+      "per_link_max_err_m": {
+        "panda_link1": 1.33e-07,
+        "panda_link2": 2.73e-07,
+        "panda_link3": 9.85e-07,
+        "panda_link4": 9.9e-07,
+        "panda_link5": 1.37e-06,
+        "panda_link6": 1.37e-06,
+        "panda_link7": 1.37e-06,
+        "panda_hand": 1.37e-06
+      }
+    },
+    "preflight_ok": true
+  },
+  "gravity_model": {
+    "ff_source": "nominal",
+    "G_nominal_nm": [
+      -0.0,
+      -13.7871,
+      -0.4327,
+      19.6535,
+      1.1009,
+      1.9663,
+      -0.0145
+    ],
+    "G_physx_nm": [
+      0.0,
+      -13.987,
+      -0.4327,
+      19.8733,
+      1.1009,
+      2.0318,
+      -0.0145
+    ],
+    "max_abs_diff_nm": 0.21980667114257812,
+    "max_rel_diff": 0.011060393460622266,
+    "validated": true
+  },
+  "dr": {
+    "applied": true,
+    "sampled": {
+      "payload_mass_kg": {
+        "min": 0.008782446384429932,
+        "mean": 1.4985475540161133,
+        "max": 2.9567651748657227,
+        "std": 0.9472925066947937
+      },
+      "link_mass_scale": {
+        "min": 0.8009382486343384,
+        "mean": 0.9919894933700562,
+        "max": 1.1999218463897705,
+        "std": 0.11666075140237808
+      },
+      "joint_damping_nms_per_rad": {
+        "min": 0.5063157081604004,
+        "mean": 1.2532117366790771,
+        "max": 1.9976855516433716,
+        "std": 0.4294000566005707
+      },
+      "joint_friction_static_nm": {
+        "min": 0.10345055907964706,
+        "mean": 0.5538947582244873,
+        "max": 0.9928509593009949,
+        "std": 0.2479376494884491
+      }
+    },
+    "readback": {
+      "hand_mass_kg": {
+        "min": 0.6142865419387817,
+        "mean": 2.173035144805908,
+        "max": 3.755971670150757,
+        "std": 0.964354395866394
+      },
+      "hand_inertia_min_eig": {
+        "min": 0.0004066584224347025,
+        "mean": 0.0007193397032096982,
+        "max": 0.0009534913115203381,
+        "std": 0.0001359303278150037
+      },
+      "hand_com_shift_m": {
+        "min": 0.00037267967127263546,
+        "mean": 0.015644770115613937,
+        "max": 0.021432606503367424,
+        "std": 0.006000914610922337
+      },
+      "joint_damping_nms_per_rad": {
+        "min": 0.5063157081604004,
+        "mean": 1.2532117366790771,
+        "max": 1.9976855516433716,
+        "std": 0.4294000566005707
+      },
+      "joint_friction_static_nm": {
+        "min": 0.10345055907964706,
+        "mean": 0.5538947582244873,
+        "max": 0.9928509593009949,
+        "std": 0.2479376494884491
+      },
+      "joint_friction_dynamic_nm": {
+        "min": 0.05172527953982353,
+        "mean": 0.27694737911224365,
+        "max": 0.49642547965049744,
+        "std": 0.12396882474422455
+      },
+      "hand_mass_nominal_kg": 0.6804429888725281
+    },
+    "com_write_path": "set_coms_index",
+    "mass_matrix_diag_kgm2_dr": [
+      0.94502,
+      2.77797,
+      1.75173,
+      1.2495,
+      0.05315,
+      0.08307,
+      0.00287
+    ],
+    "mass_matrix_diag_ratio_dr_over_nominal": [
+      1.498,
+      1.218,
+      1.367,
+      1.443,
+      1.978,
+      2.387,
+      0.991
+    ]
+  },
+  "scenarios": {
+    "pd_dr": {
+      "tag": "pd_dr",
+      "num_envs": 64,
+      "steps_counted": 300,
+      "eval_skip": 0,
+      "joint_rmse_rad": {
+        "mean_over_envs": 1.802354335784912,
+        "max_over_envs": 2.555640935897827,
+        "worst_env_joint": 5.376226425170898,
+        "per_joint_mean_over_envs": [
+          2.543321132659912,
+          1.9312357902526855,
+          2.5037872791290283,
+          1.2075800895690918,
+          1.2485417127609253,
+          1.1361083984375,
+          2.0459060668945312
+        ],
+        "per_joint_max_over_envs": [
+          2.555640935897827,
+          1.9335449934005737,
+          2.51057767868042,
+          1.2244454622268677,
+          2.0442497730255127,
+          1.440710186958313,
+          2.5027246475219727
+        ],
+        "joint_names": [
+          "panda_joint1",
+          "panda_joint2",
+          "panda_joint3",
+          "panda_joint4",
+          "panda_joint5",
+          "panda_joint6",
+          "panda_joint7"
+        ]
+      },
+      "joint_rmse_per_env_rad": {
+        "mean_over_envs": 5.043155670166016,
+        "max_over_envs": 5.376226425170898,
+        "min_over_envs": 4.822425365447998
+      },
+      "joint_mae_rad": {
+        "per_joint_mean_over_envs": [
+          2.3747406005859375,
+          1.8329575061798096,
+          2.309753894805908,
+          1.1288740634918213,
+          1.057132601737976,
+          1.068498134613037,
+          1.9114429950714111
+        ],
+        "per_joint_max_over_envs": [
+          2.3923988342285156,
+          1.8372844457626343,
+          2.318979501724243,
+          1.14914071559906,
+          1.6974711418151855,
+          1.3615148067474365,
+          2.331794023513794
+        ]
+      },
+      "joint_rmse_velocity_rad_s": {
+        "per_joint_mean_over_envs": [
+          1.9433742761611938,
+          1.5090599060058594,
+          1.5973994731903076,
+          1.2037062644958496,
+          1.5173020362854004,
+          1.23162043094635,
+          1.5731128454208374
+        ],
+        "per_joint_max_over_envs": [
+          1.9743789434432983,
+          1.5163085460662842,
+          1.6150325536727905,
+          1.2897659540176392,
+          2.0397040843963623,
+          1.4218987226486206,
+          1.7864046096801758
+        ]
+      },
+      "cartesian_error_cm": {
+        "rmse_mean_over_envs": 57.474918365478516,
+        "rmse_max_over_envs": 61.19469451904297,
+        "mae_mean_over_envs": 55.44024658203125,
+        "max_over_envs_and_steps": 80.83935546875,
+        "per_env_rmse_cm": [
+          60.424757,
+          54.192638,
+          60.287356,
+          59.253496,
+          54.856855,
+          59.223664,
+          53.439879,
+          59.315598,
+          60.373658,
+          55.219996,
+          60.707659,
+          60.330814,
+          60.537761,
+          55.448002,
+          52.714384,
+          53.207988,
+          53.177685,
+          59.402788,
+          58.472621,
+          60.477757,
+          53.303039,
+          60.210657,
+          59.442109,
+          55.061769,
+          55.227107,
+          58.745718,
+          60.015905,
+          55.067366,
+          54.918885,
+          60.316968,
+          60.287154,
+          60.452837,
+          54.221553,
+          58.946896,
+          60.159665,
+          60.560668,
+          59.465677,
+          58.106774,
+          58.372211,
+          60.930258,
+          58.723831,
+          52.652103,
+          61.194694,
+          58.934098,
+          52.499652,
+          60.167187,
+          59.306538,
+          53.950071,
+          52.603251,
+          56.593406,
+          61.000484,
+          58.708483,
+          57.364202,
+          60.334992,
+          52.490354,
+          60.407746,
+          52.620578,
+          53.554535,
+          56.914133,
+          53.940994,
+          53.429633,
+          60.248154,
+          60.460734,
+          55.416298
+        ]
+      },
+      "reward": {
+        "mean_return_per_env": -86078.34375,
+        "mean_per_step_per_env": -286.9278259277344,
+        "terms_per_step_mean": {
+          "pos": 254.664794921875,
+          "vel": 1.6507906913757324,
+          "tau": 30.296192169189453,
+          "jerk": 0.31601470708847046
+        }
+      },
+      "controller": {
+        "mode": "pd",
+        "sign": "literal",
+        "ff_source": "nominal",
+        "sat_step_frac_any_joint": 0.99,
+        "sat_entry_frac": 0.9660565476190476,
+        "sat_frac_per_joint": [
+          0.9799,
+          0.99,
+          0.982,
+          0.9869,
+          0.9784,
+          0.9866,
+          0.8586
+        ],
+        "mean_abs_tau_per_joint": [
+          85.655,
+          86.362,
+          85.818,
+          86.272,
+          11.824,
+          11.881,
+          11.067
+        ]
+      },
+      "fk": {
+        "enabled": true,
+        "source": "/data/zzh/IsaacLab/source/isaaclab/isaaclab/controllers/config/data/lula_franka_gen.urdf",
+        "max_err_m": 5.170166332391091e-06,
+        "tolerance_m": 0.0001,
+        "valid": true,
+        "last_per_link_max_err_m": {
+          "panda_link1": 9.91e-07,
+          "panda_link2": 1.086e-06,
+          "panda_link3": 2.24e-06,
+          "panda_link4": 3.114e-06,
+          "panda_link5": 3.063e-06,
+          "panda_link6": 3.074e-06,
+          "panda_link7": 2.9e-06,
+          "panda_hand": 3.114e-06
+        },
+        "worst_link": "panda_link4"
+      },
+      "wall_time_s": 5.718,
+      "env_steps_per_s": 3358.1,
+      "trace": [
+        {
+          "t_s": 0.99,
+          "joint_rms_rad": 5.337432861328125,
+          "ee_cm": 68.6457290649414,
+          "reward_mean": -317.52166748046875
+        },
+        {
+          "t_s": 1.99,
+          "joint_rms_rad": 5.594821929931641,
+          "ee_cm": 45.03533935546875,
+          "reward_mean": -345.61224365234375
+        },
+        {
+          "t_s": 2.99,
+          "joint_rms_rad": 5.932436943054199,
+          "ee_cm": 64.95027160644531,
+          "reward_mean": -383.82708740234375
+        }
+      ]
+    }
+  },
+  "verdict": {
+    "scenarios": [
+      "pd_dr"
+    ],
+    "fk_valid": true
+  },
+  "gpu": {
+    "peak_allocated_gib": 0.0243,
+    "free_gib_after": 8.027,
+    "free_gib_start": 10.134
+  }
+}

@@ -1,5 +1,6 @@
 # ---- 运行输出（全部可重新生成，不提交）----
-# logs/  : TensorBoard 事件 + 训练文本日志 + checkpoint
+# logs/  : TensorBoard 事件 + 训练文本日志 + checkpoint + 未删减的原始控制台日志
+#          （logs/raw_console_logs/ 是 docs/results/*.log 瘦身前的那一份，仅本地留存）
 # runs/ curves/ : 实验与导图时的临时输出目录
 logs/
 runs/
@@ -19,6 +20,11 @@ __pycache__/
 *.egg-info/
 .ipynb_checkpoints/
 .pytest_cache/
+nohup.out
 
 # ---- 编辑器 / 系统 ----
+*~
+*.bak
+*.orig
+*.swp
 .DS_Store
