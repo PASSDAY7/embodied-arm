@@ -2943,3 +2943,323 @@ ablation,history:H=5,history,{'history': 5},residual_sac[H=5],60,0.874581,0.1085
 ablation,history:H=5,history,{'history': 5},residual_sac[H=5],61,1.49829,0.134384
 ablation,history:H=5,history,{'history': 5},residual_sac[H=5],62,1.345692,0.192727
 ablation,history:H=5,history,{'history': 5},residual_sac[H=5],63,0.781405,0.175312
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],0,1.440712,0.180861
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],1,0.932992,0.160443
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],2,1.683282,0.213697
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],3,1.513682,0.204845
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],4,0.921633,0.171669
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],5,1.524432,0.193241
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],6,1.187716,0.242011
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],7,1.56279,0.173923
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],8,1.742778,0.198126
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],9,0.737613,0.170522
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],10,1.859671,0.213794
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],11,1.935212,0.213794
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],12,1.634245,0.211989
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],13,0.812943,0.16304
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],14,1.211228,0.187674
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],15,1.081931,0.186601
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],16,1.284069,0.187135
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],17,1.712194,0.200778
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],18,1.456821,0.188983
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],19,1.839664,0.202621
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],20,1.164021,0.17476
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],21,1.352764,0.19546
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],22,1.582228,0.206749
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],23,0.849142,0.160609
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],24,0.799514,0.171334
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],25,0.766996,0.166176
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],26,1.634572,0.193427
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],27,0.630821,0.154871
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],28,0.812782,0.160279
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],29,1.557963,0.203813
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],30,1.748123,0.205839
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],31,1.891045,0.205158
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],32,0.694843,0.15936
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],33,0.879917,0.181563
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],34,1.675733,0.190122
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],35,2.053485,0.222252
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],36,1.785945,0.200425
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],37,1.385791,0.173498
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],38,1.600191,0.202762
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],39,1.967752,0.218136
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],40,0.795134,0.166437
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],41,0.953868,0.17395
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],42,1.977009,0.215951
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],43,0.961954,0.19667
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],44,0.965603,0.164632
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],45,1.78857,0.203403
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],46,1.562903,0.195362
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],47,1.451342,0.185024
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],48,1.042947,0.165788
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],49,1.356991,0.17688
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],50,1.972348,0.214149
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],51,0.848246,0.168727
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],52,1.383934,0.187155
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],53,1.729878,0.196172
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],54,0.846767,0.173503
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],55,2.000785,0.208915
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],56,0.972013,0.189275
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],57,1.128549,0.171347
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],58,1.16469,0.17657
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],59,0.899108,0.161378
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],60,0.832498,0.15663
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],61,1.590699,0.19062
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],62,1.401977,0.197617
+ablation,res_limit:res=0.5Nm,res_limit,{'res_limit': 0.5},residual_sac[res=0.5Nm],63,0.865081,0.171542
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],0,0.925356,0.189382
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],1,0.527639,0.140973
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],2,1.076208,0.172754
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],3,0.997746,0.155271
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],4,0.503848,0.126564
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],5,0.987275,0.188998
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],6,0.720649,0.245473
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],7,1.036655,0.197601
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],8,1.201339,0.184981
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],9,0.487177,0.181731
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],10,1.282427,0.182668
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],11,1.34151,0.186796
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],12,1.079859,0.187592
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],13,0.494764,0.186227
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],14,0.731156,0.161233
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],15,0.6513,0.176435
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],16,0.828548,0.161537
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],17,1.184679,0.186983
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],18,0.965352,0.171083
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],19,1.291509,0.194745
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],20,0.659716,0.155117
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],21,0.829031,0.181766
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],22,1.063435,0.181101
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],23,0.492405,0.124434
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],24,0.456958,0.145052
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],25,0.472986,0.186842
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],26,1.053816,0.157175
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],27,0.472547,0.194186
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],28,0.496407,0.183771
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],29,0.944066,0.179612
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],30,1.214042,0.182019
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],31,1.314983,0.186212
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],32,0.433306,0.183764
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],33,0.477431,0.1869
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],34,1.028001,0.158471
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],35,1.502874,0.189392
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],36,1.222896,0.162491
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],37,0.904256,0.203791
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],38,1.073082,0.155542
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],39,1.399575,0.183808
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],40,0.460626,0.187583
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],41,0.55238,0.18244
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],42,1.413572,0.18838
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],43,0.497959,0.192001
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],44,0.601867,0.196533
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],45,1.2238,0.164209
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],46,0.946379,0.187559
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],47,0.947791,0.187339
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],48,0.596732,0.143275
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],49,0.868313,0.175824
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],50,1.411808,0.186186
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],51,0.471075,0.191355
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],52,0.896328,0.162621
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],53,1.154698,0.159224
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],54,0.545638,0.143191
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],55,1.454827,0.188616
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],56,0.519767,0.189555
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],57,0.646003,0.183155
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],58,0.65738,0.186945
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],59,0.502795,0.141747
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],60,0.521096,0.133255
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],61,1.047917,0.152391
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],62,0.842254,0.176899
+ablation,res_limit:res=1.5Nm(Ours),res_limit,ours,residual_sac[res=1.5Nm(Ours)],63,0.510712,0.184429
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],0,1.672567,0.225061
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],1,1.743375,0.223728
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],2,1.574324,0.181608
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],3,1.657164,0.193171
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],4,1.883912,0.224454
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],5,1.538263,0.20536
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],6,1.621124,0.285511
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],7,1.731548,0.197691
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],8,1.825781,0.215121
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],9,1.917653,0.262629
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],10,1.983473,0.231807
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],11,1.922306,0.216566
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],12,1.623756,0.223382
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],13,1.802805,0.249445
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],14,1.425047,0.211784
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],15,1.454392,0.231983
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],16,1.453662,0.197419
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],17,1.87843,0.202715
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],18,1.603582,0.202303
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],19,1.983637,0.204586
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],20,1.470559,0.202549
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],21,1.564638,0.234271
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],22,1.6416,0.219674
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],23,1.753879,0.23347
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],24,1.811974,0.23743
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],25,1.632218,0.244193
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],26,1.89005,0.180956
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],27,1.837352,0.252441
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],28,1.635821,0.24623
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],29,1.623194,0.197504
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],30,1.631822,0.183137
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],31,2.084846,0.229848
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],32,1.626953,0.240763
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],33,1.617313,0.2371
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],34,1.693573,0.173206
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],35,1.978088,0.209861
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],36,1.933721,0.196258
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],37,1.680496,0.215779
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],38,1.741732,0.185705
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],39,1.975713,0.204716
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],40,1.486675,0.229664
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],41,1.485372,0.245893
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],42,2.066091,0.238163
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],43,1.623956,0.24943
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],44,1.494952,0.237941
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],45,1.935355,0.179878
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],46,1.548071,0.192548
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],47,1.500732,0.218145
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],48,1.608086,0.210098
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],49,1.522866,0.205282
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],50,2.086291,0.218114
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],51,1.674218,0.236461
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],52,1.485943,0.191638
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],53,1.919421,0.194311
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],54,1.66589,0.231306
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],55,2.209115,0.230158
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],56,1.57652,0.230798
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],57,1.435512,0.205672
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],58,1.293812,0.215158
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],59,1.609436,0.218557
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],60,1.872456,0.224758
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],61,1.666488,0.186744
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],62,1.419544,0.215557
+ablation,res_limit:res=5.0Nm,res_limit,{'res_limit': 5.0},residual_sac[res=5.0Nm],63,1.749483,0.252272
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],0,1.258279,0.163723
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],1,0.876051,0.151591
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],2,1.528517,0.194
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],3,1.402587,0.192364
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],4,0.852143,0.172805
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],5,1.356901,0.176236
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],6,0.998786,0.249579
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],7,1.456145,0.175555
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],8,1.555997,0.184542
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],9,0.799724,0.170046
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],10,1.665457,0.194099
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],11,1.688198,0.187323
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],12,1.407344,0.196163
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],13,0.868509,0.166792
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],14,1.092255,0.15397
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],15,0.994785,0.174027
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],16,1.218341,0.176984
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],17,1.531148,0.175886
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],18,1.327049,0.170122
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],19,1.698363,0.181411
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],20,1.02581,0.156904
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],21,1.130701,0.184821
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],22,1.390807,0.186935
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],23,0.823628,0.138374
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],24,0.740653,0.168301
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],25,0.743639,0.165848
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],26,1.52381,0.182672
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],27,0.750073,0.163081
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],28,0.82481,0.154579
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],29,1.316919,0.16899
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],30,1.633661,0.19846
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],31,1.663456,0.187864
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],32,0.784126,0.173549
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],33,0.922926,0.174444
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],34,1.460824,0.173286
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],35,1.804144,0.190164
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],36,1.613566,0.181417
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],37,1.230776,0.162618
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],38,1.460646,0.191481
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],39,1.809251,0.184206
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],40,0.809812,0.16814
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],41,0.828522,0.165356
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],42,1.698634,0.193866
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],43,0.904893,0.19333
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],44,0.887599,0.159498
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],45,1.67137,0.196431
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],46,1.374774,0.174399
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],47,1.339836,0.180089
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],48,0.95085,0.14723
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],49,1.168647,0.1665
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],50,1.774123,0.187147
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],51,0.786634,0.172746
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],52,1.27403,0.174147
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],53,1.525637,0.178097
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],54,0.914674,0.150307
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],55,1.788129,0.192231
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],56,0.880516,0.178473
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],57,0.985185,0.15461
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],58,1.085883,0.175113
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],59,0.859822,0.141574
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],60,0.811166,0.156853
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],61,1.426457,0.164028
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],62,1.234948,0.188803
+ablation,jerk:w_j=0,jerk,{'wj': 0.0},residual_sac[w_j=0],63,0.863494,0.175324
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],0,0.925358,0.189382
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],1,0.527637,0.140973
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],2,1.07621,0.172754
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],3,0.997749,0.155272
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],4,0.503849,0.126564
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],5,0.987276,0.188998
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],6,0.720645,0.245473
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],7,1.036657,0.197601
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],8,1.201344,0.184981
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],9,0.487181,0.181731
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],10,1.282427,0.182668
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],11,1.341518,0.186797
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],12,1.07986,0.187592
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],13,0.494763,0.186227
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],14,0.731153,0.161233
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],15,0.651304,0.176435
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],16,0.828548,0.161538
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],17,1.184677,0.186984
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],18,0.965352,0.171084
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],19,1.291506,0.194745
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],20,0.659716,0.155118
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],21,0.82903,0.181766
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],22,1.06344,0.181101
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],23,0.492405,0.124434
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],24,0.456957,0.145052
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],25,0.472987,0.186842
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],26,1.053807,0.157175
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],27,0.472546,0.194186
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],28,0.496405,0.183772
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],29,0.944069,0.179612
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],30,1.214042,0.182019
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],31,1.314982,0.186212
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],32,0.433315,0.183764
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],33,0.477431,0.1869
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],34,1.028004,0.158471
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],35,1.502874,0.189392
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],36,1.222891,0.162491
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],37,0.904253,0.203791
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],38,1.073295,0.155554
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],39,1.399577,0.183809
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],40,0.460624,0.187584
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],41,0.552378,0.18244
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],42,1.413573,0.18838
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],43,0.497957,0.192001
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],44,0.601867,0.196533
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],45,1.223805,0.164209
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],46,0.94638,0.187559
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],47,0.94779,0.187339
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],48,0.596732,0.143275
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],49,0.868315,0.175824
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],50,1.411795,0.186186
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],51,0.471073,0.191355
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],52,0.896326,0.162621
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],53,1.154698,0.159225
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],54,0.545636,0.143191
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],55,1.454831,0.188616
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],56,0.519768,0.189556
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],57,0.646003,0.183155
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],58,0.657381,0.186945
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],59,0.502797,0.141747
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],60,0.52111,0.133255
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],61,1.047913,0.152391
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],62,0.842255,0.176899
+ablation,jerk:w_j=0.01(Ours),jerk,ours,residual_sac[w_j=0.01(Ours)],63,0.510707,0.184429

@@ -327,7 +327,7 @@ def fig3_stress(rows: list[dict], figures_dir: str, formats: list[str], dpi: int
     print(f"[FIG3] 画了 {len(axes_specs)} 条轴：" + ", ".join(a for a, _ in axes_specs))
     return _save(fig, figures_dir, "fig3_stress_sensitivity", formats, dpi)
 # ---------------------------------------------------------------- LaTeX 表格
-def _tex_header(caption: str, label: str) -> list[str]:
+def _tex_header(caption: str, label: str, first_col: str = "Controller") -> list[str]:
     """统一的 booktabs 表头（列 = 论文要求的六项指标）。"""
     return [
         "  \\centering",
@@ -335,7 +335,7 @@ def _tex_header(caption: str, label: str) -> list[str]:
         f"  \\label{{{label}}}",
         "  \\begin{tabular}{lrrrrrr}",
         "    \\toprule",
-        "    Controller & $\\mathrm{RMSE}_q$ [rad] & $\\mathrm{RMSE}_{ee}$ [cm] & $e_{\\max}$ [cm] & "
+        f"    {first_col} & " + "$\\mathrm{RMSE}_q$ [rad] & $\\mathrm{RMSE}_{ee}$ [cm] & $e_{\\max}$ [cm] & "
         "$\\overline{\\|\\tau\\|_2}$ [N$\\cdot$m] & Jerk [N$^2\\cdot$m$^2$] & Sat. ratio \\\\",
         "    \\midrule",
     ]
@@ -414,17 +414,16 @@ def tex_table2(rows: list[dict]) -> str:
         "% " + "=" * 76,
         "\\begin{table*}[t]",
     ]
-    caption = ("Ablation study. Every variant is trained with the identical budget, reward and "
-               "domain-randomisation distribution, and evaluated with the same protocol as "
+    caption = ("Ablation study. Every variant is trained with the identical budget, the identical reward "
+               "and the same domain-randomisation distribution, and evaluated with the same protocol as "
                "Table~\\ref{tab:baseline}. $H$: number of stacked observation frames; "
-               "$|\\Delta\\tau|$: residual torque limit; $w_j$: jerk penalty weight.")
-    lines += _tex_header(caption, "tab:ablation")
+               "$|\\Delta\\tau|$: residual torque limit; $w_j$: jerk penalty weight. "
+               "Variants marked (Ours) reuse the very same weights as the proposed controller in "
+               "Table~\\ref{tab:baseline}.")
+    lines += _tex_header(caption, "tab:ablation", first_col="Variant")
     for d in dims:
         lines.append(f"    \\multicolumn{{7}}{{l}}{{\\textit{{{d}}}}} \\\\")
-        for name in controller_order(pick(rows, stage="ablation")):
-            row = next((r for r in abl if r["controller"] == name and str(r.get("sweep")) == d), None)
-            if row is None:
-                continue
+        for row in [r for r in abl if str(r.get("sweep")) == d]:      # 保持 CSV 里的定义顺序
             variant = str(row.get("scenario", "")).split(":", 1)[-1]
             lines.append(_tex_row(variant, row, bold=variant.endswith("(Ours)")))
     lines += ["    \\bottomrule", "  \\end{tabular}", "\\end{table*}", ""]

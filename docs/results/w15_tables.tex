@@ -29,16 +29,23 @@
 % ============================================================================
 \begin{table*}[t]
   \centering
-  \caption{Ablation study. Every variant is trained with the identical budget, reward and domain-randomisation distribution, and evaluated with the same protocol as Table~\ref{tab:baseline}. $H$: number of stacked observation frames; $|\Delta\tau|$: residual torque limit; $w_j$: jerk penalty weight.}
+  \caption{Ablation study. Every variant is trained with the identical budget, the identical reward and the same domain-randomisation distribution, and evaluated with the same protocol as Table~\ref{tab:baseline}. $H$: number of stacked observation frames; $|\Delta\tau|$: residual torque limit; $w_j$: jerk penalty weight. Variants marked (Ours) reuse the very same weights as the proposed controller in Table~\ref{tab:baseline}.}
   \label{tab:ablation}
   \begin{tabular}{lrrrrrr}
     \toprule
-    Controller & $\mathrm{RMSE}_q$ [rad] & $\mathrm{RMSE}_{ee}$ [cm] & $e_{\max}$ [cm] & $\overline{\|\tau\|_2}$ [N$\cdot$m] & Jerk [N$^2\cdot$m$^2$] & Sat. ratio \\
+    Variant & $\mathrm{RMSE}_q$ [rad] & $\mathrm{RMSE}_{ee}$ [cm] & $e_{\max}$ [cm] & $\overline{\|\tau\|_2}$ [N$\cdot$m] & Jerk [N$^2\cdot$m$^2$] & Sat. ratio \\
     \midrule
     \multicolumn{7}{l}{\textit{history}} \\
     H=1 & 0.044895 & 1.1313 & 3.314 & 36.424 & 310.025 & 0.00\% \\
     \textbf{H=3(Ours)} & \textbf{0.045967} & \textbf{0.8612} & \textbf{2.458} & \textbf{39.842} & \textbf{2182.768} & \textbf{0.00\%} \\
     H=5 & 0.048383 & 1.2859 & 2.910 & 36.317 & 305.328 & 0.00\% \\
+    \multicolumn{7}{l}{\textit{res_limit}} \\
+    res=0.5Nm & 0.049723 & 1.3344 & 2.899 & 37.998 & 1284.140 & 0.00\% \\
+    \textbf{res=1.5Nm(Ours)} & \textbf{0.045967} & \textbf{0.8612} & \textbf{2.458} & \textbf{39.842} & \textbf{2182.768} & \textbf{0.00\%} \\
+    res=5.0Nm & 0.069815 & 1.7040 & 4.069 & 38.040 & 917.675 & 0.00\% \\
+    \multicolumn{7}{l}{\textit{jerk}} \\
+    w_j=0 & 0.048370 & 1.2199 & 2.671 & 36.512 & 417.590 & 0.00\% \\
+    \textbf{w_j=0.01(Ours)} & \textbf{0.045967} & \textbf{0.8612} & \textbf{2.458} & \textbf{39.842} & \textbf{2182.972} & \textbf{0.00\%} \\
     \bottomrule
   \end{tabular}
 \end{table*}
