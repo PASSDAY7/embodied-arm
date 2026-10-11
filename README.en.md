@@ -43,7 +43,9 @@ embodied-arm/
 │   ├── w10_arm_torque_control.py  w10_plot_scale.py
 │   ├── w11_dynamics_randomization.py
 │   ├── w12_trajectory_tracking_env.py
-│   └── w13_residual_sac_train.py  # ★ self-contained residual-SAC trainer (108 CLI flags)
+│   ├── w13_residual_sac_train.py  # ★ self-contained residual-SAC trainer (108 CLI flags)
+│   ├── w15_paper_benchmarks.py    # ★ W15 paper experiment matrix: 4-controller baseline + stress + ablation
+│   └── export_paper_figures.py    # W16 vector figures (Fig 1-3) + LaTeX tables (Table 1/2)
 ├── tests/          # plain-stdlib unit tests (148 checks, no pytest needed)
 ├── docs/           # reports/ figures/ notes/ results/ + 零基础读本.md
 ├── w2_pytorch_basics/   data/ (gitignored)   logs/ (gitignored)
@@ -89,7 +91,34 @@ bash experiments/isaaclab_env.sh experiments/w13_residual_sac_train.py \
     --load_policy logs/w13_residual_sac_ee50k/policy_best_ee.pt --run_name w13_best_ee_check
 ```
 
-## Weekly progress (W2 → W14)
+### 3.4 Paper experiment matrix (W15/W16)
+
+```bash
+# (1) Table 1: four controllers (PD / PD+nominal-FF / pure RL / two-layer residual SAC)
+#     pure RL is trained first with the identical budget (450k env steps, same reward/observation)
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage baselines
+
+# (2) Figure 3: three stress axes (payload 0-5 kg / friction x1-x3 / action delay 0-3 steps)
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage payload
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage friction
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage latency
+
+# (3) Table 2: ablations (observation history H / residual torque limit / jerk penalty)
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage ablation --ablation_dims history,res_limit,jerk
+
+# (4) figures + LaTeX tables (plain numpy/matplotlib, no Isaac Sim needed)
+python experiments/export_paper_figures.py
+```
+
+Artefacts: `docs/results/w15_*.json`, the cumulatively written `docs/results/w15_benchmarks.csv`
+(the machine-readable version of the paper tables) and `w15_per_env.csv` (per-environment values for
+the boxplot), `docs/figures/fig{1,2,3}_*.pdf|png`, `docs/results/w15_tables.tex`.
+
+`--stage baselines` re-runs `pd_dr`/`pd_ff_dr` through the original W12 `run_episode` path and compares
+it field by field with the new unified evaluation loop (tolerance 1e-9) — the evidence that the two
+baseline rows in Table 1 are still the same numbers as in the W12/W13 reports.
+
+## Weekly progress (W2 → W16)
 
 | week | task | report | headline |
 | --- | --- | --- | --- |
@@ -104,6 +133,8 @@ bash experiments/isaaclab_env.sh experiments/w13_residual_sac_train.py \
 | W11 | domain randomization injected into PhysX | [`w11_task1_dynamics_randomization.md`](docs/reports/w11_task1_dynamics_randomization.md) | same torque, different states: cross-env std **1e-6 → 7e-2 rad** |
 | W12 | trajectory-tracking MDP + open-loop baselines | [`w12_task1_trajectory_tracking_env.md`](docs/reports/w12_task1_trajectory_tracking_env.md) | feed-forward PID **1.3259 cm** vs PD **2.3016 cm** vs zero torque **73.18 cm** |
 | W13/W14 | **two-layer residual SAC, end to end** | [`w13_task1_residual_sac.md`](docs/reports/w13_task1_residual_sac.md) | joint **0.045955 rad** (×1.13), EE **0.8651 cm** (×1.53) — both acceptance lines cleared |
+| W15 | paper experiment matrix (baseline / stress / ablation) | [`w15_task1_paper_benchmarks.md`](docs/reports/w15_task1_paper_benchmarks.md) | same budget: EE RMSE **PD 2.3016 / FF+PD 1.3259 / pure RL 86.43 / residual SAC 0.8612 cm** (Ours −35.0%, sat 0.00%); pure RL fails outright (sat 95.8%); Ours best on every stress point |
+| W16 | vector figures + LaTeX tables | `python experiments/export_paper_figures.py` | `docs/figures/fig{1,2,3}_*.pdf/png`, `docs/results/w15_tables.tex` |
 
 ## Evidence layout
 

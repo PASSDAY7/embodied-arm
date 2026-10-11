@@ -45,7 +45,9 @@ embodied-arm/
 │   ├── w10_arm_torque_control.py  w10_plot_scale.py     # W10  64 路 Franka 纯力矩零拷贝回路
 │   ├── w11_dynamics_randomization.py                    # W11  物理层域随机化（负载/摩擦/质量）
 │   ├── w12_trajectory_tracking_env.py                   # W12  轨迹跟踪 MDP + 开环基线
-│   └── w13_residual_sac_train.py                        # ★ W13/W14 双层残差 SAC（自包含，108 个 CLI 开关）
+│   ├── w13_residual_sac_train.py                        # ★ W13/W14 双层残差 SAC（自包含，108 个 CLI 开关）
+│   ├── w15_paper_benchmarks.py                          # ★ W15  论文实验矩阵：四控制器 Baseline + 极端压测 + 消融
+│   └── export_paper_figures.py                          # W16  论文级矢量图（Fig 1–3）+ LaTeX 大表（Table 1/2）
 │
 ├── tests/                     # 纯标准库单元测试（不需要 pytest，合计 148 项）
 │   ├── test_action_chunking.py(18)  test_diffusion.py(15)  test_reinforce.py(29)
@@ -125,8 +127,10 @@ python tests/test_diffusion.py         # 15 项
 | W11 | 域随机化注入（A/B） | `bash experiments/isaaclab_env.sh experiments/w11_dynamics_randomization.py --num_envs 64 --steps 200` | 跨 env std 1e-6 → 7e-2 rad（×3.2e4）；`--no_randomization` 为对照组 |
 | W12 | 轨迹跟踪 MDP + 5 基线 | `bash experiments/isaaclab_env.sh experiments/w12_trajectory_tracking_env.py --num_envs 64 --steps 500` | `pd_dr` 2.3016 cm / `pd_ff_dr` 1.3259 cm |
 | W13/W14 | 双层残差 SAC 端到端 | 见 §3.3 | 关节 0.045955 rad、末端 0.8651 cm（两条验收线都过） |
+| W15 | 论文实验矩阵（3 条赛程） | 见 §3.4 | Table 1 四控制器对比 + Figure 3 压测 + Table 2 消融 → `docs/results/w15_*.json` |
+| W16 | 论文级矢量图 + LaTeX 表 | `python experiments/export_paper_figures.py` | `docs/figures/fig{1,2,3}_*.pdf/png`、`docs/results/w15_tables.tex` |
 
-> 每个 Isaac 脚本都是 `--help` 自解释（W10 27 个开关、W11 32 个、W12 40+ 个、W13 108 个）；
+> 每个 Isaac 脚本都是 `--help` 自解释（W10 27 个开关、W11 32 个、W12 40+ 个、W13 108 个、W15 113 个）；
 > 各周报告里都写了"这条数字是哪条命令跑出来的"。
 
 ### 3.3 ★ 复现主线结果（W13/W14，450k 步 ≈ 10 分钟）
@@ -149,9 +153,39 @@ bash experiments/isaaclab_env.sh experiments/w13_residual_sac_train.py \
     --load_policy logs/w13_residual_sac_ee50k/policy_best_ee.pt --run_name w13_best_ee_check
 ```
 
+### 3.4 论文实验矩阵（W15/W16）
+
+```bash
+# ① Table 1：四控制器横向对比（PD / 标称前馈+PD / 纯 RL / 双层残差 Ours）
+#    纯 RL 权重不存在时会先按同一预算（45 万环境步、同奖励、同观测）训练一轮再评估
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage baselines
+
+# ② Figure 3：三条极端压测轴（载荷 0→5 kg / 摩擦阻尼 ×1→×3 / 动作延迟 0→3 步）
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage payload
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage friction
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage latency
+# 一次全跑（ablation 默认不排：9 个变体各要一轮训练 ≈ 1.5 h）
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage all --do_ablation
+
+# ③ Table 2：消融（历史长度 H / 残差限幅 |Δτ| / jerk 惩罚项 w_j），每个变体单独训练到同一预算
+bash experiments/isaaclab_env.sh experiments/w15_paper_benchmarks.py --stage ablation --ablation_dims history,res_limit,jerk
+
+# ④ 出图 + LaTeX 大表（纯 numpy/matplotlib，不需要 Isaac Sim）
+python experiments/export_paper_figures.py
+```
+
+产物：`docs/results/w15_{baselines,payload,friction,latency,ablation}.json`、四段赛程**累积**写入的
+`docs/results/w15_benchmarks.csv`（论文大表的机器可读版，按 `stage+scenario+controller` 去重）、
+`docs/results/w15_per_env.csv`（逐 env 指标，箱线图用）、`docs/figures/fig{1,2,3}_*.pdf|png`、
+`docs/results/w15_tables.tex`（Table 1/2 的 LaTeX 源码，同时打印到终端）。
+
+判据：`--stage baselines` 会自动用 **W12 的 `run_episode`** 再跑一遍 `pd_dr`/`pd_ff_dr`，与新的统一评测
+循环逐字段对账（阈值 1e-9），结果落在 JSON 的 `stages.baselines.self_checks.unified_vs_w12_path`——
+这份对账是"Table 1 里那两行仍然等于 W12/W13 报告里那两个数"的硬证据。
+
 ---
 
-## 4. 每周进展一览（W2 → W14）
+## 4. 每周进展一览（W2 → W16）
 
 | 周次 | 任务 | 核心代码 | 报告 | 一句话结论 |
 | --- | --- | --- | --- | --- |
@@ -166,6 +200,8 @@ bash experiments/isaaclab_env.sh experiments/w13_residual_sac_train.py \
 | W11 | 把未知负载 / 非线性摩擦 / 质量失配**注入物理层**（域随机化） | `experiments/w11_dynamics_randomization.py` | [`w11_task1_dynamics_randomization.md`](docs/reports/w11_task1_dynamics_randomization.md) | "同力不同态" PASS：跨 env 关节 std **1e-6 → 7e-2 rad**（×3.2e4），注入一次性耗时 0.116 s |
 | W12 | 轨迹跟踪 MDP（轨迹发生器 / 105 维时序观测 / 多目标奖励）+ 开环基线 | `experiments/w12_trajectory_tracking_env.py` | [`w12_task1_trajectory_tracking_env.md`](docs/reports/w12_task1_trajectory_tracking_env.md) | 前馈+PID 在失配下 **1.3259 cm**、纯 PD **2.3016 cm**、零力矩 **73.18 cm**；任务书那条力矩公式是**正反馈**（实测 1.80 rad） |
 | W13/W14 | **双层残差控制**：标称前馈+PID 兜底 + SAC 学残差，端到端 45 万步 | `experiments/w13_residual_sac_train.py` | [`w13_task1_residual_sac.md`](docs/reports/w13_task1_residual_sac.md) | 关节 **0.051866 → 0.045955 rad**（×1.13）、末端 **1.3259 → 0.8651 cm**（×1.53），两条验收线都过；发现两个奖励结构问题 |
+| W15 | **论文实验矩阵**：四控制器统一评测（Table 1）+ 载荷/摩擦/延迟三维极端压测（Figure 3）+ 消融（Table 2） | `experiments/w15_paper_benchmarks.py` | [`w15_task1_paper_benchmarks.md`](docs/reports/w15_task1_paper_benchmarks.md) | 同预算下：末端 **PD 2.3016 / 前馈+PD 1.3259 / 纯 RL 86.43 / 残差 SAC 0.8612 cm**（Ours −35.0%，饱和 0.00%）；纯 RL 同一预算直接失败（饱和 95.8%）；压测轴 Ours 全程最优 |
+| W16 | 论文级矢量图（Figure 1–3）+ LaTeX 大表（Table 1/2）自动生成 | `experiments/export_paper_figures.py` | 同上 | `docs/figures/fig{1,2,3}_*.pdf|png`、`docs/results/w15_tables.tex` |
 
 ---
 

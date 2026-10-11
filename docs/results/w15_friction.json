@@ -1,0 +1,5578 @@
+{
+  "config": {
+    "num_envs": 64,
+    "steps": 500,
+    "dt": 0.01,
+    "env_spacing": 2.5,
+    "seed": 42,
+    "no_gravity": false,
+    "no_ground": false,
+    "init_at_reference": true,
+    "traj_amp": [
+      0.15,
+      0.35
+    ],
+    "traj_freq": [
+      0.2,
+      0.6
+    ],
+    "traj_center": [
+      0.0,
+      -0.4,
+      0.0,
+      -1.8,
+      0.0,
+      1.8,
+      0.0
+    ],
+    "traj_seed": -1,
+    "harmonics": 1,
+    "traj_margin": 0.8,
+    "history": 3,
+    "history_warmup": "repeat",
+    "wp": 10.0,
+    "wv": 0.1,
+    "wtau": 0.001,
+    "wj": 0.01,
+    "w_ee": 0.0,
+    "w_mag": 0.05,
+    "jerk_on": "residual",
+    "joint_expr": "panda_joint[1-7]",
+    "ee_body": "panda_hand",
+    "urdf": "",
+    "no_fk_check": false,
+    "fk_tolerance": 0.0001,
+    "no_randomization": false,
+    "payload_mass": [
+      0.0,
+      3.0
+    ],
+    "payload_body": "panda_hand",
+    "payload_com": [
+      0.0,
+      0.0,
+      0.05
+    ],
+    "payload_mode": "parallel_axis",
+    "link_mass_scale": [
+      0.8,
+      1.2
+    ],
+    "joint_damping": [
+      0.5,
+      2.0
+    ],
+    "joint_friction": [
+      0.1,
+      1.0
+    ],
+    "gains": "mweighted",
+    "wn": 30.0,
+    "zeta": 1.0,
+    "kp": [
+      100.0
+    ],
+    "kd": [
+      10.0
+    ],
+    "pd_sign": "stabilizing",
+    "ff": "nominal",
+    "base_mode": "pd_ff",
+    "res_limit": 1.5,
+    "res_scale_mode": "kp",
+    "res_deflection_rad": 0.2,
+    "total_steps": 500000,
+    "buffer_size": 300000,
+    "buffer": "gpu",
+    "batch_size": 256,
+    "warmup_steps": 20000,
+    "warmup_res_scale": 1.0,
+    "train_freq": 1,
+    "gradient_steps": 2,
+    "actor_delay_updates": 1000,
+    "lr_actor": 0.0003,
+    "lr_critic": 0.001,
+    "lr_alpha": 0.0003,
+    "gamma": 0.99,
+    "tau": 0.005,
+    "alpha_init": 0.02,
+    "target_entropy": "fixed",
+    "hidden": 256,
+    "critic_hidden": 256,
+    "layers": 2,
+    "activation": "relu",
+    "log_std_min": -5.0,
+    "log_std_max": 2.0,
+    "log_std_init": -0.5,
+    "reward_scale": 1.0,
+    "max_grad_norm": 0.0,
+    "normalize_obs": true,
+    "bootstrap_on_truncation": true,
+    "stage": "friction",
+    "do_ablation": false,
+    "controllers": "pd_dr,pd_ff_dr,pure_rl,residual_sac",
+    "stress_controllers": "pd_dr,pd_ff_dr,residual_sac",
+    "residual_policy_which": "best_ee",
+    "policy": "",
+    "pure_rl_policy": "",
+    "pure_rl_steps": 450000,
+    "train_pure_rl": true,
+    "pure_rl_action_bound": -1.0,
+    "pure_rl_warmup_frac": 0.2,
+    "payload_list": "0,1.5,3,4,5",
+    "friction_mult": "1,1.5,2,3",
+    "latency_steps": "0,1,2,3",
+    "action_delay": 0,
+    "stress_fix": "",
+    "stress_keep_spread": false,
+    "ablation_dims": "history,res_limit,jerk",
+    "ablation_steps": 0,
+    "ablation_reuse_main": true,
+    "verify_w12_path": true,
+    "trace_windows": 2.0,
+    "trace_env": 0,
+    "trace_controllers": "pd_dr,pd_ff_dr,residual_sac",
+    "run_name": "w15_paper_benchmarks",
+    "eval_every": 25000,
+    "log_every": 5000,
+    "trace_every": 0,
+    "out_json": "",
+    "table_csv": "",
+    "per_env_csv": "",
+    "append_csv": true,
+    "max_wall_s": 0.0,
+    "figures_dir": "",
+    "xr": false,
+    "device": "cuda:0",
+    "visualizer": [],
+    "cpu": false,
+    "verbose": false,
+    "info": false,
+    "deterministic": false,
+    "kit_args": "",
+    "anim_recording_enabled": false,
+    "anim_recording_start_time": 0,
+    "anim_recording_stop_time": 10,
+    "headless": true,
+    "hide_ui": true,
+    "create_new_stage": false,
+    "physics_gpu": 0
+  },
+  "resolved": {
+    "device": "cuda:0",
+    "stages": [
+      "friction"
+    ],
+    "json": "/data/zzh/embodied-arm/docs/results/w15_friction.json",
+    "table_csv": "/data/zzh/embodied-arm/docs/results/w15_benchmarks.csv",
+    "per_env_csv": "/data/zzh/embodied-arm/docs/results/w15_per_env.csv",
+    "figures_dir": "/data/zzh/embodied-arm/docs/figures",
+    "obs_dim": 105,
+    "num_joints": 7,
+    "joint_names": [
+      "panda_joint1",
+      "panda_joint2",
+      "panda_joint3",
+      "panda_joint4",
+      "panda_joint5",
+      "panda_joint6",
+      "panda_joint7"
+    ],
+    "tau_limits_nm": [
+      87.0,
+      87.0,
+      87.0,
+      87.0,
+      12.0,
+      12.0,
+      12.0
+    ],
+    "free_gib_start": 10.121,
+    "gpu_name": "NVIDIA GeForce RTX 2080 Ti"
+  },
+  "trajectory": {
+    "formula": "q_d,i(t) = q0,i + sum_h A_i,h * sin(2*pi*f_i,h*t + phi_i,h)",
+    "joint_names": [
+      "panda_joint1",
+      "panda_joint2",
+      "panda_joint3",
+      "panda_joint4",
+      "panda_joint5",
+      "panda_joint6",
+      "panda_joint7"
+    ],
+    "harmonics": 1,
+    "center_q0_rad": [
+      0.0,
+      -0.4,
+      0.0,
+      -1.8,
+      0.0,
+      1.8,
+      0.0
+    ],
+    "amp_rad_sampled": [
+      0.326454,
+      0.333001,
+      0.226573,
+      0.341861,
+      0.22809,
+      0.270179,
+      0.201315
+    ],
+    "amp_rad_clamped": [
+      0.326454,
+      0.333001,
+      0.226573,
+      0.341861,
+      0.22809,
+      0.270179,
+      0.201315
+    ],
+    "freq_hz": [
+      0.517457,
+      0.576309,
+      0.253274,
+      0.573839,
+      0.437432,
+      0.547762,
+      0.427086
+    ],
+    "phase_rad": [
+      4.656431,
+      2.698028,
+      5.563402,
+      3.605948,
+      1.674972,
+      3.942379,
+      1.694146
+    ],
+    "amp_clamp_ratio": [
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "trajectory_limits": {
+    "max_abs_qd_rad": 2.1418604850769043,
+    "max_abs_qd_dot_rad_s": 1.2325557470321655,
+    "max_abs_qd_ddot_rad_s2": 4.444156169891357,
+    "min_margin_to_joint_limit_rad": 0.9299395084381104,
+    "inside_limits": true
+  },
+  "observation": {
+    "frame_layout": {
+      "e_q": [
+        0,
+        7
+      ],
+      "e_dot_q": [
+        7,
+        14
+      ],
+      "q_d": [
+        14,
+        21
+      ],
+      "qd_d": [
+        21,
+        28
+      ],
+      "tau_prev": [
+        28,
+        35
+      ]
+    },
+    "frame_dim": 35,
+    "history": 3,
+    "history_order": "oldest -> newest（拼接后最后一帧是当前帧）",
+    "warmup": "repeat",
+    "obs_dim": 105,
+    "formula": "s_t = [e_q, e_dot_q, q_d, qd_d, tau_prev]"
+  },
+  "reward": {
+    "residual_policy_reward": {
+      "formula": "r = -wp‖e_q‖² - wv‖ė_q‖² - wτ‖τ_exec‖² - wj‖u_t - u_{t-1}‖² - w_mag‖Δτ‖² - w_ee‖p(q)-p(q_d)‖²",
+      "weights": {
+        "pos": 10.0,
+        "vel": 0.1,
+        "tau": 0.001,
+        "jerk": 0.01,
+        "mag": 0.05,
+        "ee": 0.0
+      },
+      "jerk_on": "residual",
+      "jerk_variable": "Δτ (residual)",
+      "w_mag_note": "w_mag=0 时对应任务书四项（残差结构下会漂到 |Δτ|≈3.5 N·m，见 docstring §二）",
+      "w_ee_note": "w_ee=0（默认）时**不含**末端项；≠0 时把验收指标本身写进奖励"
+    },
+    "env_native_reward_w12_convention": {
+      "weights": {
+        "pos": 10.0,
+        "vel": 0.1,
+        "tau": 0.001,
+        "jerk": 0.01
+      },
+      "formula": "r = -wp||e_q||^2 - wv||e_dot_q||^2 - wtau||tau||^2 - wj||tau_t - tau_{t-1}||^2",
+      "note": "落盘 terms 是各项被减掉的量值（正数），reward = -sum(terms)"
+    }
+  },
+  "fk": {
+    "source": "builtin_constants",
+    "num_steps": 9,
+    "precheck": {
+      "source": "builtin_constants",
+      "max_err_m": 1.3696104588234448e-06,
+      "worst_link": "panda_link5",
+      "per_link_max_err_m": {
+        "panda_link1": 1.33e-07,
+        "panda_link2": 2.73e-07,
+        "panda_link3": 9.85e-07,
+        "panda_link4": 9.9e-07,
+        "panda_link5": 1.37e-06,
+        "panda_link6": 1.37e-06,
+        "panda_link7": 1.37e-06,
+        "panda_hand": 1.37e-06
+      }
+    },
+    "tolerance_m": 0.0001,
+    "valid": true
+  },
+  "gains": {
+    "mode": "mweighted",
+    "wn": 30.0,
+    "zeta": 1.0,
+    "kp_diag": [
+      567.861,
+      2052.234,
+      1153.025,
+      779.203,
+      24.183,
+      31.316,
+      2.601
+    ],
+    "kd_diag": [
+      37.857,
+      136.816,
+      76.868,
+      51.947,
+      1.612,
+      2.088,
+      0.173
+    ],
+    "mass_matrix_diag_nominal_kgm2": [
+      0.63096,
+      2.28026,
+      1.28114,
+      0.86578,
+      0.02687,
+      0.0348,
+      0.00289
+    ],
+    "stability_lambda_kp_dt2": 0.09000013768672943,
+    "stability_lambda_kd_dt": 0.60000079870224
+  },
+  "dr_training_ranges": {
+    "payload_mass": [
+      0.0,
+      3.0
+    ],
+    "link_mass_scale": [
+      0.8,
+      1.2
+    ],
+    "joint_damping": [
+      0.5,
+      2.0
+    ],
+    "joint_friction": [
+      0.1,
+      1.0
+    ]
+  },
+  "dr_training_injection": {
+    "label": "train_distribution(起点)",
+    "ranges": {
+      "payload_mass": [
+        0.0,
+        3.0
+      ],
+      "link_mass_scale": [
+        0.8,
+        1.2
+      ],
+      "joint_damping": [
+        0.5,
+        2.0
+      ],
+      "joint_friction": [
+        0.1,
+        1.0
+      ]
+    },
+    "applied": true,
+    "nominal_restore_com_path": "set_coms_index",
+    "sampled": {
+      "payload_mass_kg": {
+        "min": 0.008782446384429932,
+        "mean": 1.4985475540161133,
+        "max": 2.9567651748657227,
+        "std": 0.9472925066947937
+      },
+      "link_mass_scale": {
+        "min": 0.8009382486343384,
+        "mean": 0.9919894933700562,
+        "max": 1.1999218463897705,
+        "std": 0.11666075140237808
+      },
+      "joint_damping_nms_per_rad": {
+        "min": 0.5063157081604004,
+        "mean": 1.2532117366790771,
+        "max": 1.9976855516433716,
+        "std": 0.4294000566005707
+      },
+      "joint_friction_static_nm": {
+        "min": 0.10345055907964706,
+        "mean": 0.5538947582244873,
+        "max": 0.9928509593009949,
+        "std": 0.2479376494884491
+      }
+    },
+    "readback": {
+      "hand_mass_kg": {
+        "min": 0.6142865419387817,
+        "mean": 2.173035144805908,
+        "max": 3.755971670150757,
+        "std": 0.964354395866394
+      },
+      "hand_inertia_min_eig": {
+        "min": 0.00040665827691555023,
+        "mean": 0.0007193397032096982,
+        "max": 0.0009534911951050162,
+        "std": 0.000135930284159258
+      },
+      "hand_com_shift_m": {
+        "min": 0.00037267967127263546,
+        "mean": 0.015644770115613937,
+        "max": 0.021432606503367424,
+        "std": 0.006000914610922337
+      },
+      "joint_damping_nms_per_rad": {
+        "min": 0.5063157081604004,
+        "mean": 1.2532117366790771,
+        "max": 1.9976855516433716,
+        "std": 0.4294000566005707
+      },
+      "joint_friction_static_nm": {
+        "min": 0.10345055907964706,
+        "mean": 0.5538947582244873,
+        "max": 0.9928509593009949,
+        "std": 0.2479376494884491
+      },
+      "joint_friction_dynamic_nm": {
+        "min": 0.05172527953982353,
+        "mean": 0.27694737911224365,
+        "max": 0.49642547965049744,
+        "std": 0.12396882474422455
+      },
+      "hand_mass_nominal_kg": 0.6804429888725281
+    },
+    "com_write_path": "set_coms_index"
+  },
+  "gravity_model_check_max_abs_diff_nm": 0.21980667114257812,
+  "self_checks": {
+    "dr_injection_idempotent": {
+      "available": true,
+      "max_abs_diff": 0.0,
+      "match": true,
+      "detail": {
+        "hand_mass_kg.min": {
+          "first": 0.6142865419387817,
+          "second": 0.6142865419387817,
+          "abs_diff": 0.0
+        },
+        "hand_mass_kg.mean": {
+          "first": 2.173035144805908,
+          "second": 2.173035144805908,
+          "abs_diff": 0.0
+        },
+        "hand_mass_kg.max": {
+          "first": 3.755971670150757,
+          "second": 3.755971670150757,
+          "abs_diff": 0.0
+        },
+        "joint_damping_nms_per_rad.min": {
+          "first": 0.5063157081604004,
+          "second": 0.5063157081604004,
+          "abs_diff": 0.0
+        },
+        "joint_damping_nms_per_rad.mean": {
+          "first": 1.2532117366790771,
+          "second": 1.2532117366790771,
+          "abs_diff": 0.0
+        },
+        "joint_damping_nms_per_rad.max": {
+          "first": 1.9976855516433716,
+          "second": 1.9976855516433716,
+          "abs_diff": 0.0
+        },
+        "joint_friction_static_nm.min": {
+          "first": 0.10345055907964706,
+          "second": 0.10345055907964706,
+          "abs_diff": 0.0
+        },
+        "joint_friction_static_nm.mean": {
+          "first": 0.5538947582244873,
+          "second": 0.5538947582244873,
+          "abs_diff": 0.0
+        },
+        "joint_friction_static_nm.max": {
+          "first": 0.9928509593009949,
+          "second": 0.9928509593009949,
+          "abs_diff": 0.0
+        }
+      },
+      "note": "两次注入的回读必须逐位相同（否则 apply() 在累积，压测曲线不可信）"
+    },
+    "nominal_model": {
+      "hand_body": "panda_hand",
+      "hand_mass_kg_nominal": 0.680443,
+      "note": "注入前的 USD 标称值；每次注入前用它复位，避免 apply() 的累积效应"
+    },
+    "dr_training_injection": {
+      "label": "train_distribution(起点)",
+      "ranges": {
+        "payload_mass": [
+          0.0,
+          3.0
+        ],
+        "link_mass_scale": [
+          0.8,
+          1.2
+        ],
+        "joint_damping": [
+          0.5,
+          2.0
+        ],
+        "joint_friction": [
+          0.1,
+          1.0
+        ]
+      },
+      "applied": true,
+      "nominal_restore_com_path": "set_coms_index",
+      "sampled": {
+        "payload_mass_kg": {
+          "min": 0.008782446384429932,
+          "mean": 1.4985475540161133,
+          "max": 2.9567651748657227,
+          "std": 0.9472925066947937
+        },
+        "link_mass_scale": {
+          "min": 0.8009382486343384,
+          "mean": 0.9919894933700562,
+          "max": 1.1999218463897705,
+          "std": 0.11666075140237808
+        },
+        "joint_damping_nms_per_rad": {
+          "min": 0.5063157081604004,
+          "mean": 1.2532117366790771,
+          "max": 1.9976855516433716,
+          "std": 0.4294000566005707
+        },
+        "joint_friction_static_nm": {
+          "min": 0.10345055907964706,
+          "mean": 0.5538947582244873,
+          "max": 0.9928509593009949,
+          "std": 0.2479376494884491
+        }
+      },
+      "readback": {
+        "hand_mass_kg": {
+          "min": 0.6142865419387817,
+          "mean": 2.173035144805908,
+          "max": 3.755971670150757,
+          "std": 0.964354395866394
+        },
+        "hand_inertia_min_eig": {
+          "min": 0.00040665827691555023,
+          "mean": 0.0007193397032096982,
+          "max": 0.0009534911951050162,
+          "std": 0.000135930284159258
+        },
+        "hand_com_shift_m": {
+          "min": 0.00037267967127263546,
+          "mean": 0.015644770115613937,
+          "max": 0.021432606503367424,
+          "std": 0.006000914610922337
+        },
+        "joint_damping_nms_per_rad": {
+          "min": 0.5063157081604004,
+          "mean": 1.2532117366790771,
+          "max": 1.9976855516433716,
+          "std": 0.4294000566005707
+        },
+        "joint_friction_static_nm": {
+          "min": 0.10345055907964706,
+          "mean": 0.5538947582244873,
+          "max": 0.9928509593009949,
+          "std": 0.2479376494884491
+        },
+        "joint_friction_dynamic_nm": {
+          "min": 0.05172527953982353,
+          "mean": 0.27694737911224365,
+          "max": 0.49642547965049744,
+          "std": 0.12396882474422455
+        },
+        "hand_mass_nominal_kg": 0.6804429888725281
+      },
+      "com_write_path": "set_coms_index"
+    }
+  },
+  "stages": {
+    "friction": {
+      "stage": "friction",
+      "axis": "friction",
+      "controllers": [
+        "pd_dr",
+        "pd_ff_dr",
+        "residual_sac"
+      ],
+      "points": [
+        {
+          "scenario": "friction_1x",
+          "sweep": "friction",
+          "sweep_value": 1.0,
+          "delay_steps": 0,
+          "dr_ranges": {
+            "payload_mass": [
+              1.5,
+              1.5
+            ],
+            "link_mass_scale": [
+              0.8,
+              1.2
+            ],
+            "joint_damping": [
+              0.5,
+              2.0
+            ],
+            "joint_friction": [
+              0.1,
+              1.0
+            ]
+          },
+          "dr_note": {
+            "payload_mass": "钉死 1.5 kg（排除载荷干扰）",
+            "link_mass_scale": "训练区间（照原样）",
+            "joint_damping": "训练区间 ×1",
+            "joint_friction": "训练区间 ×1"
+          },
+          "dr": {
+            "label": "friction_1x",
+            "ranges": {
+              "payload_mass": [
+                1.5,
+                1.5
+              ],
+              "link_mass_scale": [
+                0.8,
+                1.2
+              ],
+              "joint_damping": [
+                0.5,
+                2.0
+              ],
+              "joint_friction": [
+                0.1,
+                1.0
+              ]
+            },
+            "applied": true,
+            "nominal_restore_com_path": "set_coms_index",
+            "sampled": {
+              "payload_mass_kg": {
+                "min": 1.5,
+                "mean": 1.5,
+                "max": 1.5,
+                "std": 0.0
+              },
+              "link_mass_scale": {
+                "min": 0.8009382486343384,
+                "mean": 0.9919894933700562,
+                "max": 1.1999218463897705,
+                "std": 0.11666075140237808
+              },
+              "joint_damping_nms_per_rad": {
+                "min": 0.5063157081604004,
+                "mean": 1.2532117366790771,
+                "max": 1.9976855516433716,
+                "std": 0.4294000566005707
+              },
+              "joint_friction_static_nm": {
+                "min": 0.10345055907964706,
+                "mean": 0.5538947582244873,
+                "max": 0.9928509593009949,
+                "std": 0.2479376494884491
+              }
+            },
+            "readback": {
+              "hand_mass_kg": {
+                "min": 2.0454599857330322,
+                "mean": 2.174487590789795,
+                "max": 2.305054187774658,
+                "std": 0.08143395185470581
+              },
+              "hand_inertia_min_eig": {
+                "min": 0.0006309672025963664,
+                "mean": 0.000759491347707808,
+                "max": 0.0008864654810167849,
+                "std": 8.00109701231122e-05
+              },
+              "hand_com_shift_m": {
+                "min": 0.016962945461273193,
+                "mean": 0.01800624467432499,
+                "max": 0.019115755334496498,
+                "std": 0.0006719992379657924
+              },
+              "joint_damping_nms_per_rad": {
+                "min": 0.5063157081604004,
+                "mean": 1.2532117366790771,
+                "max": 1.9976855516433716,
+                "std": 0.4294000566005707
+              },
+              "joint_friction_static_nm": {
+                "min": 0.10345055907964706,
+                "mean": 0.5538947582244873,
+                "max": 0.9928509593009949,
+                "std": 0.2479376494884491
+              },
+              "joint_friction_dynamic_nm": {
+                "min": 0.05172527953982353,
+                "mean": 0.27694737911224365,
+                "max": 0.49642547965049744,
+                "std": 0.12396882474422455
+              },
+              "hand_mass_nominal_kg": 0.6804429888725281
+            },
+            "com_write_path": "set_coms_index"
+          },
+          "results": {
+            "pd_dr": {
+              "tag": "friction_1x",
+              "controller": "pd_dr",
+              "desc": "Controller 1：纯 PD（无模型先验，纯反馈）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "pd_dr",
+                "description": "Controller 1：纯 PD（无模型先验，纯反馈）",
+                "base_mode": "pd",
+                "ff_source": null,
+                "is_rl": false,
+                "action_scale_nm": null,
+                "action_space": "—（无策略，纯经典控制器）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.05961538106203079,
+                  "max_over_envs": 0.23756945133209229,
+                  "worst_env_joint": 0.2633129954338074,
+                  "per_joint_mean_over_envs": [
+                    0.04652336612343788,
+                    0.019926711916923523,
+                    0.030366502702236176,
+                    0.05280812829732895,
+                    0.043061308562755585,
+                    0.05514480173587799,
+                    0.16947680711746216
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.05523987114429474,
+                    0.022578606382012367,
+                    0.03555864840745926,
+                    0.05912160873413086,
+                    0.06374671310186386,
+                    0.08182800561189651,
+                    0.23756945133209229
+                  ],
+                  "per_env_rmse_rad": [
+                    0.191765,
+                    0.167937,
+                    0.185585,
+                    0.171148,
+                    0.179822,
+                    0.212045,
+                    0.258043,
+                    0.189845,
+                    0.211114,
+                    0.256618,
+                    0.257706,
+                    0.206378,
+                    0.260028,
+                    0.197967,
+                    0.183098,
+                    0.261448,
+                    0.189506,
+                    0.175674,
+                    0.176157,
+                    0.189257,
+                    0.174181,
+                    0.258281,
+                    0.263158,
+                    0.151794,
+                    0.169844,
+                    0.204013,
+                    0.143343,
+                    0.189314,
+                    0.192427,
+                    0.173587,
+                    0.198396,
+                    0.224721,
+                    0.214438,
+                    0.257032,
+                    0.139678,
+                    0.200097,
+                    0.168626,
+                    0.189246,
+                    0.186036,
+                    0.166507,
+                    0.213498,
+                    0.251429,
+                    0.262775,
+                    0.263313,
+                    0.249005,
+                    0.154725,
+                    0.194202,
+                    0.208455,
+                    0.157983,
+                    0.190821,
+                    0.192963,
+                    0.195109,
+                    0.195956,
+                    0.159047,
+                    0.172035,
+                    0.230406,
+                    0.247788,
+                    0.18584,
+                    0.209598,
+                    0.160556,
+                    0.149537,
+                    0.147077,
+                    0.259104,
+                    0.26214
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 2.2966384887695312,
+                  "rmse_max_over_envs": 2.497952699661255,
+                  "mae_mean_over_envs": 2.2537693977355957,
+                  "max_over_envs_and_steps": 3.510341167449951,
+                  "per_env_rmse_cm": [
+                    2.304162,
+                    2.409262,
+                    2.325219,
+                    2.326221,
+                    2.191955,
+                    2.34069,
+                    2.249386,
+                    2.272833,
+                    2.381698,
+                    2.117031,
+                    2.171687,
+                    2.267313,
+                    2.29033,
+                    2.31134,
+                    2.437709,
+                    2.299251,
+                    2.497953,
+                    2.345125,
+                    2.275255,
+                    2.316684,
+                    2.3824,
+                    2.147331,
+                    2.32985,
+                    2.324861,
+                    2.237625,
+                    2.133318,
+                    2.133739,
+                    2.208368,
+                    2.415545,
+                    2.102114,
+                    2.371364,
+                    2.280684,
+                    2.235979,
+                    2.263077,
+                    2.245495,
+                    2.398899,
+                    2.344564,
+                    2.330622,
+                    2.414932,
+                    2.292046,
+                    2.270201,
+                    2.283823,
+                    2.444347,
+                    2.308932,
+                    2.402594,
+                    2.265826,
+                    2.291719,
+                    2.26692,
+                    2.32608,
+                    2.412263,
+                    2.325113,
+                    2.040734,
+                    2.413001,
+                    2.376958,
+                    2.288079,
+                    2.337807,
+                    2.218859,
+                    2.302016,
+                    2.274202,
+                    2.335069,
+                    2.340764,
+                    2.184985,
+                    2.197683,
+                    2.352969
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 39.51272964477539,
+                  "mean_tau_norm_max_over_envs_nm": 43.161495208740234,
+                  "peak_tau_norm_nm": 99.33695220947266,
+                  "mean_abs_tau_per_joint": [
+                    5.703,
+                    19.7042,
+                    11.3749,
+                    26.5058,
+                    1.311,
+                    3.7906,
+                    0.3698
+                  ],
+                  "mean_abs_tau_overall": 9.8228
+                },
+                "smoothness": {
+                  "jerk_nm2": 1947.7978515625,
+                  "jerk_nm2_max_over_envs": 2870.92529296875,
+                  "jerk_rms_nm": 44.13386154174805,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -21.93909454345703,
+                  "terms_per_step_mean": {
+                    "pos": 0.4194695055484772,
+                    "vel": 0.11948762089014053,
+                    "tau": 1.9221582412719727,
+                    "jerk": 19.477981567382812
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.05961538106203079,
+                  "ee_rmse_cm": 2.2966384887695312,
+                  "ee_max_cm": 3.510341167449951,
+                  "mean_tau_norm_nm": 39.51272964477539,
+                  "jerk_nm2": 1947.7978515625,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.2633129954338074,
+                  "ee_rmse_max_over_envs_cm": 2.497952699661255,
+                  "mean_abs_tau_overall_nm": 9.8228,
+                  "task_reward_per_step": -21.93909454345703
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.05961538106203079,
+                "ee_rmse_cm": 2.2966384887695312,
+                "ee_max_cm": 3.510341167449951,
+                "mean_tau_norm_nm": 39.51272964477539,
+                "jerk_nm2": 1947.7978515625,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.2633129954338074,
+                "ee_rmse_max_over_envs_cm": 2.497952699661255,
+                "mean_abs_tau_overall_nm": 9.8228,
+                "task_reward_per_step": -21.93909454345703
+              },
+              "residual_stats": null,
+              "base_controller_stats": {
+                "mode": "pd",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  5.703,
+                  19.704,
+                  11.375,
+                  26.506,
+                  1.311,
+                  3.791,
+                  0.37
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 7.919122253952082e-06,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 2.385e-06,
+                  "panda_link2": 3.848e-06,
+                  "panda_link3": 5.937e-06,
+                  "panda_link4": 6.095e-06,
+                  "panda_link5": 6.736e-06,
+                  "panda_link6": 6.875e-06,
+                  "panda_link7": 6.254e-06,
+                  "panda_hand": 6.148e-06
+                },
+                "worst_link": "panda_link6"
+              },
+              "wall_time_s": 10.268,
+              "env_steps_per_s": 3116.4,
+              "trace": null
+            },
+            "pd_ff_dr": {
+              "tag": "friction_1x",
+              "controller": "pd_ff_dr",
+              "desc": "Controller 2：标称前馈 + PD（工业界常见做法）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "pd_ff_dr",
+                "description": "Controller 2：标称前馈 + PD（工业界常见做法）",
+                "base_mode": "pd_ff",
+                "ff_source": "nominal",
+                "is_rl": false,
+                "action_scale_nm": null,
+                "action_space": "—（无策略，纯经典控制器）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.05142619088292122,
+                  "max_over_envs": 0.23757711052894592,
+                  "worst_env_joint": 0.26392239332199097,
+                  "per_joint_mean_over_envs": [
+                    0.036939553916454315,
+                    0.006009208969771862,
+                    0.02270260639488697,
+                    0.009128354489803314,
+                    0.04193859174847603,
+                    0.07331084460020065,
+                    0.16995419561862946
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.047583408653736115,
+                    0.008152507245540619,
+                    0.028414299711585045,
+                    0.014256131835281849,
+                    0.0603511743247509,
+                    0.09865858405828476,
+                    0.23757711052894592
+                  ],
+                  "per_env_rmse_rad": [
+                    0.187244,
+                    0.158438,
+                    0.182987,
+                    0.164599,
+                    0.179262,
+                    0.208933,
+                    0.250796,
+                    0.18336,
+                    0.207125,
+                    0.256833,
+                    0.254519,
+                    0.207472,
+                    0.263922,
+                    0.184989,
+                    0.17616,
+                    0.259756,
+                    0.18444,
+                    0.165529,
+                    0.164275,
+                    0.180238,
+                    0.16571,
+                    0.254145,
+                    0.263342,
+                    0.141134,
+                    0.168218,
+                    0.204888,
+                    0.140942,
+                    0.192204,
+                    0.183609,
+                    0.169721,
+                    0.19452,
+                    0.219681,
+                    0.212264,
+                    0.259929,
+                    0.132858,
+                    0.196222,
+                    0.164538,
+                    0.179927,
+                    0.177676,
+                    0.159718,
+                    0.211489,
+                    0.246767,
+                    0.261184,
+                    0.257915,
+                    0.237655,
+                    0.154535,
+                    0.188939,
+                    0.203046,
+                    0.144904,
+                    0.182545,
+                    0.187295,
+                    0.200179,
+                    0.191942,
+                    0.152715,
+                    0.169867,
+                    0.220884,
+                    0.244764,
+                    0.175227,
+                    0.204299,
+                    0.146786,
+                    0.139486,
+                    0.142603,
+                    0.2581,
+                    0.254925
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 1.2805426120758057,
+                  "rmse_max_over_envs": 1.5160077810287476,
+                  "mae_mean_over_envs": 1.1942023038864136,
+                  "max_over_envs_and_steps": 2.7401230335235596,
+                  "per_env_rmse_cm": [
+                    1.243184,
+                    1.403689,
+                    1.30852,
+                    1.293466,
+                    1.267394,
+                    1.332217,
+                    1.200972,
+                    1.220301,
+                    1.396586,
+                    1.207002,
+                    1.143774,
+                    1.282975,
+                    1.411888,
+                    1.232915,
+                    1.379371,
+                    1.304886,
+                    1.516008,
+                    1.258628,
+                    1.196828,
+                    1.235276,
+                    1.342219,
+                    1.17875,
+                    1.41035,
+                    1.260068,
+                    1.243481,
+                    1.180406,
+                    1.180132,
+                    1.276723,
+                    1.327027,
+                    1.105196,
+                    1.368612,
+                    1.231157,
+                    1.199309,
+                    1.339487,
+                    1.212146,
+                    1.372832,
+                    1.384024,
+                    1.248539,
+                    1.340043,
+                    1.213672,
+                    1.236785,
+                    1.288505,
+                    1.425774,
+                    1.272772,
+                    1.296196,
+                    1.29952,
+                    1.279275,
+                    1.211679,
+                    1.261908,
+                    1.336168,
+                    1.260367,
+                    1.189397,
+                    1.427057,
+                    1.324049,
+                    1.367396,
+                    1.270387,
+                    1.221587,
+                    1.220168,
+                    1.255273,
+                    1.233339,
+                    1.29055,
+                    1.223053,
+                    1.218298,
+                    1.295179
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 39.171939849853516,
+                  "mean_tau_norm_max_over_envs_nm": 41.76918029785156,
+                  "peak_tau_norm_nm": 99.09766387939453,
+                  "mean_abs_tau_per_joint": [
+                    5.6173,
+                    19.7901,
+                    10.9904,
+                    26.1706,
+                    1.3232,
+                    3.743,
+                    0.3721
+                  ],
+                  "mean_abs_tau_overall": 9.7152
+                },
+                "smoothness": {
+                  "jerk_nm2": 1915.050537109375,
+                  "jerk_nm2_max_over_envs": 2957.14453125,
+                  "jerk_rms_nm": 43.76129150390625,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -21.559885025024414,
+                  "terms_per_step_mean": {
+                    "pos": 0.4008653163909912,
+                    "vel": 0.114798404276371,
+                    "tau": 1.893714427947998,
+                    "jerk": 19.1505069732666
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.05142619088292122,
+                  "ee_rmse_cm": 1.2805426120758057,
+                  "ee_max_cm": 2.7401230335235596,
+                  "mean_tau_norm_nm": 39.171939849853516,
+                  "jerk_nm2": 1915.050537109375,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.26392239332199097,
+                  "ee_rmse_max_over_envs_cm": 1.5160077810287476,
+                  "mean_abs_tau_overall_nm": 9.7152,
+                  "task_reward_per_step": -21.559885025024414
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.05142619088292122,
+                "ee_rmse_cm": 1.2805426120758057,
+                "ee_max_cm": 2.7401230335235596,
+                "mean_tau_norm_nm": 39.171939849853516,
+                "jerk_nm2": 1915.050537109375,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.26392239332199097,
+                "ee_rmse_max_over_envs_cm": 1.5160077810287476,
+                "mean_abs_tau_overall_nm": 9.7152,
+                "task_reward_per_step": -21.559885025024414
+              },
+              "residual_stats": null,
+              "base_controller_stats": {
+                "mode": "pd_ff",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  5.617,
+                  19.79,
+                  10.99,
+                  26.171,
+                  1.323,
+                  3.743,
+                  0.372
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 7.585495950479526e-06,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 2.264e-06,
+                  "panda_link2": 3.572e-06,
+                  "panda_link3": 6.042e-06,
+                  "panda_link4": 6.243e-06,
+                  "panda_link5": 6.661e-06,
+                  "panda_link6": 6.894e-06,
+                  "panda_link7": 6.163e-06,
+                  "panda_hand": 5.937e-06
+                },
+                "worst_link": "panda_link6"
+              },
+              "wall_time_s": 12.862,
+              "env_steps_per_s": 2487.9,
+              "trace": null
+            },
+            "residual_sac": {
+              "tag": "friction_1x",
+              "controller": "residual_sac",
+              "desc": "Controller 4：双层残差 RL（Ours：标称前馈+PD 兜底 + SAC 补偿动态残差）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "residual_sac",
+                "description": "Controller 4：双层残差 RL（Ours：标称前馈+PD 兜底 + SAC 补偿动态残差）",
+                "base_mode": "pd_ff",
+                "ff_source": "nominal",
+                "is_rl": true,
+                "action_scale_nm": [
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  0.5202
+                ],
+                "action_space": "残差力矩（逐关节 scale 见 action_scale_nm）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.04478929191827774,
+                  "max_over_envs": 0.23539747297763824,
+                  "worst_env_joint": 0.2453007847070694,
+                  "per_joint_mean_over_envs": [
+                    0.03389434888958931,
+                    0.007682309951633215,
+                    0.02142404206097126,
+                    0.013859108090400696,
+                    0.04106147959828377,
+                    0.03259970620274544,
+                    0.1630040407180786
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.04016949608922005,
+                    0.009931948967278004,
+                    0.024740174412727356,
+                    0.02007020078599453,
+                    0.05693413317203522,
+                    0.04544215649366379,
+                    0.23539747297763824
+                  ],
+                  "per_env_rmse_rad": [
+                    0.191843,
+                    0.144765,
+                    0.182096,
+                    0.154554,
+                    0.164214,
+                    0.19809,
+                    0.245301,
+                    0.204688,
+                    0.19118,
+                    0.183236,
+                    0.1761,
+                    0.19063,
+                    0.185894,
+                    0.193008,
+                    0.168203,
+                    0.175807,
+                    0.158865,
+                    0.1676,
+                    0.167462,
+                    0.19831,
+                    0.157481,
+                    0.180693,
+                    0.178893,
+                    0.149094,
+                    0.180579,
+                    0.192708,
+                    0.149247,
+                    0.196072,
+                    0.191891,
+                    0.17547,
+                    0.178684,
+                    0.178318,
+                    0.183007,
+                    0.184629,
+                    0.153203,
+                    0.182962,
+                    0.154284,
+                    0.207805,
+                    0.158987,
+                    0.165157,
+                    0.182907,
+                    0.18055,
+                    0.177867,
+                    0.189304,
+                    0.192251,
+                    0.15758,
+                    0.191576,
+                    0.185744,
+                    0.150161,
+                    0.176198,
+                    0.187637,
+                    0.195841,
+                    0.163263,
+                    0.153643,
+                    0.154954,
+                    0.19019,
+                    0.186615,
+                    0.179517,
+                    0.185809,
+                    0.152394,
+                    0.145488,
+                    0.143755,
+                    0.176626,
+                    0.180209
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 0.7822993993759155,
+                  "rmse_max_over_envs": 0.9692670106887817,
+                  "mae_mean_over_envs": 0.7311068773269653,
+                  "max_over_envs_and_steps": 1.870696783065796,
+                  "per_env_rmse_cm": [
+                    0.760418,
+                    0.851182,
+                    0.790043,
+                    0.804013,
+                    0.7053,
+                    0.816015,
+                    0.761332,
+                    0.765434,
+                    0.835055,
+                    0.683811,
+                    0.671253,
+                    0.76413,
+                    0.847777,
+                    0.775741,
+                    0.910141,
+                    0.798781,
+                    0.969267,
+                    0.806471,
+                    0.726205,
+                    0.777068,
+                    0.864895,
+                    0.620655,
+                    0.857312,
+                    0.802784,
+                    0.733153,
+                    0.666412,
+                    0.66836,
+                    0.697953,
+                    0.866209,
+                    0.630232,
+                    0.855107,
+                    0.760139,
+                    0.740047,
+                    0.775611,
+                    0.738367,
+                    0.883769,
+                    0.81578,
+                    0.811714,
+                    0.854507,
+                    0.766354,
+                    0.733743,
+                    0.781662,
+                    0.922396,
+                    0.758127,
+                    0.85204,
+                    0.745389,
+                    0.770742,
+                    0.753123,
+                    0.795213,
+                    0.876073,
+                    0.76603,
+                    0.633143,
+                    0.891219,
+                    0.822419,
+                    0.838679,
+                    0.827786,
+                    0.727327,
+                    0.762968,
+                    0.784423,
+                    0.771291,
+                    0.817015,
+                    0.704052,
+                    0.691482,
+                    0.812021
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 39.58660888671875,
+                  "mean_tau_norm_max_over_envs_nm": 42.598114013671875,
+                  "peak_tau_norm_nm": 98.02998352050781,
+                  "mean_abs_tau_per_joint": [
+                    6.1618,
+                    19.7899,
+                    11.8923,
+                    26.2842,
+                    1.3174,
+                    3.7543,
+                    0.4411
+                  ],
+                  "mean_abs_tau_overall": 9.9487
+                },
+                "smoothness": {
+                  "jerk_nm2": 2083.0625,
+                  "jerk_nm2_max_over_envs": 2766.287353515625,
+                  "jerk_rms_nm": 45.64057922363281,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -23.21621322631836,
+                  "terms_per_step_mean": {
+                    "pos": 0.3162872791290283,
+                    "vel": 0.13205522298812866,
+                    "tau": 1.9372422695159912,
+                    "jerk": 20.830625534057617
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.04478929191827774,
+                  "ee_rmse_cm": 0.7822993993759155,
+                  "ee_max_cm": 1.870696783065796,
+                  "mean_tau_norm_nm": 39.58660888671875,
+                  "jerk_nm2": 2083.0625,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.2453007847070694,
+                  "ee_rmse_max_over_envs_cm": 0.9692670106887817,
+                  "mean_abs_tau_overall_nm": 9.9487,
+                  "task_reward_per_step": -23.21621322631836
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.04478929191827774,
+                "ee_rmse_cm": 0.7822993993759155,
+                "ee_max_cm": 1.870696783065796,
+                "mean_tau_norm_nm": 39.58660888671875,
+                "jerk_nm2": 2083.0625,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.2453007847070694,
+                "ee_rmse_max_over_envs_cm": 0.9692670106887817,
+                "mean_abs_tau_overall_nm": 9.9487,
+                "task_reward_per_step": -23.21621322631836
+              },
+              "residual_stats": {
+                "steps": 500,
+                "action_scale_nm": [
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  0.5202
+                ],
+                "res_limit_nm": 1.5,
+                "mean_abs_delta_tau_per_joint": [
+                  0.8761,
+                  1.2845,
+                  0.878,
+                  1.1643,
+                  1.1404,
+                  1.2464,
+                  0.3151
+                ],
+                "mean_abs_tau_exec_per_joint": [
+                  6.1618,
+                  19.7899,
+                  11.8923,
+                  26.2842,
+                  1.3174,
+                  3.7543,
+                  0.4411
+                ],
+                "mean_abs_tau_base_per_joint": [
+                  5.877,
+                  20.655,
+                  12.3973,
+                  26.4699,
+                  1.5307,
+                  2.9686,
+                  0.3584
+                ],
+                "max_abs_delta_tau": 1.5,
+                "mean_abs_delta_tau": 0.9864,
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "tanh_saturation_frac": 0.18140178571428572
+              },
+              "base_controller_stats": {
+                "mode": "pd_ff",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  5.877,
+                  20.655,
+                  12.397,
+                  26.47,
+                  1.531,
+                  2.969,
+                  0.358
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 6.67572021484375e-06,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 2.085e-06,
+                  "panda_link2": 3.347e-06,
+                  "panda_link3": 5.742e-06,
+                  "panda_link4": 5.92e-06,
+                  "panda_link5": 6.676e-06,
+                  "panda_link6": 6.362e-06,
+                  "panda_link7": 5.994e-06,
+                  "panda_hand": 5.26e-06
+                },
+                "worst_link": "panda_link5"
+              },
+              "wall_time_s": 13.581,
+              "env_steps_per_s": 2356.2,
+              "trace": null
+            }
+          },
+          "summary": {
+            "pd_dr": {
+              "joint_rmse_rad": 0.05961538106203079,
+              "ee_rmse_cm": 2.2966384887695312,
+              "ee_max_cm": 3.510341167449951,
+              "mean_tau_norm_nm": 39.51272964477539,
+              "jerk_nm2": 1947.7978515625,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.2633129954338074,
+              "ee_rmse_max_over_envs_cm": 2.497952699661255,
+              "mean_abs_tau_overall_nm": 9.8228,
+              "task_reward_per_step": -21.93909454345703
+            },
+            "pd_ff_dr": {
+              "joint_rmse_rad": 0.05142619088292122,
+              "ee_rmse_cm": 1.2805426120758057,
+              "ee_max_cm": 2.7401230335235596,
+              "mean_tau_norm_nm": 39.171939849853516,
+              "jerk_nm2": 1915.050537109375,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.26392239332199097,
+              "ee_rmse_max_over_envs_cm": 1.5160077810287476,
+              "mean_abs_tau_overall_nm": 9.7152,
+              "task_reward_per_step": -21.559885025024414
+            },
+            "residual_sac": {
+              "joint_rmse_rad": 0.04478929191827774,
+              "ee_rmse_cm": 0.7822993993759155,
+              "ee_max_cm": 1.870696783065796,
+              "mean_tau_norm_nm": 39.58660888671875,
+              "jerk_nm2": 2083.0625,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.2453007847070694,
+              "ee_rmse_max_over_envs_cm": 0.9692670106887817,
+              "mean_abs_tau_overall_nm": 9.9487,
+              "task_reward_per_step": -23.21621322631836
+            }
+          },
+          "vs_pd_ff_dr": {
+            "pd_dr": {
+              "ee_rmse_cm_delta": 1.0160958766937256,
+              "ee_rmse_cm_ratio": 1.7934885314332474
+            },
+            "pd_ff_dr": {
+              "ee_rmse_cm_delta": 0.0,
+              "ee_rmse_cm_ratio": 1.0
+            },
+            "residual_sac": {
+              "ee_rmse_cm_delta": -0.49824321269989014,
+              "ee_rmse_cm_ratio": 0.6109124304014999
+            }
+          }
+        },
+        {
+          "scenario": "friction_1.5x",
+          "sweep": "friction",
+          "sweep_value": 1.5,
+          "delay_steps": 0,
+          "dr_ranges": {
+            "payload_mass": [
+              1.5,
+              1.5
+            ],
+            "link_mass_scale": [
+              0.8,
+              1.2
+            ],
+            "joint_damping": [
+              0.75,
+              3.0
+            ],
+            "joint_friction": [
+              0.15000000000000002,
+              1.5
+            ]
+          },
+          "dr_note": {
+            "payload_mass": "钉死 1.5 kg（排除载荷干扰）",
+            "link_mass_scale": "训练区间（照原样）",
+            "joint_damping": "训练区间 ×1.5",
+            "joint_friction": "训练区间 ×1.5"
+          },
+          "dr": {
+            "label": "friction_1.5x",
+            "ranges": {
+              "payload_mass": [
+                1.5,
+                1.5
+              ],
+              "link_mass_scale": [
+                0.8,
+                1.2
+              ],
+              "joint_damping": [
+                0.75,
+                3.0
+              ],
+              "joint_friction": [
+                0.15000000000000002,
+                1.5
+              ]
+            },
+            "applied": true,
+            "nominal_restore_com_path": "set_coms_index",
+            "sampled": {
+              "payload_mass_kg": {
+                "min": 1.5,
+                "mean": 1.5,
+                "max": 1.5,
+                "std": 0.0
+              },
+              "link_mass_scale": {
+                "min": 0.8009382486343384,
+                "mean": 0.9919894933700562,
+                "max": 1.1999218463897705,
+                "std": 0.11666075140237808
+              },
+              "joint_damping_nms_per_rad": {
+                "min": 0.7594735622406006,
+                "mean": 1.8798177242279053,
+                "max": 2.996528387069702,
+                "std": 0.6441000699996948
+              },
+              "joint_friction_static_nm": {
+                "min": 0.1551758348941803,
+                "mean": 0.8308420777320862,
+                "max": 1.48927640914917,
+                "std": 0.37190645933151245
+              }
+            },
+            "readback": {
+              "hand_mass_kg": {
+                "min": 2.0454599857330322,
+                "mean": 2.174487590789795,
+                "max": 2.305054187774658,
+                "std": 0.08143395185470581
+              },
+              "hand_inertia_min_eig": {
+                "min": 0.0006309672025963664,
+                "mean": 0.000759491347707808,
+                "max": 0.0008864654810167849,
+                "std": 8.00109701231122e-05
+              },
+              "hand_com_shift_m": {
+                "min": 0.016962945461273193,
+                "mean": 0.01800624467432499,
+                "max": 0.019115755334496498,
+                "std": 0.0006719992379657924
+              },
+              "joint_damping_nms_per_rad": {
+                "min": 0.7594735622406006,
+                "mean": 1.8798177242279053,
+                "max": 2.996528387069702,
+                "std": 0.6441000699996948
+              },
+              "joint_friction_static_nm": {
+                "min": 0.1551758348941803,
+                "mean": 0.8308420777320862,
+                "max": 1.48927640914917,
+                "std": 0.37190645933151245
+              },
+              "joint_friction_dynamic_nm": {
+                "min": 0.07758791744709015,
+                "mean": 0.4154210388660431,
+                "max": 0.744638204574585,
+                "std": 0.18595322966575623
+              },
+              "hand_mass_nominal_kg": 0.6804429888725281
+            },
+            "com_write_path": "set_coms_index"
+          },
+          "results": {
+            "pd_dr": {
+              "tag": "friction_1.5x",
+              "controller": "pd_dr",
+              "desc": "Controller 1：纯 PD（无模型先验，纯反馈）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "pd_dr",
+                "description": "Controller 1：纯 PD（无模型先验，纯反馈）",
+                "base_mode": "pd",
+                "ff_source": null,
+                "is_rl": false,
+                "action_scale_nm": null,
+                "action_space": "—（无策略，纯经典控制器）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.06965601444244385,
+                  "max_over_envs": 0.23757733404636383,
+                  "worst_env_joint": 0.2828570306301117,
+                  "per_joint_mean_over_envs": [
+                    0.050431739538908005,
+                    0.020307976752519608,
+                    0.033190809190273285,
+                    0.052683327347040176,
+                    0.05799088999629021,
+                    0.06758583337068558,
+                    0.2054014801979065
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.06161276996135712,
+                    0.023261114954948425,
+                    0.04039471969008446,
+                    0.058797918260097504,
+                    0.08519044518470764,
+                    0.10317161679267883,
+                    0.23757733404636383
+                  ],
+                  "per_env_rmse_rad": [
+                    0.260707,
+                    0.20267,
+                    0.214686,
+                    0.200881,
+                    0.203911,
+                    0.278659,
+                    0.262964,
+                    0.266663,
+                    0.273915,
+                    0.265009,
+                    0.264556,
+                    0.268872,
+                    0.268105,
+                    0.270222,
+                    0.213948,
+                    0.269847,
+                    0.222193,
+                    0.202335,
+                    0.202749,
+                    0.267775,
+                    0.199992,
+                    0.262986,
+                    0.271933,
+                    0.179448,
+                    0.193618,
+                    0.259498,
+                    0.174843,
+                    0.261701,
+                    0.264625,
+                    0.201933,
+                    0.282857,
+                    0.266469,
+                    0.263144,
+                    0.262824,
+                    0.168576,
+                    0.277427,
+                    0.196214,
+                    0.262679,
+                    0.212355,
+                    0.192864,
+                    0.263834,
+                    0.263558,
+                    0.271614,
+                    0.271985,
+                    0.267055,
+                    0.188003,
+                    0.275909,
+                    0.265658,
+                    0.188159,
+                    0.259827,
+                    0.269334,
+                    0.26018,
+                    0.277987,
+                    0.190176,
+                    0.200112,
+                    0.272135,
+                    0.263992,
+                    0.25568,
+                    0.271473,
+                    0.190394,
+                    0.183504,
+                    0.172082,
+                    0.26719,
+                    0.2706
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 2.3915443420410156,
+                  "rmse_max_over_envs": 2.6425986289978027,
+                  "mae_mean_over_envs": 2.340813159942627,
+                  "max_over_envs_and_steps": 3.578643798828125,
+                  "per_env_rmse_cm": [
+                    2.371221,
+                    2.525747,
+                    2.444063,
+                    2.432158,
+                    2.308828,
+                    2.484122,
+                    2.330295,
+                    2.354967,
+                    2.494224,
+                    2.218406,
+                    2.254863,
+                    2.380872,
+                    2.410481,
+                    2.40943,
+                    2.552211,
+                    2.41752,
+                    2.642599,
+                    2.419605,
+                    2.365951,
+                    2.40379,
+                    2.501984,
+                    2.225472,
+                    2.439215,
+                    2.412366,
+                    2.294991,
+                    2.193743,
+                    2.205036,
+                    2.275645,
+                    2.480109,
+                    2.196544,
+                    2.519437,
+                    2.36712,
+                    2.311061,
+                    2.348651,
+                    2.323555,
+                    2.514099,
+                    2.453202,
+                    2.405693,
+                    2.509597,
+                    2.369634,
+                    2.349812,
+                    2.365396,
+                    2.566457,
+                    2.420459,
+                    2.479206,
+                    2.345388,
+                    2.440552,
+                    2.341853,
+                    2.413177,
+                    2.484486,
+                    2.418367,
+                    2.116381,
+                    2.526444,
+                    2.468459,
+                    2.395208,
+                    2.428081,
+                    2.317151,
+                    2.359103,
+                    2.376542,
+                    2.426125,
+                    2.42497,
+                    2.258268,
+                    2.300938,
+                    2.46751
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 39.35771179199219,
+                  "mean_tau_norm_max_over_envs_nm": 43.04215621948242,
+                  "peak_tau_norm_nm": 98.38622283935547,
+                  "mean_abs_tau_per_joint": [
+                    5.5081,
+                    19.9062,
+                    10.7486,
+                    26.5361,
+                    1.4961,
+                    3.8668,
+                    0.4431
+                  ],
+                  "mean_abs_tau_overall": 9.7864
+                },
+                "smoothness": {
+                  "jerk_nm2": 1700.874755859375,
+                  "jerk_nm2_max_over_envs": 2759.903076171875,
+                  "jerk_rms_nm": 41.241661071777344,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -19.58077049255371,
+                  "terms_per_step_mean": {
+                    "pos": 0.5917854309082031,
+                    "vel": 0.11124753206968307,
+                    "tau": 1.8689894676208496,
+                    "jerk": 17.00874900817871
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.06965601444244385,
+                  "ee_rmse_cm": 2.3915443420410156,
+                  "ee_max_cm": 3.578643798828125,
+                  "mean_tau_norm_nm": 39.35771179199219,
+                  "jerk_nm2": 1700.874755859375,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.2828570306301117,
+                  "ee_rmse_max_over_envs_cm": 2.6425986289978027,
+                  "mean_abs_tau_overall_nm": 9.7864,
+                  "task_reward_per_step": -19.58077049255371
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.06965601444244385,
+                "ee_rmse_cm": 2.3915443420410156,
+                "ee_max_cm": 3.578643798828125,
+                "mean_tau_norm_nm": 39.35771179199219,
+                "jerk_nm2": 1700.874755859375,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.2828570306301117,
+                "ee_rmse_max_over_envs_cm": 2.6425986289978027,
+                "mean_abs_tau_overall_nm": 9.7864,
+                "task_reward_per_step": -19.58077049255371
+              },
+              "residual_stats": null,
+              "base_controller_stats": {
+                "mode": "pd",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  5.508,
+                  19.906,
+                  10.749,
+                  26.536,
+                  1.496,
+                  3.867,
+                  0.443
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 9.099035196413752e-06,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 2.679e-06,
+                  "panda_link2": 4.135e-06,
+                  "panda_link3": 7.103e-06,
+                  "panda_link4": 7.368e-06,
+                  "panda_link5": 8.181e-06,
+                  "panda_link6": 8.176e-06,
+                  "panda_link7": 7.533e-06,
+                  "panda_hand": 7.287e-06
+                },
+                "worst_link": "panda_link5"
+              },
+              "wall_time_s": 9.72,
+              "env_steps_per_s": 3292.3,
+              "trace": null
+            },
+            "pd_ff_dr": {
+              "tag": "friction_1.5x",
+              "controller": "pd_ff_dr",
+              "desc": "Controller 2：标称前馈 + PD（工业界常见做法）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "pd_ff_dr",
+                "description": "Controller 2：标称前馈 + PD（工业界常见做法）",
+                "base_mode": "pd_ff",
+                "ff_source": "nominal",
+                "is_rl": false,
+                "action_scale_nm": null,
+                "action_space": "—（无策略，纯经典控制器）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.06114449352025986,
+                  "max_over_envs": 0.2375900000333786,
+                  "worst_env_joint": 0.2821092903614044,
+                  "per_joint_mean_over_envs": [
+                    0.03858917951583862,
+                    0.006728861480951309,
+                    0.024285651743412018,
+                    0.01035986840724945,
+                    0.056916117668151855,
+                    0.08549800515174866,
+                    0.2056337594985962
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.0471298024058342,
+                    0.009186748415231705,
+                    0.02930860035121441,
+                    0.017440076917409897,
+                    0.08353505283594131,
+                    0.11846623569726944,
+                    0.2375900000333786
+                  ],
+                  "per_env_rmse_rad": [
+                    0.257147,
+                    0.195818,
+                    0.213246,
+                    0.196237,
+                    0.204585,
+                    0.274867,
+                    0.25663,
+                    0.261796,
+                    0.269587,
+                    0.258932,
+                    0.26184,
+                    0.269133,
+                    0.269326,
+                    0.26089,
+                    0.209118,
+                    0.268791,
+                    0.218579,
+                    0.194977,
+                    0.193364,
+                    0.261317,
+                    0.193996,
+                    0.256647,
+                    0.270178,
+                    0.17194,
+                    0.192841,
+                    0.256764,
+                    0.172126,
+                    0.260281,
+                    0.259992,
+                    0.199232,
+                    0.282109,
+                    0.261231,
+                    0.260744,
+                    0.266408,
+                    0.163858,
+                    0.27478,
+                    0.190825,
+                    0.256193,
+                    0.205554,
+                    0.187344,
+                    0.261835,
+                    0.258441,
+                    0.270453,
+                    0.267546,
+                    0.257489,
+                    0.185856,
+                    0.272065,
+                    0.260825,
+                    0.178953,
+                    0.254055,
+                    0.264856,
+                    0.259924,
+                    0.273619,
+                    0.186976,
+                    0.196815,
+                    0.263333,
+                    0.261917,
+                    0.249852,
+                    0.266836,
+                    0.181774,
+                    0.177243,
+                    0.166675,
+                    0.267106,
+                    0.265493
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 1.4047194719314575,
+                  "rmse_max_over_envs": 1.7013944387435913,
+                  "mae_mean_over_envs": 1.3113353252410889,
+                  "max_over_envs_and_steps": 2.8232922554016113,
+                  "per_env_rmse_cm": [
+                    1.355335,
+                    1.521137,
+                    1.484354,
+                    1.445205,
+                    1.428583,
+                    1.537355,
+                    1.328033,
+                    1.350251,
+                    1.505135,
+                    1.210322,
+                    1.261341,
+                    1.45774,
+                    1.495224,
+                    1.390725,
+                    1.542376,
+                    1.471909,
+                    1.701394,
+                    1.377905,
+                    1.329005,
+                    1.375329,
+                    1.511928,
+                    1.210811,
+                    1.486365,
+                    1.391042,
+                    1.31914,
+                    1.196884,
+                    1.224993,
+                    1.29808,
+                    1.452357,
+                    1.252077,
+                    1.608676,
+                    1.369003,
+                    1.313399,
+                    1.461065,
+                    1.331396,
+                    1.547075,
+                    1.459845,
+                    1.373209,
+                    1.493843,
+                    1.335047,
+                    1.360532,
+                    1.353637,
+                    1.598044,
+                    1.436602,
+                    1.4068,
+                    1.354664,
+                    1.499408,
+                    1.32729,
+                    1.39788,
+                    1.453619,
+                    1.402775,
+                    1.203307,
+                    1.538338,
+                    1.461067,
+                    1.432972,
+                    1.411274,
+                    1.371874,
+                    1.339844,
+                    1.41398,
+                    1.394728,
+                    1.436117,
+                    1.250702,
+                    1.37581,
+                    1.475882
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 38.73326110839844,
+                  "mean_tau_norm_max_over_envs_nm": 41.64289093017578,
+                  "peak_tau_norm_nm": 98.06111907958984,
+                  "mean_abs_tau_per_joint": [
+                    5.1853,
+                    19.9864,
+                    9.7725,
+                    26.2112,
+                    1.5115,
+                    3.8142,
+                    0.447
+                  ],
+                  "mean_abs_tau_overall": 9.5612
+                },
+                "smoothness": {
+                  "jerk_nm2": 1525.183837890625,
+                  "jerk_nm2_max_over_envs": 2820.494873046875,
+                  "jerk_rms_nm": 39.0536003112793,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -17.72776985168457,
+                  "terms_per_step_mean": {
+                    "pos": 0.5723201036453247,
+                    "vel": 0.09960140287876129,
+                    "tau": 1.8040094375610352,
+                    "jerk": 15.251836776733398
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.06114449352025986,
+                  "ee_rmse_cm": 1.4047194719314575,
+                  "ee_max_cm": 2.8232922554016113,
+                  "mean_tau_norm_nm": 38.73326110839844,
+                  "jerk_nm2": 1525.183837890625,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.2821092903614044,
+                  "ee_rmse_max_over_envs_cm": 1.7013944387435913,
+                  "mean_abs_tau_overall_nm": 9.5612,
+                  "task_reward_per_step": -17.72776985168457
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.06114449352025986,
+                "ee_rmse_cm": 1.4047194719314575,
+                "ee_max_cm": 2.8232922554016113,
+                "mean_tau_norm_nm": 38.73326110839844,
+                "jerk_nm2": 1525.183837890625,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.2821092903614044,
+                "ee_rmse_max_over_envs_cm": 1.7013944387435913,
+                "mean_abs_tau_overall_nm": 9.5612,
+                "task_reward_per_step": -17.72776985168457
+              },
+              "residual_stats": null,
+              "base_controller_stats": {
+                "mode": "pd_ff",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  5.185,
+                  19.986,
+                  9.773,
+                  26.211,
+                  1.512,
+                  3.814,
+                  0.447
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 8.996945325634442e-06,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 2.585e-06,
+                  "panda_link2": 4.164e-06,
+                  "panda_link3": 7.064e-06,
+                  "panda_link4": 7.31e-06,
+                  "panda_link5": 7.835e-06,
+                  "panda_link6": 7.937e-06,
+                  "panda_link7": 7.342e-06,
+                  "panda_hand": 6.903e-06
+                },
+                "worst_link": "panda_link6"
+              },
+              "wall_time_s": 12.741,
+              "env_steps_per_s": 2511.6,
+              "trace": null
+            },
+            "residual_sac": {
+              "tag": "friction_1.5x",
+              "controller": "residual_sac",
+              "desc": "Controller 4：双层残差 RL（Ours：标称前馈+PD 兜底 + SAC 补偿动态残差）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "residual_sac",
+                "description": "Controller 4：双层残差 RL（Ours：标称前馈+PD 兜底 + SAC 补偿动态残差）",
+                "base_mode": "pd_ff",
+                "ff_source": "nominal",
+                "is_rl": true,
+                "action_scale_nm": [
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  0.5202
+                ],
+                "action_space": "残差力矩（逐关节 scale 见 action_scale_nm）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.05178798735141754,
+                  "max_over_envs": 0.23756009340286255,
+                  "worst_env_joint": 0.25594669580459595,
+                  "per_joint_mean_over_envs": [
+                    0.036423198878765106,
+                    0.008557034656405449,
+                    0.023318257182836533,
+                    0.014352969825267792,
+                    0.04919011518359184,
+                    0.03456440940499306,
+                    0.19610992074012756
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.04476263374090195,
+                    0.011401123367249966,
+                    0.028679050505161285,
+                    0.022048426792025566,
+                    0.07506328076124191,
+                    0.06285195797681808,
+                    0.23756009340286255
+                  ],
+                  "per_env_rmse_rad": [
+                    0.198316,
+                    0.17328,
+                    0.194185,
+                    0.199828,
+                    0.201485,
+                    0.255947,
+                    0.247951,
+                    0.188603,
+                    0.252625,
+                    0.2488,
+                    0.24796,
+                    0.250121,
+                    0.250575,
+                    0.196601,
+                    0.187067,
+                    0.250983,
+                    0.188176,
+                    0.188214,
+                    0.180879,
+                    0.188511,
+                    0.172626,
+                    0.246969,
+                    0.251071,
+                    0.170266,
+                    0.203005,
+                    0.246222,
+                    0.181554,
+                    0.195539,
+                    0.183781,
+                    0.187265,
+                    0.20102,
+                    0.249508,
+                    0.246352,
+                    0.248291,
+                    0.171711,
+                    0.191843,
+                    0.169702,
+                    0.186978,
+                    0.190131,
+                    0.180416,
+                    0.24629,
+                    0.248696,
+                    0.251706,
+                    0.25146,
+                    0.248901,
+                    0.196918,
+                    0.187424,
+                    0.249388,
+                    0.180187,
+                    0.185075,
+                    0.185838,
+                    0.218582,
+                    0.189034,
+                    0.178349,
+                    0.172059,
+                    0.255894,
+                    0.248285,
+                    0.177007,
+                    0.254369,
+                    0.174205,
+                    0.185958,
+                    0.165866,
+                    0.250191,
+                    0.253445
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 0.9049695730209351,
+                  "rmse_max_over_envs": 1.2303898334503174,
+                  "mae_mean_over_envs": 0.8454581499099731,
+                  "max_over_envs_and_steps": 2.019684314727783,
+                  "per_env_rmse_cm": [
+                    0.838699,
+                    1.013018,
+                    0.963611,
+                    0.962198,
+                    0.837862,
+                    1.059105,
+                    0.844074,
+                    0.865701,
+                    1.001984,
+                    0.729659,
+                    0.755279,
+                    0.94298,
+                    0.985128,
+                    0.905914,
+                    1.088497,
+                    0.982657,
+                    1.23039,
+                    0.883467,
+                    0.83132,
+                    0.887477,
+                    1.022071,
+                    0.706282,
+                    0.998075,
+                    0.899947,
+                    0.791836,
+                    0.686119,
+                    0.731559,
+                    0.762795,
+                    0.952782,
+                    0.738299,
+                    1.120066,
+                    0.877143,
+                    0.802829,
+                    0.869681,
+                    0.843338,
+                    1.091469,
+                    0.966176,
+                    0.868242,
+                    0.987627,
+                    0.848038,
+                    0.815163,
+                    0.81825,
+                    1.098653,
+                    0.92152,
+                    0.935942,
+                    0.846891,
+                    0.990674,
+                    0.850969,
+                    0.898819,
+                    0.947727,
+                    0.879071,
+                    0.700161,
+                    1.087148,
+                    0.938161,
+                    1.018687,
+                    0.948141,
+                    0.877079,
+                    0.835332,
+                    0.942947,
+                    0.889571,
+                    0.947753,
+                    0.741383,
+                    0.832762,
+                    0.981852
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 38.97572326660156,
+                  "mean_tau_norm_max_over_envs_nm": 42.58237075805664,
+                  "peak_tau_norm_nm": 96.59396362304688,
+                  "mean_abs_tau_per_joint": [
+                    5.5625,
+                    19.9818,
+                    10.393,
+                    26.3189,
+                    1.5553,
+                    3.8542,
+                    0.5679
+                  ],
+                  "mean_abs_tau_overall": 9.7476
+                },
+                "smoothness": {
+                  "jerk_nm2": 1593.7034912109375,
+                  "jerk_nm2_max_over_envs": 2272.40869140625,
+                  "jerk_rms_nm": 39.92121505737305,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -18.324649810791016,
+                  "terms_per_step_mean": {
+                    "pos": 0.4566616714000702,
+                    "vel": 0.10770098119974136,
+                    "tau": 1.823253870010376,
+                    "jerk": 15.937032699584961
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.05178798735141754,
+                  "ee_rmse_cm": 0.9049695730209351,
+                  "ee_max_cm": 2.019684314727783,
+                  "mean_tau_norm_nm": 38.97572326660156,
+                  "jerk_nm2": 1593.7034912109375,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.25594669580459595,
+                  "ee_rmse_max_over_envs_cm": 1.2303898334503174,
+                  "mean_abs_tau_overall_nm": 9.7476,
+                  "task_reward_per_step": -18.324649810791016
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.05178798735141754,
+                "ee_rmse_cm": 0.9049695730209351,
+                "ee_max_cm": 2.019684314727783,
+                "mean_tau_norm_nm": 38.97572326660156,
+                "jerk_nm2": 1593.7034912109375,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.25594669580459595,
+                "ee_rmse_max_over_envs_cm": 1.2303898334503174,
+                "mean_abs_tau_overall_nm": 9.7476,
+                "task_reward_per_step": -18.324649810791016
+              },
+              "residual_stats": {
+                "steps": 500,
+                "action_scale_nm": [
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  0.5202
+                ],
+                "res_limit_nm": 1.5,
+                "mean_abs_delta_tau_per_joint": [
+                  0.9048,
+                  1.2809,
+                  0.8966,
+                  1.1678,
+                  1.0788,
+                  1.2687,
+                  0.3034
+                ],
+                "mean_abs_tau_exec_per_joint": [
+                  5.5625,
+                  19.9818,
+                  10.393,
+                  26.3189,
+                  1.5553,
+                  3.8542,
+                  0.5679
+                ],
+                "mean_abs_tau_base_per_joint": [
+                  5.2068,
+                  20.8408,
+                  10.7763,
+                  26.5939,
+                  1.4673,
+                  3.0544,
+                  0.4262
+                ],
+                "max_abs_delta_tau": 1.5,
+                "mean_abs_delta_tau": 0.9859,
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "tanh_saturation_frac": 0.1894375
+              },
+              "base_controller_stats": {
+                "mode": "pd_ff",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  5.207,
+                  20.841,
+                  10.776,
+                  26.594,
+                  1.467,
+                  3.054,
+                  0.426
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 8.011005775188096e-06,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 2.434e-06,
+                  "panda_link2": 4.105e-06,
+                  "panda_link3": 7.122e-06,
+                  "panda_link4": 7.107e-06,
+                  "panda_link5": 8.011e-06,
+                  "panda_link6": 7.575e-06,
+                  "panda_link7": 7.153e-06,
+                  "panda_hand": 6.292e-06
+                },
+                "worst_link": "panda_link5"
+              },
+              "wall_time_s": 13.15,
+              "env_steps_per_s": 2433.4,
+              "trace": null
+            }
+          },
+          "summary": {
+            "pd_dr": {
+              "joint_rmse_rad": 0.06965601444244385,
+              "ee_rmse_cm": 2.3915443420410156,
+              "ee_max_cm": 3.578643798828125,
+              "mean_tau_norm_nm": 39.35771179199219,
+              "jerk_nm2": 1700.874755859375,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.2828570306301117,
+              "ee_rmse_max_over_envs_cm": 2.6425986289978027,
+              "mean_abs_tau_overall_nm": 9.7864,
+              "task_reward_per_step": -19.58077049255371
+            },
+            "pd_ff_dr": {
+              "joint_rmse_rad": 0.06114449352025986,
+              "ee_rmse_cm": 1.4047194719314575,
+              "ee_max_cm": 2.8232922554016113,
+              "mean_tau_norm_nm": 38.73326110839844,
+              "jerk_nm2": 1525.183837890625,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.2821092903614044,
+              "ee_rmse_max_over_envs_cm": 1.7013944387435913,
+              "mean_abs_tau_overall_nm": 9.5612,
+              "task_reward_per_step": -17.72776985168457
+            },
+            "residual_sac": {
+              "joint_rmse_rad": 0.05178798735141754,
+              "ee_rmse_cm": 0.9049695730209351,
+              "ee_max_cm": 2.019684314727783,
+              "mean_tau_norm_nm": 38.97572326660156,
+              "jerk_nm2": 1593.7034912109375,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.25594669580459595,
+              "ee_rmse_max_over_envs_cm": 1.2303898334503174,
+              "mean_abs_tau_overall_nm": 9.7476,
+              "task_reward_per_step": -18.324649810791016
+            }
+          },
+          "vs_pd_ff_dr": {
+            "pd_dr": {
+              "ee_rmse_cm_delta": 0.9868248701095581,
+              "ee_rmse_cm_ratio": 1.7025067209701992
+            },
+            "pd_ff_dr": {
+              "ee_rmse_cm_delta": 0.0,
+              "ee_rmse_cm_ratio": 1.0
+            },
+            "residual_sac": {
+              "ee_rmse_cm_delta": -0.49974989891052246,
+              "ee_rmse_cm_ratio": 0.6442350882889253
+            }
+          }
+        },
+        {
+          "scenario": "friction_2x",
+          "sweep": "friction",
+          "sweep_value": 2.0,
+          "delay_steps": 0,
+          "dr_ranges": {
+            "payload_mass": [
+              1.5,
+              1.5
+            ],
+            "link_mass_scale": [
+              0.8,
+              1.2
+            ],
+            "joint_damping": [
+              1.0,
+              4.0
+            ],
+            "joint_friction": [
+              0.2,
+              2.0
+            ]
+          },
+          "dr_note": {
+            "payload_mass": "钉死 1.5 kg（排除载荷干扰）",
+            "link_mass_scale": "训练区间（照原样）",
+            "joint_damping": "训练区间 ×2",
+            "joint_friction": "训练区间 ×2"
+          },
+          "dr": {
+            "label": "friction_2x",
+            "ranges": {
+              "payload_mass": [
+                1.5,
+                1.5
+              ],
+              "link_mass_scale": [
+                0.8,
+                1.2
+              ],
+              "joint_damping": [
+                1.0,
+                4.0
+              ],
+              "joint_friction": [
+                0.2,
+                2.0
+              ]
+            },
+            "applied": true,
+            "nominal_restore_com_path": "set_coms_index",
+            "sampled": {
+              "payload_mass_kg": {
+                "min": 1.5,
+                "mean": 1.5,
+                "max": 1.5,
+                "std": 0.0
+              },
+              "link_mass_scale": {
+                "min": 0.8009382486343384,
+                "mean": 0.9919894933700562,
+                "max": 1.1999218463897705,
+                "std": 0.11666075140237808
+              },
+              "joint_damping_nms_per_rad": {
+                "min": 1.0126314163208008,
+                "mean": 2.5064234733581543,
+                "max": 3.995371103286743,
+                "std": 0.8588001132011414
+              },
+              "joint_friction_static_nm": {
+                "min": 0.20690111815929413,
+                "mean": 1.1077895164489746,
+                "max": 1.9857019186019897,
+                "std": 0.4958752989768982
+              }
+            },
+            "readback": {
+              "hand_mass_kg": {
+                "min": 2.0454599857330322,
+                "mean": 2.174487590789795,
+                "max": 2.305054187774658,
+                "std": 0.08143395185470581
+              },
+              "hand_inertia_min_eig": {
+                "min": 0.0006309672025963664,
+                "mean": 0.000759491347707808,
+                "max": 0.0008864654810167849,
+                "std": 8.00109701231122e-05
+              },
+              "hand_com_shift_m": {
+                "min": 0.016962945461273193,
+                "mean": 0.01800624467432499,
+                "max": 0.019115755334496498,
+                "std": 0.0006719992379657924
+              },
+              "joint_damping_nms_per_rad": {
+                "min": 1.0126314163208008,
+                "mean": 2.5064234733581543,
+                "max": 3.995371103286743,
+                "std": 0.8588001132011414
+              },
+              "joint_friction_static_nm": {
+                "min": 0.20690111815929413,
+                "mean": 1.1077895164489746,
+                "max": 1.9857019186019897,
+                "std": 0.4958752989768982
+              },
+              "joint_friction_dynamic_nm": {
+                "min": 0.10345055907964706,
+                "mean": 0.5538947582244873,
+                "max": 0.9928509593009949,
+                "std": 0.2479376494884491
+              },
+              "hand_mass_nominal_kg": 0.6804429888725281
+            },
+            "com_write_path": "set_coms_index"
+          },
+          "results": {
+            "pd_dr": {
+              "tag": "friction_2x",
+              "controller": "pd_dr",
+              "desc": "Controller 1：纯 PD（无模型先验，纯反馈）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "pd_dr",
+                "description": "Controller 1：纯 PD（无模型先验，纯反馈）",
+                "base_mode": "pd",
+                "ff_source": null,
+                "is_rl": false,
+                "action_scale_nm": null,
+                "action_space": "—（无策略，纯经典控制器）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.07609818875789642,
+                  "max_over_envs": 0.23758545517921448,
+                  "worst_env_joint": 0.29614317417144775,
+                  "per_joint_mean_over_envs": [
+                    0.05353789031505585,
+                    0.02086453139781952,
+                    0.035581186413764954,
+                    0.05294818431138992,
+                    0.07167407870292664,
+                    0.07970652729272842,
+                    0.21837487816810608
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.06584521383047104,
+                    0.024083925411105156,
+                    0.043637145310640335,
+                    0.058792632073163986,
+                    0.10386326909065247,
+                    0.12065829336643219,
+                    0.23758545517921448
+                  ],
+                  "per_env_rmse_rad": [
+                    0.265253,
+                    0.225436,
+                    0.285434,
+                    0.279355,
+                    0.274797,
+                    0.290737,
+                    0.268808,
+                    0.274428,
+                    0.28404,
+                    0.271697,
+                    0.273009,
+                    0.277886,
+                    0.277069,
+                    0.278438,
+                    0.24554,
+                    0.278814,
+                    0.256983,
+                    0.270215,
+                    0.225612,
+                    0.275355,
+                    0.224161,
+                    0.268688,
+                    0.28149,
+                    0.203614,
+                    0.265058,
+                    0.264662,
+                    0.196121,
+                    0.268127,
+                    0.271308,
+                    0.268907,
+                    0.296143,
+                    0.274126,
+                    0.269105,
+                    0.269528,
+                    0.193854,
+                    0.286694,
+                    0.221237,
+                    0.267837,
+                    0.279968,
+                    0.21376,
+                    0.271157,
+                    0.268658,
+                    0.281409,
+                    0.280158,
+                    0.273183,
+                    0.214039,
+                    0.287753,
+                    0.273569,
+                    0.207725,
+                    0.27138,
+                    0.278196,
+                    0.267019,
+                    0.287825,
+                    0.210377,
+                    0.2233,
+                    0.280439,
+                    0.269899,
+                    0.268669,
+                    0.281311,
+                    0.211175,
+                    0.205978,
+                    0.194336,
+                    0.276731,
+                    0.279527
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 2.486392021179199,
+                  "rmse_max_over_envs": 2.785526752471924,
+                  "mae_mean_over_envs": 2.425739288330078,
+                  "max_over_envs_and_steps": 3.9954562187194824,
+                  "per_env_rmse_cm": [
+                    2.445276,
+                    2.636434,
+                    2.546768,
+                    2.51997,
+                    2.433002,
+                    2.616074,
+                    2.413504,
+                    2.43188,
+                    2.603159,
+                    2.299878,
+                    2.346072,
+                    2.497254,
+                    2.535842,
+                    2.520996,
+                    2.635053,
+                    2.53039,
+                    2.785527,
+                    2.500432,
+                    2.435577,
+                    2.495341,
+                    2.620715,
+                    2.309955,
+                    2.546449,
+                    2.502475,
+                    2.361726,
+                    2.263705,
+                    2.278242,
+                    2.354391,
+                    2.568552,
+                    2.29923,
+                    2.650818,
+                    2.457506,
+                    2.384312,
+                    2.441407,
+                    2.409687,
+                    2.607079,
+                    2.56462,
+                    2.490003,
+                    2.601028,
+                    2.44037,
+                    2.43634,
+                    2.442097,
+                    2.693332,
+                    2.506289,
+                    2.565789,
+                    2.432326,
+                    2.589021,
+                    2.417214,
+                    2.50237,
+                    2.566829,
+                    2.517992,
+                    2.201344,
+                    2.625522,
+                    2.562848,
+                    2.491585,
+                    2.509395,
+                    2.412898,
+                    2.441099,
+                    2.465866,
+                    2.509431,
+                    2.533236,
+                    2.336445,
+                    2.404415,
+                    2.584716
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 38.83307647705078,
+                  "mean_tau_norm_max_over_envs_nm": 43.21427536010742,
+                  "peak_tau_norm_nm": 96.9333724975586,
+                  "mean_abs_tau_per_joint": [
+                    4.9921,
+                    20.1459,
+                    9.3813,
+                    26.5756,
+                    1.7018,
+                    3.9393,
+                    0.4729
+                  ],
+                  "mean_abs_tau_overall": 9.6013
+                },
+                "smoothness": {
+                  "jerk_nm2": 1240.189697265625,
+                  "jerk_nm2_max_over_envs": 2682.302734375,
+                  "jerk_rms_nm": 35.21632766723633,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -14.94311237335205,
+                  "terms_per_step_mean": {
+                    "pos": 0.6829752326011658,
+                    "vel": 0.09270800650119781,
+                    "tau": 1.7655311822891235,
+                    "jerk": 12.401897430419922
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.07609818875789642,
+                  "ee_rmse_cm": 2.486392021179199,
+                  "ee_max_cm": 3.9954562187194824,
+                  "mean_tau_norm_nm": 38.83307647705078,
+                  "jerk_nm2": 1240.189697265625,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.29614317417144775,
+                  "ee_rmse_max_over_envs_cm": 2.785526752471924,
+                  "mean_abs_tau_overall_nm": 9.6013,
+                  "task_reward_per_step": -14.94311237335205
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.07609818875789642,
+                "ee_rmse_cm": 2.486392021179199,
+                "ee_max_cm": 3.9954562187194824,
+                "mean_tau_norm_nm": 38.83307647705078,
+                "jerk_nm2": 1240.189697265625,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.29614317417144775,
+                "ee_rmse_max_over_envs_cm": 2.785526752471924,
+                "mean_abs_tau_overall_nm": 9.6013,
+                "task_reward_per_step": -14.94311237335205
+              },
+              "residual_stats": null,
+              "base_controller_stats": {
+                "mode": "pd",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  4.992,
+                  20.146,
+                  9.381,
+                  26.576,
+                  1.702,
+                  3.939,
+                  0.473
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 1.031986903399229e-05,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 3.016e-06,
+                  "panda_link2": 4.97e-06,
+                  "panda_link3": 8.19e-06,
+                  "panda_link4": 8.497e-06,
+                  "panda_link5": 9.213e-06,
+                  "panda_link6": 9.388e-06,
+                  "panda_link7": 8.72e-06,
+                  "panda_hand": 8.585e-06
+                },
+                "worst_link": "panda_link6"
+              },
+              "wall_time_s": 9.97,
+              "env_steps_per_s": 3209.5,
+              "trace": null
+            },
+            "pd_ff_dr": {
+              "tag": "friction_2x",
+              "controller": "pd_ff_dr",
+              "desc": "Controller 2：标称前馈 + PD（工业界常见做法）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "pd_ff_dr",
+                "description": "Controller 2：标称前馈 + PD（工业界常见做法）",
+                "base_mode": "pd_ff",
+                "ff_source": "nominal",
+                "is_rl": false,
+                "action_scale_nm": null,
+                "action_space": "—（无策略，纯经典控制器）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.06789711117744446,
+                  "max_over_envs": 0.23759762942790985,
+                  "worst_env_joint": 0.2951667010784149,
+                  "per_joint_mean_over_envs": [
+                    0.04212946072220802,
+                    0.007610689383000135,
+                    0.02690921723842621,
+                    0.011836174875497818,
+                    0.07127527892589569,
+                    0.0969410389661789,
+                    0.21857786178588867
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.05329972878098488,
+                    0.010314336977899075,
+                    0.03416813537478447,
+                    0.019971847534179688,
+                    0.10375454276800156,
+                    0.13504712283611298,
+                    0.23759762942790985
+                  ],
+                  "per_env_rmse_rad": [
+                    0.26222,
+                    0.220388,
+                    0.285512,
+                    0.275941,
+                    0.272255,
+                    0.287818,
+                    0.263159,
+                    0.269901,
+                    0.280341,
+                    0.26596,
+                    0.270513,
+                    0.278609,
+                    0.27862,
+                    0.269989,
+                    0.243237,
+                    0.278082,
+                    0.254669,
+                    0.264488,
+                    0.22018,
+                    0.269969,
+                    0.219173,
+                    0.262973,
+                    0.280383,
+                    0.197974,
+                    0.261638,
+                    0.262343,
+                    0.194234,
+                    0.267179,
+                    0.267238,
+                    0.266486,
+                    0.295167,
+                    0.269317,
+                    0.267365,
+                    0.270205,
+                    0.190276,
+                    0.286123,
+                    0.217611,
+                    0.262051,
+                    0.276498,
+                    0.210153,
+                    0.269443,
+                    0.264109,
+                    0.280433,
+                    0.278304,
+                    0.264258,
+                    0.213817,
+                    0.286397,
+                    0.269324,
+                    0.201137,
+                    0.266701,
+                    0.274836,
+                    0.267048,
+                    0.284621,
+                    0.20867,
+                    0.221094,
+                    0.272931,
+                    0.2683,
+                    0.263809,
+                    0.277348,
+                    0.204978,
+                    0.200961,
+                    0.19083,
+                    0.277035,
+                    0.275744
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 1.5421029329299927,
+                  "rmse_max_over_envs": 1.8984311819076538,
+                  "mae_mean_over_envs": 1.4462543725967407,
+                  "max_over_envs_and_steps": 2.891758918762207,
+                  "per_env_rmse_cm": [
+                    1.46598,
+                    1.691183,
+                    1.656544,
+                    1.576776,
+                    1.526811,
+                    1.728481,
+                    1.451277,
+                    1.457886,
+                    1.663063,
+                    1.321881,
+                    1.385573,
+                    1.622457,
+                    1.66641,
+                    1.554229,
+                    1.690692,
+                    1.629547,
+                    1.898431,
+                    1.500368,
+                    1.468562,
+                    1.518133,
+                    1.680529,
+                    1.336857,
+                    1.638129,
+                    1.522728,
+                    1.353413,
+                    1.29834,
+                    1.33513,
+                    1.411281,
+                    1.578999,
+                    1.405196,
+                    1.785412,
+                    1.494803,
+                    1.422083,
+                    1.502615,
+                    1.457346,
+                    1.70053,
+                    1.619272,
+                    1.497269,
+                    1.654907,
+                    1.457414,
+                    1.479556,
+                    1.465062,
+                    1.771815,
+                    1.592926,
+                    1.529147,
+                    1.486863,
+                    1.733307,
+                    1.437839,
+                    1.530692,
+                    1.573522,
+                    1.548184,
+                    1.327939,
+                    1.688657,
+                    1.60007,
+                    1.570863,
+                    1.544908,
+                    1.511751,
+                    1.458955,
+                    1.542369,
+                    1.540347,
+                    1.578964,
+                    1.368592,
+                    1.525663,
+                    1.660056
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 38.30236053466797,
+                  "mean_tau_norm_max_over_envs_nm": 41.73164367675781,
+                  "peak_tau_norm_nm": 96.82398986816406,
+                  "mean_abs_tau_per_joint": [
+                    4.7714,
+                    20.2178,
+                    8.5969,
+                    26.2578,
+                    1.7179,
+                    3.88,
+                    0.4766
+                  ],
+                  "mean_abs_tau_overall": 9.4169
+                },
+                "smoothness": {
+                  "jerk_nm2": 1113.272216796875,
+                  "jerk_nm2_max_over_envs": 2335.755126953125,
+                  "jerk_rms_nm": 33.3657341003418,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -13.596048355102539,
+                  "terms_per_step_mean": {
+                    "pos": 0.6664175987243652,
+                    "vel": 0.08383995294570923,
+                    "tau": 1.7130672931671143,
+                    "jerk": 11.132722854614258
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.06789711117744446,
+                  "ee_rmse_cm": 1.5421029329299927,
+                  "ee_max_cm": 2.891758918762207,
+                  "mean_tau_norm_nm": 38.30236053466797,
+                  "jerk_nm2": 1113.272216796875,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.2951667010784149,
+                  "ee_rmse_max_over_envs_cm": 1.8984311819076538,
+                  "mean_abs_tau_overall_nm": 9.4169,
+                  "task_reward_per_step": -13.596048355102539
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.06789711117744446,
+                "ee_rmse_cm": 1.5421029329299927,
+                "ee_max_cm": 2.891758918762207,
+                "mean_tau_norm_nm": 38.30236053466797,
+                "jerk_nm2": 1113.272216796875,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.2951667010784149,
+                "ee_rmse_max_over_envs_cm": 1.8984311819076538,
+                "mean_abs_tau_overall_nm": 9.4169,
+                "task_reward_per_step": -13.596048355102539
+              },
+              "residual_stats": null,
+              "base_controller_stats": {
+                "mode": "pd_ff",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  4.771,
+                  20.218,
+                  8.597,
+                  26.258,
+                  1.718,
+                  3.88,
+                  0.477
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 1.0095555808220524e-05,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 3.053e-06,
+                  "panda_link2": 4.834e-06,
+                  "panda_link3": 8.386e-06,
+                  "panda_link4": 8.585e-06,
+                  "panda_link5": 9.504e-06,
+                  "panda_link6": 9.723e-06,
+                  "panda_link7": 8.937e-06,
+                  "panda_hand": 8.493e-06
+                },
+                "worst_link": "panda_link6"
+              },
+              "wall_time_s": 12.813,
+              "env_steps_per_s": 2497.5,
+              "trace": null
+            },
+            "residual_sac": {
+              "tag": "friction_2x",
+              "controller": "residual_sac",
+              "desc": "Controller 4：双层残差 RL（Ours：标称前馈+PD 兜底 + SAC 补偿动态残差）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "residual_sac",
+                "description": "Controller 4：双层残差 RL（Ours：标称前馈+PD 兜底 + SAC 补偿动态残差）",
+                "base_mode": "pd_ff",
+                "ff_source": "nominal",
+                "is_rl": true,
+                "action_scale_nm": [
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  0.5202
+                ],
+                "action_space": "残差力矩（逐关节 scale 见 action_scale_nm）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.058568909764289856,
+                  "max_over_envs": 0.23756976425647736,
+                  "worst_env_joint": 0.27551642060279846,
+                  "per_joint_mean_over_envs": [
+                    0.03977194055914879,
+                    0.009634090587496758,
+                    0.025582879781723022,
+                    0.015264635905623436,
+                    0.06534295529127121,
+                    0.04273178428411484,
+                    0.21165406703948975
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.05239041522145271,
+                    0.013016168028116226,
+                    0.033713582903146744,
+                    0.023852068930864334,
+                    0.09764007478952408,
+                    0.08385764062404633,
+                    0.23756976425647736
+                  ],
+                  "per_env_rmse_rad": [
+                    0.247712,
+                    0.196966,
+                    0.204983,
+                    0.191293,
+                    0.187796,
+                    0.269305,
+                    0.251291,
+                    0.256826,
+                    0.262718,
+                    0.252749,
+                    0.252393,
+                    0.259046,
+                    0.258847,
+                    0.259175,
+                    0.201843,
+                    0.257986,
+                    0.215001,
+                    0.185905,
+                    0.187317,
+                    0.25687,
+                    0.191586,
+                    0.249654,
+                    0.259978,
+                    0.188713,
+                    0.177727,
+                    0.248096,
+                    0.202676,
+                    0.250187,
+                    0.251009,
+                    0.190905,
+                    0.275516,
+                    0.255569,
+                    0.249608,
+                    0.25096,
+                    0.19647,
+                    0.264413,
+                    0.189776,
+                    0.249658,
+                    0.192759,
+                    0.188884,
+                    0.251954,
+                    0.250612,
+                    0.259107,
+                    0.261544,
+                    0.25122,
+                    0.194047,
+                    0.266606,
+                    0.25625,
+                    0.19116,
+                    0.251386,
+                    0.255648,
+                    0.254179,
+                    0.264027,
+                    0.189156,
+                    0.190905,
+                    0.26354,
+                    0.252166,
+                    0.249859,
+                    0.264948,
+                    0.193856,
+                    0.205775,
+                    0.181503,
+                    0.257269,
+                    0.261846
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 1.072311282157898,
+                  "rmse_max_over_envs": 1.5329879522323608,
+                  "mae_mean_over_envs": 1.0039916038513184,
+                  "max_over_envs_and_steps": 2.583437442779541,
+                  "per_env_rmse_cm": [
+                    0.95496,
+                    1.222883,
+                    1.202247,
+                    1.146573,
+                    1.097594,
+                    1.330857,
+                    0.973488,
+                    1.009045,
+                    1.199307,
+                    0.841789,
+                    0.876581,
+                    1.17105,
+                    1.221985,
+                    1.095772,
+                    1.282969,
+                    1.191213,
+                    1.532988,
+                    1.006516,
+                    0.987276,
+                    1.035023,
+                    1.243295,
+                    0.835404,
+                    1.210295,
+                    1.042087,
+                    0.827167,
+                    0.771956,
+                    0.839124,
+                    0.87953,
+                    1.08511,
+                    0.909298,
+                    1.415952,
+                    1.031563,
+                    0.92255,
+                    0.979648,
+                    0.972079,
+                    1.28877,
+                    1.176175,
+                    1.000394,
+                    1.187027,
+                    0.990634,
+                    0.964464,
+                    0.921791,
+                    1.318473,
+                    1.1394,
+                    1.038431,
+                    0.977569,
+                    1.280164,
+                    0.979118,
+                    1.054716,
+                    1.086573,
+                    1.044729,
+                    0.837846,
+                    1.301206,
+                    1.091713,
+                    1.182892,
+                    1.092015,
+                    1.055486,
+                    0.962427,
+                    1.119309,
+                    1.045769,
+                    1.097423,
+                    0.848525,
+                    1.016594,
+                    1.183117
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 38.257930755615234,
+                  "mean_tau_norm_max_over_envs_nm": 41.9918212890625,
+                  "peak_tau_norm_nm": 95.25193786621094,
+                  "mean_abs_tau_per_joint": [
+                    4.8229,
+                    20.2237,
+                    8.519,
+                    26.361,
+                    1.8187,
+                    3.9722,
+                    0.6272
+                  ],
+                  "mean_abs_tau_overall": 9.4778
+                },
+                "smoothness": {
+                  "jerk_nm2": 1030.126953125,
+                  "jerk_nm2_max_over_envs": 2011.7747802734375,
+                  "jerk_rms_nm": 32.0955924987793,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -12.630609512329102,
+                  "terms_per_step_mean": {
+                    "pos": 0.551821231842041,
+                    "vel": 0.08056020736694336,
+                    "tau": 1.696958303451538,
+                    "jerk": 10.30126953125
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.058568909764289856,
+                  "ee_rmse_cm": 1.072311282157898,
+                  "ee_max_cm": 2.583437442779541,
+                  "mean_tau_norm_nm": 38.257930755615234,
+                  "jerk_nm2": 1030.126953125,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.27551642060279846,
+                  "ee_rmse_max_over_envs_cm": 1.5329879522323608,
+                  "mean_abs_tau_overall_nm": 9.4778,
+                  "task_reward_per_step": -12.630609512329102
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.058568909764289856,
+                "ee_rmse_cm": 1.072311282157898,
+                "ee_max_cm": 2.583437442779541,
+                "mean_tau_norm_nm": 38.257930755615234,
+                "jerk_nm2": 1030.126953125,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.27551642060279846,
+                "ee_rmse_max_over_envs_cm": 1.5329879522323608,
+                "mean_abs_tau_overall_nm": 9.4778,
+                "task_reward_per_step": -12.630609512329102
+              },
+              "residual_stats": {
+                "steps": 500,
+                "action_scale_nm": [
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  0.5202
+                ],
+                "res_limit_nm": 1.5,
+                "mean_abs_delta_tau_per_joint": [
+                  0.9546,
+                  1.2691,
+                  0.9579,
+                  1.2149,
+                  1.0255,
+                  1.2841,
+                  0.292
+                ],
+                "mean_abs_tau_exec_per_joint": [
+                  4.8229,
+                  20.2237,
+                  8.519,
+                  26.361,
+                  1.8187,
+                  3.9722,
+                  0.6272
+                ],
+                "mean_abs_tau_base_per_joint": [
+                  4.3688,
+                  21.0921,
+                  8.812,
+                  26.6498,
+                  1.585,
+                  3.1496,
+                  0.4643
+                ],
+                "max_abs_delta_tau": 1.5,
+                "mean_abs_delta_tau": 0.9997,
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "tanh_saturation_frac": 0.2109330357142857
+              },
+              "base_controller_stats": {
+                "mode": "pd_ff",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  4.369,
+                  21.092,
+                  8.812,
+                  26.65,
+                  1.585,
+                  3.15,
+                  0.464
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 9.114834938372951e-06,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 2.852e-06,
+                  "panda_link2": 4.712e-06,
+                  "panda_link3": 8.267e-06,
+                  "panda_link4": 8.18e-06,
+                  "panda_link5": 9.115e-06,
+                  "panda_link6": 8.765e-06,
+                  "panda_link7": 8.22e-06,
+                  "panda_hand": 7.597e-06
+                },
+                "worst_link": "panda_link5"
+              },
+              "wall_time_s": 13.542,
+              "env_steps_per_s": 2363.0,
+              "trace": null
+            }
+          },
+          "summary": {
+            "pd_dr": {
+              "joint_rmse_rad": 0.07609818875789642,
+              "ee_rmse_cm": 2.486392021179199,
+              "ee_max_cm": 3.9954562187194824,
+              "mean_tau_norm_nm": 38.83307647705078,
+              "jerk_nm2": 1240.189697265625,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.29614317417144775,
+              "ee_rmse_max_over_envs_cm": 2.785526752471924,
+              "mean_abs_tau_overall_nm": 9.6013,
+              "task_reward_per_step": -14.94311237335205
+            },
+            "pd_ff_dr": {
+              "joint_rmse_rad": 0.06789711117744446,
+              "ee_rmse_cm": 1.5421029329299927,
+              "ee_max_cm": 2.891758918762207,
+              "mean_tau_norm_nm": 38.30236053466797,
+              "jerk_nm2": 1113.272216796875,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.2951667010784149,
+              "ee_rmse_max_over_envs_cm": 1.8984311819076538,
+              "mean_abs_tau_overall_nm": 9.4169,
+              "task_reward_per_step": -13.596048355102539
+            },
+            "residual_sac": {
+              "joint_rmse_rad": 0.058568909764289856,
+              "ee_rmse_cm": 1.072311282157898,
+              "ee_max_cm": 2.583437442779541,
+              "mean_tau_norm_nm": 38.257930755615234,
+              "jerk_nm2": 1030.126953125,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.27551642060279846,
+              "ee_rmse_max_over_envs_cm": 1.5329879522323608,
+              "mean_abs_tau_overall_nm": 9.4778,
+              "task_reward_per_step": -12.630609512329102
+            }
+          },
+          "vs_pd_ff_dr": {
+            "pd_dr": {
+              "ee_rmse_cm_delta": 0.9442890882492065,
+              "ee_rmse_cm_ratio": 1.6123385593042476
+            },
+            "pd_ff_dr": {
+              "ee_rmse_cm_delta": 0.0,
+              "ee_rmse_cm_ratio": 1.0
+            },
+            "residual_sac": {
+              "ee_rmse_cm_delta": -0.4697916507720947,
+              "ee_rmse_cm_ratio": 0.6953564896738174
+            }
+          }
+        },
+        {
+          "scenario": "friction_3x",
+          "sweep": "friction",
+          "sweep_value": 3.0,
+          "delay_steps": 0,
+          "dr_ranges": {
+            "payload_mass": [
+              1.5,
+              1.5
+            ],
+            "link_mass_scale": [
+              0.8,
+              1.2
+            ],
+            "joint_damping": [
+              1.5,
+              6.0
+            ],
+            "joint_friction": [
+              0.30000000000000004,
+              3.0
+            ]
+          },
+          "dr_note": {
+            "payload_mass": "钉死 1.5 kg（排除载荷干扰）",
+            "link_mass_scale": "训练区间（照原样）",
+            "joint_damping": "训练区间 ×3",
+            "joint_friction": "训练区间 ×3"
+          },
+          "dr": {
+            "label": "friction_3x",
+            "ranges": {
+              "payload_mass": [
+                1.5,
+                1.5
+              ],
+              "link_mass_scale": [
+                0.8,
+                1.2
+              ],
+              "joint_damping": [
+                1.5,
+                6.0
+              ],
+              "joint_friction": [
+                0.30000000000000004,
+                3.0
+              ]
+            },
+            "applied": true,
+            "nominal_restore_com_path": "set_coms_index",
+            "sampled": {
+              "payload_mass_kg": {
+                "min": 1.5,
+                "mean": 1.5,
+                "max": 1.5,
+                "std": 0.0
+              },
+              "link_mass_scale": {
+                "min": 0.8009382486343384,
+                "mean": 0.9919894933700562,
+                "max": 1.1999218463897705,
+                "std": 0.11666075140237808
+              },
+              "joint_damping_nms_per_rad": {
+                "min": 1.5189471244812012,
+                "mean": 3.7596354484558105,
+                "max": 5.993056774139404,
+                "std": 1.2882001399993896
+              },
+              "joint_friction_static_nm": {
+                "min": 0.3103516697883606,
+                "mean": 1.6616841554641724,
+                "max": 2.97855281829834,
+                "std": 0.7438129186630249
+              }
+            },
+            "readback": {
+              "hand_mass_kg": {
+                "min": 2.0454599857330322,
+                "mean": 2.174487590789795,
+                "max": 2.305054187774658,
+                "std": 0.08143395185470581
+              },
+              "hand_inertia_min_eig": {
+                "min": 0.0006309672025963664,
+                "mean": 0.000759491347707808,
+                "max": 0.0008864654810167849,
+                "std": 8.00109701231122e-05
+              },
+              "hand_com_shift_m": {
+                "min": 0.016962945461273193,
+                "mean": 0.01800624467432499,
+                "max": 0.019115755334496498,
+                "std": 0.0006719992379657924
+              },
+              "joint_damping_nms_per_rad": {
+                "min": 1.5189471244812012,
+                "mean": 3.7596354484558105,
+                "max": 5.993056774139404,
+                "std": 1.2882001399993896
+              },
+              "joint_friction_static_nm": {
+                "min": 0.3103516697883606,
+                "mean": 1.6616841554641724,
+                "max": 2.97855281829834,
+                "std": 0.7438129186630249
+              },
+              "joint_friction_dynamic_nm": {
+                "min": 0.1551758348941803,
+                "mean": 0.8308420777320862,
+                "max": 1.48927640914917,
+                "std": 0.37190645933151245
+              },
+              "hand_mass_nominal_kg": 0.6804429888725281
+            },
+            "com_write_path": "set_coms_index"
+          },
+          "results": {
+            "pd_dr": {
+              "tag": "friction_3x",
+              "controller": "pd_dr",
+              "desc": "Controller 1：纯 PD（无模型先验，纯反馈）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "pd_dr",
+                "description": "Controller 1：纯 PD（无模型先验，纯反馈）",
+                "base_mode": "pd",
+                "ff_source": null,
+                "is_rl": false,
+                "action_scale_nm": null,
+                "action_space": "—（无策略，纯经典控制器）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.08670824021100998,
+                  "max_over_envs": 0.23759955167770386,
+                  "worst_env_joint": 0.3217531144618988,
+                  "per_joint_mean_over_envs": [
+                    0.05939105153083801,
+                    0.022319145500659943,
+                    0.039940278977155685,
+                    0.054142989218235016,
+                    0.09621910750865936,
+                    0.10126907378435135,
+                    0.23367609083652496
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.07890106737613678,
+                    0.026033326983451843,
+                    0.05256803706288338,
+                    0.06099722534418106,
+                    0.1352492719888687,
+                    0.14743615686893463,
+                    0.23759955167770386
+                  ],
+                  "per_env_rmse_rad": [
+                    0.275317,
+                    0.301752,
+                    0.309551,
+                    0.298349,
+                    0.289922,
+                    0.313034,
+                    0.281304,
+                    0.292256,
+                    0.304789,
+                    0.283807,
+                    0.293216,
+                    0.294152,
+                    0.294603,
+                    0.296149,
+                    0.307442,
+                    0.296491,
+                    0.31836,
+                    0.283845,
+                    0.291581,
+                    0.291792,
+                    0.279448,
+                    0.280813,
+                    0.300381,
+                    0.244296,
+                    0.27439,
+                    0.277113,
+                    0.278496,
+                    0.282915,
+                    0.285734,
+                    0.283693,
+                    0.321753,
+                    0.291633,
+                    0.281434,
+                    0.284258,
+                    0.234266,
+                    0.307706,
+                    0.280074,
+                    0.280059,
+                    0.300129,
+                    0.269396,
+                    0.287856,
+                    0.280431,
+                    0.300544,
+                    0.303136,
+                    0.285358,
+                    0.281713,
+                    0.310667,
+                    0.291167,
+                    0.284165,
+                    0.284303,
+                    0.29633,
+                    0.282234,
+                    0.306139,
+                    0.288972,
+                    0.296323,
+                    0.298111,
+                    0.281891,
+                    0.281998,
+                    0.303178,
+                    0.291566,
+                    0.290178,
+                    0.233848,
+                    0.296933,
+                    0.297192
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 2.666299343109131,
+                  "rmse_max_over_envs": 3.0227582454681396,
+                  "mae_mean_over_envs": 2.581935167312622,
+                  "max_over_envs_and_steps": 4.795083045959473,
+                  "per_env_rmse_cm": [
+                    2.589173,
+                    2.837927,
+                    2.754255,
+                    2.740652,
+                    2.652485,
+                    2.838787,
+                    2.559672,
+                    2.639929,
+                    2.783692,
+                    2.417379,
+                    2.531241,
+                    2.66693,
+                    2.766332,
+                    2.740931,
+                    2.823544,
+                    2.733971,
+                    3.022758,
+                    2.654387,
+                    2.618866,
+                    2.665307,
+                    2.845002,
+                    2.456303,
+                    2.722337,
+                    2.664432,
+                    2.474247,
+                    2.400929,
+                    2.416243,
+                    2.508246,
+                    2.728458,
+                    2.502065,
+                    2.879394,
+                    2.63915,
+                    2.502244,
+                    2.620031,
+                    2.571347,
+                    2.796408,
+                    2.774644,
+                    2.667639,
+                    2.788662,
+                    2.607539,
+                    2.600892,
+                    2.595212,
+                    2.919591,
+                    2.754834,
+                    2.712942,
+                    2.598037,
+                    2.849969,
+                    2.589107,
+                    2.657429,
+                    2.683447,
+                    2.684769,
+                    2.356553,
+                    2.787826,
+                    2.742514,
+                    2.650701,
+                    2.667324,
+                    2.596929,
+                    2.605873,
+                    2.695263,
+                    2.695958,
+                    2.688764,
+                    2.502444,
+                    2.60399,
+                    2.79924
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 37.975128173828125,
+                  "mean_tau_norm_max_over_envs_nm": 41.21767044067383,
+                  "peak_tau_norm_nm": 93.94276428222656,
+                  "mean_abs_tau_per_joint": [
+                    4.028,
+                    20.6945,
+                    6.6808,
+                    26.6643,
+                    2.0961,
+                    4.0861,
+                    0.515
+                  ],
+                  "mean_abs_tau_overall": 9.2521
+                },
+                "smoothness": {
+                  "jerk_nm2": 394.8568420410156,
+                  "jerk_nm2_max_over_envs": 2170.34521484375,
+                  "jerk_rms_nm": 19.87100601196289,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -6.434238433837891,
+                  "terms_per_step_mean": {
+                    "pos": 0.8390020728111267,
+                    "vel": 0.05978507176041603,
+                    "tau": 1.5868830680847168,
+                    "jerk": 3.948568820953369
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.08670824021100998,
+                  "ee_rmse_cm": 2.666299343109131,
+                  "ee_max_cm": 4.795083045959473,
+                  "mean_tau_norm_nm": 37.975128173828125,
+                  "jerk_nm2": 394.8568420410156,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.3217531144618988,
+                  "ee_rmse_max_over_envs_cm": 3.0227582454681396,
+                  "mean_abs_tau_overall_nm": 9.2521,
+                  "task_reward_per_step": -6.434238433837891
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.08670824021100998,
+                "ee_rmse_cm": 2.666299343109131,
+                "ee_max_cm": 4.795083045959473,
+                "mean_tau_norm_nm": 37.975128173828125,
+                "jerk_nm2": 394.8568420410156,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.3217531144618988,
+                "ee_rmse_max_over_envs_cm": 3.0227582454681396,
+                "mean_abs_tau_overall_nm": 9.2521,
+                "task_reward_per_step": -6.434238433837891
+              },
+              "residual_stats": null,
+              "base_controller_stats": {
+                "mode": "pd",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  4.028,
+                  20.694,
+                  6.681,
+                  26.664,
+                  2.096,
+                  4.086,
+                  0.515
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 1.1555310265976004e-05,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 3.49e-06,
+                  "panda_link2": 5.693e-06,
+                  "panda_link3": 9.435e-06,
+                  "panda_link4": 9.74e-06,
+                  "panda_link5": 1.0478e-05,
+                  "panda_link6": 1.0504e-05,
+                  "panda_link7": 9.671e-06,
+                  "panda_hand": 9.091e-06
+                },
+                "worst_link": "panda_link6"
+              },
+              "wall_time_s": 9.738,
+              "env_steps_per_s": 3286.0,
+              "trace": null
+            },
+            "pd_ff_dr": {
+              "tag": "friction_3x",
+              "controller": "pd_ff_dr",
+              "desc": "Controller 2：标称前馈 + PD（工业界常见做法）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "pd_ff_dr",
+                "description": "Controller 2：标称前馈 + PD（工业界常见做法）",
+                "base_mode": "pd_ff",
+                "ff_source": "nominal",
+                "is_rl": false,
+                "action_scale_nm": null,
+                "action_space": "—（无策略，纯经典控制器）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.07902274280786514,
+                  "max_over_envs": 0.23760950565338135,
+                  "worst_env_joint": 0.32182833552360535,
+                  "per_joint_mean_over_envs": [
+                    0.0492594912648201,
+                    0.00966658629477024,
+                    0.03198999911546707,
+                    0.015071003697812557,
+                    0.0966653972864151,
+                    0.11671867221593857,
+                    0.23378804326057434
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.06928317248821259,
+                    0.013087422586977482,
+                    0.044946346431970596,
+                    0.024329647421836853,
+                    0.13533341884613037,
+                    0.15975171327590942,
+                    0.23760950565338135
+                  ],
+                  "per_env_rmse_rad": [
+                    0.273103,
+                    0.297663,
+                    0.309398,
+                    0.295218,
+                    0.28973,
+                    0.311917,
+                    0.276493,
+                    0.287873,
+                    0.302225,
+                    0.28117,
+                    0.290833,
+                    0.295589,
+                    0.296511,
+                    0.289926,
+                    0.305961,
+                    0.295879,
+                    0.315998,
+                    0.278793,
+                    0.28725,
+                    0.288337,
+                    0.276204,
+                    0.2774,
+                    0.299658,
+                    0.241132,
+                    0.273352,
+                    0.275117,
+                    0.277329,
+                    0.282453,
+                    0.282514,
+                    0.281319,
+                    0.321828,
+                    0.287249,
+                    0.28059,
+                    0.285333,
+                    0.231309,
+                    0.307144,
+                    0.277512,
+                    0.274814,
+                    0.297235,
+                    0.268871,
+                    0.286828,
+                    0.276609,
+                    0.299628,
+                    0.301033,
+                    0.279478,
+                    0.281009,
+                    0.308537,
+                    0.28743,
+                    0.279885,
+                    0.281,
+                    0.295013,
+                    0.282373,
+                    0.30466,
+                    0.28801,
+                    0.294219,
+                    0.291785,
+                    0.280829,
+                    0.277798,
+                    0.298914,
+                    0.286906,
+                    0.28659,
+                    0.232257,
+                    0.297309,
+                    0.294
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 1.7955206632614136,
+                  "rmse_max_over_envs": 2.2075424194335938,
+                  "mae_mean_over_envs": 1.696936845779419,
+                  "max_over_envs_and_steps": 3.583523750305176,
+                  "per_env_rmse_cm": [
+                    1.676077,
+                    1.965304,
+                    1.93298,
+                    1.870433,
+                    1.87518,
+                    2.046689,
+                    1.658595,
+                    1.741292,
+                    1.926893,
+                    1.525192,
+                    1.635886,
+                    1.858028,
+                    1.972659,
+                    1.876388,
+                    1.959592,
+                    1.896295,
+                    2.207542,
+                    1.710286,
+                    1.725451,
+                    1.780116,
+                    1.979462,
+                    1.578096,
+                    1.879566,
+                    1.756806,
+                    1.555084,
+                    1.489085,
+                    1.542416,
+                    1.631506,
+                    1.80373,
+                    1.674612,
+                    2.113881,
+                    1.742636,
+                    1.592814,
+                    1.751033,
+                    1.677221,
+                    1.948795,
+                    1.899738,
+                    1.742844,
+                    1.906713,
+                    1.712694,
+                    1.721698,
+                    1.683371,
+                    2.068564,
+                    1.925426,
+                    1.764903,
+                    1.723994,
+                    2.063596,
+                    1.679154,
+                    1.766459,
+                    1.74422,
+                    1.8042,
+                    1.547247,
+                    1.925008,
+                    1.856133,
+                    1.783663,
+                    1.775447,
+                    1.763977,
+                    1.6789,
+                    1.85439,
+                    1.800208,
+                    1.807316,
+                    1.605276,
+                    1.793982,
+                    1.956581
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 37.615386962890625,
+                  "mean_tau_norm_max_over_envs_nm": 40.726280212402344,
+                  "peak_tau_norm_nm": 93.8822021484375,
+                  "mean_abs_tau_per_joint": [
+                    4.0069,
+                    20.7447,
+                    6.2728,
+                    26.3602,
+                    2.1129,
+                    4.0282,
+                    0.5174
+                  ],
+                  "mean_abs_tau_overall": 9.149
+                },
+                "smoothness": {
+                  "jerk_nm2": 351.5504455566406,
+                  "jerk_nm2_max_over_envs": 2207.016845703125,
+                  "jerk_rms_nm": 18.749677658081055,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -5.9522624015808105,
+                  "terms_per_step_mean": {
+                    "pos": 0.8256298303604126,
+                    "vel": 0.05535169690847397,
+                    "tau": 1.555776834487915,
+                    "jerk": 3.5155043601989746
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.07902274280786514,
+                  "ee_rmse_cm": 1.7955206632614136,
+                  "ee_max_cm": 3.583523750305176,
+                  "mean_tau_norm_nm": 37.615386962890625,
+                  "jerk_nm2": 351.5504455566406,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.32182833552360535,
+                  "ee_rmse_max_over_envs_cm": 2.2075424194335938,
+                  "mean_abs_tau_overall_nm": 9.149,
+                  "task_reward_per_step": -5.9522624015808105
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.07902274280786514,
+                "ee_rmse_cm": 1.7955206632614136,
+                "ee_max_cm": 3.583523750305176,
+                "mean_tau_norm_nm": 37.615386962890625,
+                "jerk_nm2": 351.5504455566406,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.32182833552360535,
+                "ee_rmse_max_over_envs_cm": 2.2075424194335938,
+                "mean_abs_tau_overall_nm": 9.149,
+                "task_reward_per_step": -5.9522624015808105
+              },
+              "residual_stats": null,
+              "base_controller_stats": {
+                "mode": "pd_ff",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  4.007,
+                  20.745,
+                  6.273,
+                  26.36,
+                  2.113,
+                  4.028,
+                  0.517
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 1.1646570783341303e-05,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 3.419e-06,
+                  "panda_link2": 5.67e-06,
+                  "panda_link3": 9.349e-06,
+                  "panda_link4": 9.854e-06,
+                  "panda_link5": 1.0763e-05,
+                  "panda_link6": 1.0937e-05,
+                  "panda_link7": 1.0026e-05,
+                  "panda_hand": 9.865e-06
+                },
+                "worst_link": "panda_link6"
+              },
+              "wall_time_s": 12.955,
+              "env_steps_per_s": 2470.1,
+              "trace": null
+            },
+            "residual_sac": {
+              "tag": "friction_3x",
+              "controller": "residual_sac",
+              "desc": "Controller 4：双层残差 RL（Ours：标称前馈+PD 兜底 + SAC 补偿动态残差）",
+              "num_envs": 64,
+              "steps": 500,
+              "controller_meta": {
+                "name": "residual_sac",
+                "description": "Controller 4：双层残差 RL（Ours：标称前馈+PD 兜底 + SAC 补偿动态残差）",
+                "base_mode": "pd_ff",
+                "ff_source": "nominal",
+                "is_rl": true,
+                "action_scale_nm": [
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  0.5202
+                ],
+                "action_space": "残差力矩（逐关节 scale 见 action_scale_nm）",
+                "delay": {
+                  "steps": 0,
+                  "delay_ms": 0.0,
+                  "note": "延迟线首步预填（等价于链路实验前已在跑）"
+                }
+              },
+              "metrics": {
+                "num_envs": 64,
+                "steps_counted": 500,
+                "joint_rmse_rad": {
+                  "mean_over_envs": 0.07063578069210052,
+                  "max_over_envs": 0.23758600652217865,
+                  "worst_env_joint": 0.30506590008735657,
+                  "per_joint_mean_over_envs": [
+                    0.04662260785698891,
+                    0.011783957481384277,
+                    0.030089061707258224,
+                    0.0175267793238163,
+                    0.09803031384944916,
+                    0.06571882963180542,
+                    0.2246789187192917
+                  ],
+                  "per_joint_max_over_envs": [
+                    0.06810116022825241,
+                    0.01570478267967701,
+                    0.043462056666612625,
+                    0.027235014364123344,
+                    0.13644030690193176,
+                    0.11733154952526093,
+                    0.23758600652217865
+                  ],
+                  "per_env_rmse_rad": [
+                    0.255671,
+                    0.25307,
+                    0.293013,
+                    0.27577,
+                    0.268515,
+                    0.296775,
+                    0.264698,
+                    0.274324,
+                    0.288955,
+                    0.266441,
+                    0.273849,
+                    0.276924,
+                    0.276743,
+                    0.279081,
+                    0.2853,
+                    0.275652,
+                    0.302363,
+                    0.263508,
+                    0.234103,
+                    0.275617,
+                    0.229185,
+                    0.259409,
+                    0.282412,
+                    0.201685,
+                    0.255883,
+                    0.256446,
+                    0.218214,
+                    0.265392,
+                    0.266129,
+                    0.26609,
+                    0.305066,
+                    0.274096,
+                    0.261908,
+                    0.264684,
+                    0.224956,
+                    0.286983,
+                    0.22983,
+                    0.258751,
+                    0.282098,
+                    0.215661,
+                    0.271532,
+                    0.260467,
+                    0.279084,
+                    0.285445,
+                    0.264965,
+                    0.265614,
+                    0.293168,
+                    0.273942,
+                    0.20991,
+                    0.265406,
+                    0.27759,
+                    0.27007,
+                    0.285219,
+                    0.213389,
+                    0.227601,
+                    0.282075,
+                    0.26349,
+                    0.263256,
+                    0.286835,
+                    0.210393,
+                    0.231608,
+                    0.191222,
+                    0.282224,
+                    0.280146
+                  ],
+                  "joint_names": [
+                    "panda_joint1",
+                    "panda_joint2",
+                    "panda_joint3",
+                    "panda_joint4",
+                    "panda_joint5",
+                    "panda_joint6",
+                    "panda_joint7"
+                  ]
+                },
+                "cartesian_error_cm": {
+                  "rmse_mean_over_envs": 1.4342116117477417,
+                  "rmse_max_over_envs": 1.9808964729309082,
+                  "mae_mean_over_envs": 1.3495440483093262,
+                  "max_over_envs_and_steps": 3.510521411895752,
+                  "per_env_rmse_cm": [
+                    1.240298,
+                    1.676629,
+                    1.61356,
+                    1.574464,
+                    1.499172,
+                    1.772432,
+                    1.275681,
+                    1.383577,
+                    1.604954,
+                    1.097351,
+                    1.261291,
+                    1.543409,
+                    1.650937,
+                    1.534786,
+                    1.682029,
+                    1.592752,
+                    1.980896,
+                    1.342383,
+                    1.366846,
+                    1.392005,
+                    1.680849,
+                    1.13853,
+                    1.590638,
+                    1.364287,
+                    1.081054,
+                    1.005967,
+                    1.08664,
+                    1.179014,
+                    1.420985,
+                    1.314308,
+                    1.872293,
+                    1.404434,
+                    1.194942,
+                    1.322683,
+                    1.240839,
+                    1.675344,
+                    1.57228,
+                    1.319556,
+                    1.607714,
+                    1.347385,
+                    1.351599,
+                    1.203775,
+                    1.790788,
+                    1.602193,
+                    1.370952,
+                    1.320401,
+                    1.77321,
+                    1.291983,
+                    1.427943,
+                    1.358133,
+                    1.426528,
+                    1.117238,
+                    1.66199,
+                    1.470267,
+                    1.505443,
+                    1.394484,
+                    1.43488,
+                    1.282882,
+                    1.531901,
+                    1.39839,
+                    1.412282,
+                    1.145349,
+                    1.422995,
+                    1.588742
+                  ]
+                },
+                "effort": {
+                  "mean_tau_norm_nm": 37.600555419921875,
+                  "mean_tau_norm_max_over_envs_nm": 40.79047393798828,
+                  "peak_tau_norm_nm": 92.00599670410156,
+                  "mean_abs_tau_per_joint": [
+                    3.98,
+                    20.7732,
+                    5.9297,
+                    26.4485,
+                    2.2235,
+                    4.2716,
+                    0.7074
+                  ],
+                  "mean_abs_tau_overall": 9.1905
+                },
+                "smoothness": {
+                  "jerk_nm2": 281.75262451171875,
+                  "jerk_nm2_max_over_envs": 1328.28515625,
+                  "jerk_rms_nm": 16.78548812866211,
+                  "note": "jerk = mean_t‖τ_t−τ_{t−1}‖²（τ 取真正下发的力矩，τ_{−1}=0）"
+                },
+                "safety": {
+                  "sat_step_frac": 0.0,
+                  "sat_entry_frac": 0.0,
+                  "tau_limits_nm": [
+                    87.0,
+                    87.0,
+                    87.0,
+                    87.0,
+                    12.0,
+                    12.0,
+                    12.0
+                  ]
+                },
+                "env_reward_w12_convention": {
+                  "mean_per_step_per_env": -5.109437942504883,
+                  "terms_per_step_mean": {
+                    "pos": 0.6972430944442749,
+                    "vel": 0.047326281666755676,
+                    "tau": 1.5473427772521973,
+                    "jerk": 2.817525625228882
+                  }
+                },
+                "paper_row": {
+                  "joint_rmse_rad": 0.07063578069210052,
+                  "ee_rmse_cm": 1.4342116117477417,
+                  "ee_max_cm": 3.510521411895752,
+                  "mean_tau_norm_nm": 37.600555419921875,
+                  "jerk_nm2": 281.75262451171875,
+                  "sat_step_frac": 0.0,
+                  "joint_rmse_worst_env_rad": 0.30506590008735657,
+                  "ee_rmse_max_over_envs_cm": 1.9808964729309082,
+                  "mean_abs_tau_overall_nm": 9.1905,
+                  "task_reward_per_step": -5.109437942504883
+                }
+              },
+              "paper_row": {
+                "joint_rmse_rad": 0.07063578069210052,
+                "ee_rmse_cm": 1.4342116117477417,
+                "ee_max_cm": 3.510521411895752,
+                "mean_tau_norm_nm": 37.600555419921875,
+                "jerk_nm2": 281.75262451171875,
+                "sat_step_frac": 0.0,
+                "joint_rmse_worst_env_rad": 0.30506590008735657,
+                "ee_rmse_max_over_envs_cm": 1.9808964729309082,
+                "mean_abs_tau_overall_nm": 9.1905,
+                "task_reward_per_step": -5.109437942504883
+              },
+              "residual_stats": {
+                "steps": 500,
+                "action_scale_nm": [
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  1.5,
+                  0.5202
+                ],
+                "res_limit_nm": 1.5,
+                "mean_abs_delta_tau_per_joint": [
+                  1.0219,
+                  1.2917,
+                  1.0554,
+                  1.3116,
+                  0.963,
+                  1.2956,
+                  0.2992
+                ],
+                "mean_abs_tau_exec_per_joint": [
+                  3.98,
+                  20.7732,
+                  5.9297,
+                  26.4485,
+                  2.2235,
+                  4.2716,
+                  0.7074
+                ],
+                "mean_abs_tau_base_per_joint": [
+                  3.4413,
+                  21.6563,
+                  6.137,
+                  26.7394,
+                  2.0126,
+                  3.358,
+                  0.5018
+                ],
+                "max_abs_delta_tau": 1.5,
+                "mean_abs_delta_tau": 1.0341,
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "tanh_saturation_frac": 0.25916964285714283
+              },
+              "base_controller_stats": {
+                "mode": "pd_ff",
+                "sign": "stabilizing",
+                "ff_source": "nominal",
+                "sat_step_frac_any_joint": 0.0,
+                "sat_entry_frac": 0.0,
+                "sat_frac_per_joint": [
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0,
+                  0.0
+                ],
+                "mean_abs_tau_per_joint": [
+                  3.441,
+                  21.656,
+                  6.137,
+                  26.739,
+                  2.013,
+                  3.358,
+                  0.502
+                ]
+              },
+              "fk": {
+                "enabled": true,
+                "source": "builtin_constants",
+                "max_err_m": 1.0343767826270778e-05,
+                "tolerance_m": 0.0001,
+                "valid": true,
+                "last_per_link_max_err_m": {
+                  "panda_link1": 3.303e-06,
+                  "panda_link2": 5.382e-06,
+                  "panda_link3": 9.307e-06,
+                  "panda_link4": 9.354e-06,
+                  "panda_link5": 1.0344e-05,
+                  "panda_link6": 1.0172e-05,
+                  "panda_link7": 9.537e-06,
+                  "panda_hand": 8.65e-06
+                },
+                "worst_link": "panda_link5"
+              },
+              "wall_time_s": 13.485,
+              "env_steps_per_s": 2372.9,
+              "trace": null
+            }
+          },
+          "summary": {
+            "pd_dr": {
+              "joint_rmse_rad": 0.08670824021100998,
+              "ee_rmse_cm": 2.666299343109131,
+              "ee_max_cm": 4.795083045959473,
+              "mean_tau_norm_nm": 37.975128173828125,
+              "jerk_nm2": 394.8568420410156,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.3217531144618988,
+              "ee_rmse_max_over_envs_cm": 3.0227582454681396,
+              "mean_abs_tau_overall_nm": 9.2521,
+              "task_reward_per_step": -6.434238433837891
+            },
+            "pd_ff_dr": {
+              "joint_rmse_rad": 0.07902274280786514,
+              "ee_rmse_cm": 1.7955206632614136,
+              "ee_max_cm": 3.583523750305176,
+              "mean_tau_norm_nm": 37.615386962890625,
+              "jerk_nm2": 351.5504455566406,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.32182833552360535,
+              "ee_rmse_max_over_envs_cm": 2.2075424194335938,
+              "mean_abs_tau_overall_nm": 9.149,
+              "task_reward_per_step": -5.9522624015808105
+            },
+            "residual_sac": {
+              "joint_rmse_rad": 0.07063578069210052,
+              "ee_rmse_cm": 1.4342116117477417,
+              "ee_max_cm": 3.510521411895752,
+              "mean_tau_norm_nm": 37.600555419921875,
+              "jerk_nm2": 281.75262451171875,
+              "sat_step_frac": 0.0,
+              "joint_rmse_worst_env_rad": 0.30506590008735657,
+              "ee_rmse_max_over_envs_cm": 1.9808964729309082,
+              "mean_abs_tau_overall_nm": 9.1905,
+              "task_reward_per_step": -5.109437942504883
+            }
+          },
+          "vs_pd_ff_dr": {
+            "pd_dr": {
+              "ee_rmse_cm_delta": 0.8707786798477173,
+              "ee_rmse_cm_ratio": 1.4849727979548955
+            },
+            "pd_ff_dr": {
+              "ee_rmse_cm_delta": 0.0,
+              "ee_rmse_cm_ratio": 1.0
+            },
+            "residual_sac": {
+              "ee_rmse_cm_delta": -0.3613090515136719,
+              "ee_rmse_cm_ratio": 0.798771989146934
+            }
+          }
+        }
+      ],
+      "policies": {
+        "residual_policy": {
+          "meta": {
+            "obs_dim": 105,
+            "action_dim": 7,
+            "res_limit": 1.5,
+            "seed": 42,
+            "env_steps": 400384,
+            "note": "best-by-EE checkpoint：验收指标（末端 RMSE）最好的一次；训练末尾不一定就是它"
+          },
+          "cfg": {
+            "model": {
+              "state_dim": 105,
+              "action_dim": 7,
+              "hidden_dim": 256,
+              "critic_hidden_dim": 256,
+              "num_layers": 2,
+              "activation": "relu",
+              "log_std_min": -5.0,
+              "log_std_max": 2.0,
+              "log_std_init": -0.5,
+              "action_low": -1.5,
+              "action_high": 1.5,
+              "n_critics": 2
+            },
+            "training": {
+              "gamma": 0.99,
+              "tau": 0.005,
+              "init_alpha": 0.02,
+              "target_entropy": null,
+              "reward_scale": 1.0
+            }
+          },
+          "path": "/data/zzh/embodied-arm/logs/w13_residual_sac_ee50k/policy_best_ee.pt",
+          "action_bound": 1.5,
+          "obs_dim": 105
+        }
+      },
+      "wall_s": 146.44
+    }
+  },
+  "table_rows": [
+    {
+      "stage": "friction",
+      "scenario": "friction_1x",
+      "sweep": "friction",
+      "sweep_value": 1.0,
+      "delay_steps": 0,
+      "controller": "pd_dr",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×1;joint_friction=训练区间 ×1",
+      "joint_rmse_rad": 0.05961538106203079,
+      "ee_rmse_cm": 2.2966384887695312,
+      "ee_max_cm": 3.510341167449951,
+      "mean_tau_norm_nm": 39.51272964477539,
+      "jerk_nm2": 1947.7978515625,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.2633129954338074,
+      "ee_rmse_max_over_envs_cm": 2.497952699661255,
+      "mean_abs_tau_overall_nm": 9.8228,
+      "task_reward_per_step": -21.93909454345703,
+      "mean_abs_delta_tau_nm": "",
+      "tanh_sat_frac": "",
+      "action_scale_nm": "",
+      "per_env_ee_rmse_cm": "2.30416;2.40926;2.32522;2.32622;2.19196;2.34069;2.24939;2.27283;2.3817;2.11703;2.17169;2.26731;2.29033;2.31134;2.43771;2.29925;2.49795;2.34512;2.27526;2.31668;2.3824;2.14733;2.32985;2.32486;2.23762;2.13332;2.13374;2.20837;2.41554;2.10211;2.37136;2.28068;2.23598;2.26308;2.2455;2.3989;2.34456;2.33062;2.41493;2.29205;2.2702;2.28382;2.44435;2.30893;2.40259;2.26583;2.29172;2.26692;2.32608;2.41226;2.32511;2.04073;2.413;2.37696;2.28808;2.33781;2.21886;2.30202;2.2742;2.33507;2.34076;2.18499;2.19768;2.35297"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_1x",
+      "sweep": "friction",
+      "sweep_value": 1.0,
+      "delay_steps": 0,
+      "controller": "pd_ff_dr",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×1;joint_friction=训练区间 ×1",
+      "joint_rmse_rad": 0.05142619088292122,
+      "ee_rmse_cm": 1.2805426120758057,
+      "ee_max_cm": 2.7401230335235596,
+      "mean_tau_norm_nm": 39.171939849853516,
+      "jerk_nm2": 1915.050537109375,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.26392239332199097,
+      "ee_rmse_max_over_envs_cm": 1.5160077810287476,
+      "mean_abs_tau_overall_nm": 9.7152,
+      "task_reward_per_step": -21.559885025024414,
+      "mean_abs_delta_tau_nm": "",
+      "tanh_sat_frac": "",
+      "action_scale_nm": "",
+      "per_env_ee_rmse_cm": "1.24318;1.40369;1.30852;1.29347;1.26739;1.33222;1.20097;1.2203;1.39659;1.207;1.14377;1.28297;1.41189;1.23291;1.37937;1.30489;1.51601;1.25863;1.19683;1.23528;1.34222;1.17875;1.41035;1.26007;1.24348;1.18041;1.18013;1.27672;1.32703;1.1052;1.36861;1.23116;1.19931;1.33949;1.21215;1.37283;1.38402;1.24854;1.34004;1.21367;1.23679;1.28851;1.42577;1.27277;1.2962;1.29952;1.27927;1.21168;1.26191;1.33617;1.26037;1.1894;1.42706;1.32405;1.3674;1.27039;1.22159;1.22017;1.25527;1.23334;1.29055;1.22305;1.2183;1.29518"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_1x",
+      "sweep": "friction",
+      "sweep_value": 1.0,
+      "delay_steps": 0,
+      "controller": "residual_sac",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×1;joint_friction=训练区间 ×1",
+      "joint_rmse_rad": 0.04478929191827774,
+      "ee_rmse_cm": 0.7822993993759155,
+      "ee_max_cm": 1.870696783065796,
+      "mean_tau_norm_nm": 39.58660888671875,
+      "jerk_nm2": 2083.0625,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.2453007847070694,
+      "ee_rmse_max_over_envs_cm": 0.9692670106887817,
+      "mean_abs_tau_overall_nm": 9.9487,
+      "task_reward_per_step": -23.21621322631836,
+      "mean_abs_delta_tau_nm": 0.9864,
+      "tanh_sat_frac": 0.18140178571428572,
+      "action_scale_nm": "1.5;1.5;1.5;1.5;1.5;1.5;0.5202",
+      "per_env_ee_rmse_cm": "0.760418;0.851182;0.790043;0.804013;0.7053;0.816015;0.761332;0.765434;0.835055;0.683811;0.671253;0.76413;0.847777;0.775741;0.910141;0.798781;0.969267;0.806471;0.726205;0.777068;0.864895;0.620655;0.857312;0.802784;0.733153;0.666412;0.66836;0.697953;0.866209;0.630232;0.855107;0.760139;0.740047;0.775611;0.738367;0.883769;0.81578;0.811714;0.854507;0.766354;0.733743;0.781662;0.922396;0.758127;0.85204;0.745389;0.770742;0.753123;0.795213;0.876073;0.76603;0.633143;0.891219;0.822419;0.838679;0.827786;0.727327;0.762968;0.784423;0.771291;0.817015;0.704052;0.691482;0.812021"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_1.5x",
+      "sweep": "friction",
+      "sweep_value": 1.5,
+      "delay_steps": 0,
+      "controller": "pd_dr",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×1.5;joint_friction=训练区间 ×1.5",
+      "joint_rmse_rad": 0.06965601444244385,
+      "ee_rmse_cm": 2.3915443420410156,
+      "ee_max_cm": 3.578643798828125,
+      "mean_tau_norm_nm": 39.35771179199219,
+      "jerk_nm2": 1700.874755859375,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.2828570306301117,
+      "ee_rmse_max_over_envs_cm": 2.6425986289978027,
+      "mean_abs_tau_overall_nm": 9.7864,
+      "task_reward_per_step": -19.58077049255371,
+      "mean_abs_delta_tau_nm": "",
+      "tanh_sat_frac": "",
+      "action_scale_nm": "",
+      "per_env_ee_rmse_cm": "2.37122;2.52575;2.44406;2.43216;2.30883;2.48412;2.3303;2.35497;2.49422;2.21841;2.25486;2.38087;2.41048;2.40943;2.55221;2.41752;2.6426;2.4196;2.36595;2.40379;2.50198;2.22547;2.43921;2.41237;2.29499;2.19374;2.20504;2.27564;2.48011;2.19654;2.51944;2.36712;2.31106;2.34865;2.32355;2.5141;2.4532;2.40569;2.5096;2.36963;2.34981;2.3654;2.56646;2.42046;2.47921;2.34539;2.44055;2.34185;2.41318;2.48449;2.41837;2.11638;2.52644;2.46846;2.39521;2.42808;2.31715;2.3591;2.37654;2.42612;2.42497;2.25827;2.30094;2.46751"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_1.5x",
+      "sweep": "friction",
+      "sweep_value": 1.5,
+      "delay_steps": 0,
+      "controller": "pd_ff_dr",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×1.5;joint_friction=训练区间 ×1.5",
+      "joint_rmse_rad": 0.06114449352025986,
+      "ee_rmse_cm": 1.4047194719314575,
+      "ee_max_cm": 2.8232922554016113,
+      "mean_tau_norm_nm": 38.73326110839844,
+      "jerk_nm2": 1525.183837890625,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.2821092903614044,
+      "ee_rmse_max_over_envs_cm": 1.7013944387435913,
+      "mean_abs_tau_overall_nm": 9.5612,
+      "task_reward_per_step": -17.72776985168457,
+      "mean_abs_delta_tau_nm": "",
+      "tanh_sat_frac": "",
+      "action_scale_nm": "",
+      "per_env_ee_rmse_cm": "1.35533;1.52114;1.48435;1.44521;1.42858;1.53736;1.32803;1.35025;1.50513;1.21032;1.26134;1.45774;1.49522;1.39072;1.54238;1.47191;1.70139;1.3779;1.329;1.37533;1.51193;1.21081;1.48636;1.39104;1.31914;1.19688;1.22499;1.29808;1.45236;1.25208;1.60868;1.369;1.3134;1.46107;1.3314;1.54707;1.45985;1.37321;1.49384;1.33505;1.36053;1.35364;1.59804;1.4366;1.4068;1.35466;1.49941;1.32729;1.39788;1.45362;1.40278;1.20331;1.53834;1.46107;1.43297;1.41127;1.37187;1.33984;1.41398;1.39473;1.43612;1.2507;1.37581;1.47588"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_1.5x",
+      "sweep": "friction",
+      "sweep_value": 1.5,
+      "delay_steps": 0,
+      "controller": "residual_sac",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×1.5;joint_friction=训练区间 ×1.5",
+      "joint_rmse_rad": 0.05178798735141754,
+      "ee_rmse_cm": 0.9049695730209351,
+      "ee_max_cm": 2.019684314727783,
+      "mean_tau_norm_nm": 38.97572326660156,
+      "jerk_nm2": 1593.7034912109375,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.25594669580459595,
+      "ee_rmse_max_over_envs_cm": 1.2303898334503174,
+      "mean_abs_tau_overall_nm": 9.7476,
+      "task_reward_per_step": -18.324649810791016,
+      "mean_abs_delta_tau_nm": 0.9859,
+      "tanh_sat_frac": 0.1894375,
+      "action_scale_nm": "1.5;1.5;1.5;1.5;1.5;1.5;0.5202",
+      "per_env_ee_rmse_cm": "0.838699;1.01302;0.963611;0.962198;0.837862;1.0591;0.844074;0.865701;1.00198;0.729659;0.755279;0.94298;0.985128;0.905914;1.0885;0.982657;1.23039;0.883467;0.83132;0.887477;1.02207;0.706282;0.998075;0.899947;0.791836;0.686119;0.731559;0.762795;0.952782;0.738299;1.12007;0.877143;0.802829;0.869681;0.843338;1.09147;0.966176;0.868242;0.987627;0.848038;0.815163;0.81825;1.09865;0.92152;0.935942;0.846891;0.990674;0.850969;0.898819;0.947727;0.879071;0.700161;1.08715;0.938161;1.01869;0.948141;0.877079;0.835332;0.942947;0.889571;0.947753;0.741383;0.832762;0.981852"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_2x",
+      "sweep": "friction",
+      "sweep_value": 2.0,
+      "delay_steps": 0,
+      "controller": "pd_dr",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×2;joint_friction=训练区间 ×2",
+      "joint_rmse_rad": 0.07609818875789642,
+      "ee_rmse_cm": 2.486392021179199,
+      "ee_max_cm": 3.9954562187194824,
+      "mean_tau_norm_nm": 38.83307647705078,
+      "jerk_nm2": 1240.189697265625,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.29614317417144775,
+      "ee_rmse_max_over_envs_cm": 2.785526752471924,
+      "mean_abs_tau_overall_nm": 9.6013,
+      "task_reward_per_step": -14.94311237335205,
+      "mean_abs_delta_tau_nm": "",
+      "tanh_sat_frac": "",
+      "action_scale_nm": "",
+      "per_env_ee_rmse_cm": "2.44528;2.63643;2.54677;2.51997;2.433;2.61607;2.4135;2.43188;2.60316;2.29988;2.34607;2.49725;2.53584;2.521;2.63505;2.53039;2.78553;2.50043;2.43558;2.49534;2.62072;2.30995;2.54645;2.50248;2.36173;2.2637;2.27824;2.35439;2.56855;2.29923;2.65082;2.45751;2.38431;2.44141;2.40969;2.60708;2.56462;2.49;2.60103;2.44037;2.43634;2.4421;2.69333;2.50629;2.56579;2.43233;2.58902;2.41721;2.50237;2.56683;2.51799;2.20134;2.62552;2.56285;2.49159;2.5094;2.4129;2.4411;2.46587;2.50943;2.53324;2.33644;2.40442;2.58472"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_2x",
+      "sweep": "friction",
+      "sweep_value": 2.0,
+      "delay_steps": 0,
+      "controller": "pd_ff_dr",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×2;joint_friction=训练区间 ×2",
+      "joint_rmse_rad": 0.06789711117744446,
+      "ee_rmse_cm": 1.5421029329299927,
+      "ee_max_cm": 2.891758918762207,
+      "mean_tau_norm_nm": 38.30236053466797,
+      "jerk_nm2": 1113.272216796875,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.2951667010784149,
+      "ee_rmse_max_over_envs_cm": 1.8984311819076538,
+      "mean_abs_tau_overall_nm": 9.4169,
+      "task_reward_per_step": -13.596048355102539,
+      "mean_abs_delta_tau_nm": "",
+      "tanh_sat_frac": "",
+      "action_scale_nm": "",
+      "per_env_ee_rmse_cm": "1.46598;1.69118;1.65654;1.57678;1.52681;1.72848;1.45128;1.45789;1.66306;1.32188;1.38557;1.62246;1.66641;1.55423;1.69069;1.62955;1.89843;1.50037;1.46856;1.51813;1.68053;1.33686;1.63813;1.52273;1.35341;1.29834;1.33513;1.41128;1.579;1.4052;1.78541;1.4948;1.42208;1.50262;1.45735;1.70053;1.61927;1.49727;1.65491;1.45741;1.47956;1.46506;1.77181;1.59293;1.52915;1.48686;1.73331;1.43784;1.53069;1.57352;1.54818;1.32794;1.68866;1.60007;1.57086;1.54491;1.51175;1.45896;1.54237;1.54035;1.57896;1.36859;1.52566;1.66006"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_2x",
+      "sweep": "friction",
+      "sweep_value": 2.0,
+      "delay_steps": 0,
+      "controller": "residual_sac",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×2;joint_friction=训练区间 ×2",
+      "joint_rmse_rad": 0.058568909764289856,
+      "ee_rmse_cm": 1.072311282157898,
+      "ee_max_cm": 2.583437442779541,
+      "mean_tau_norm_nm": 38.257930755615234,
+      "jerk_nm2": 1030.126953125,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.27551642060279846,
+      "ee_rmse_max_over_envs_cm": 1.5329879522323608,
+      "mean_abs_tau_overall_nm": 9.4778,
+      "task_reward_per_step": -12.630609512329102,
+      "mean_abs_delta_tau_nm": 0.9997,
+      "tanh_sat_frac": 0.2109330357142857,
+      "action_scale_nm": "1.5;1.5;1.5;1.5;1.5;1.5;0.5202",
+      "per_env_ee_rmse_cm": "0.95496;1.22288;1.20225;1.14657;1.09759;1.33086;0.973488;1.00904;1.19931;0.841789;0.876581;1.17105;1.22199;1.09577;1.28297;1.19121;1.53299;1.00652;0.987276;1.03502;1.2433;0.835404;1.21029;1.04209;0.827167;0.771956;0.839124;0.87953;1.08511;0.909298;1.41595;1.03156;0.92255;0.979648;0.972079;1.28877;1.17617;1.00039;1.18703;0.990634;0.964464;0.921791;1.31847;1.1394;1.03843;0.977569;1.28016;0.979118;1.05472;1.08657;1.04473;0.837846;1.30121;1.09171;1.18289;1.09201;1.05549;0.962427;1.11931;1.04577;1.09742;0.848525;1.01659;1.18312"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_3x",
+      "sweep": "friction",
+      "sweep_value": 3.0,
+      "delay_steps": 0,
+      "controller": "pd_dr",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×3;joint_friction=训练区间 ×3",
+      "joint_rmse_rad": 0.08670824021100998,
+      "ee_rmse_cm": 2.666299343109131,
+      "ee_max_cm": 4.795083045959473,
+      "mean_tau_norm_nm": 37.975128173828125,
+      "jerk_nm2": 394.8568420410156,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.3217531144618988,
+      "ee_rmse_max_over_envs_cm": 3.0227582454681396,
+      "mean_abs_tau_overall_nm": 9.2521,
+      "task_reward_per_step": -6.434238433837891,
+      "mean_abs_delta_tau_nm": "",
+      "tanh_sat_frac": "",
+      "action_scale_nm": "",
+      "per_env_ee_rmse_cm": "2.58917;2.83793;2.75426;2.74065;2.65248;2.83879;2.55967;2.63993;2.78369;2.41738;2.53124;2.66693;2.76633;2.74093;2.82354;2.73397;3.02276;2.65439;2.61887;2.66531;2.845;2.4563;2.72234;2.66443;2.47425;2.40093;2.41624;2.50825;2.72846;2.50206;2.87939;2.63915;2.50224;2.62003;2.57135;2.79641;2.77464;2.66764;2.78866;2.60754;2.60089;2.59521;2.91959;2.75483;2.71294;2.59804;2.84997;2.58911;2.65743;2.68345;2.68477;2.35655;2.78783;2.74251;2.6507;2.66732;2.59693;2.60587;2.69526;2.69596;2.68876;2.50244;2.60399;2.79924"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_3x",
+      "sweep": "friction",
+      "sweep_value": 3.0,
+      "delay_steps": 0,
+      "controller": "pd_ff_dr",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×3;joint_friction=训练区间 ×3",
+      "joint_rmse_rad": 0.07902274280786514,
+      "ee_rmse_cm": 1.7955206632614136,
+      "ee_max_cm": 3.583523750305176,
+      "mean_tau_norm_nm": 37.615386962890625,
+      "jerk_nm2": 351.5504455566406,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.32182833552360535,
+      "ee_rmse_max_over_envs_cm": 2.2075424194335938,
+      "mean_abs_tau_overall_nm": 9.149,
+      "task_reward_per_step": -5.9522624015808105,
+      "mean_abs_delta_tau_nm": "",
+      "tanh_sat_frac": "",
+      "action_scale_nm": "",
+      "per_env_ee_rmse_cm": "1.67608;1.9653;1.93298;1.87043;1.87518;2.04669;1.6586;1.74129;1.92689;1.52519;1.63589;1.85803;1.97266;1.87639;1.95959;1.8963;2.20754;1.71029;1.72545;1.78012;1.97946;1.5781;1.87957;1.75681;1.55508;1.48908;1.54242;1.63151;1.80373;1.67461;2.11388;1.74264;1.59281;1.75103;1.67722;1.9488;1.89974;1.74284;1.90671;1.71269;1.7217;1.68337;2.06856;1.92543;1.7649;1.72399;2.0636;1.67915;1.76646;1.74422;1.8042;1.54725;1.92501;1.85613;1.78366;1.77545;1.76398;1.6789;1.85439;1.80021;1.80732;1.60528;1.79398;1.95658"
+    },
+    {
+      "stage": "friction",
+      "scenario": "friction_3x",
+      "sweep": "friction",
+      "sweep_value": 3.0,
+      "delay_steps": 0,
+      "controller": "residual_sac",
+      "note": "payload_mass=钉死 1.5 kg（排除载荷干扰）;link_mass_scale=训练区间（照原样）;joint_damping=训练区间 ×3;joint_friction=训练区间 ×3",
+      "joint_rmse_rad": 0.07063578069210052,
+      "ee_rmse_cm": 1.4342116117477417,
+      "ee_max_cm": 3.510521411895752,
+      "mean_tau_norm_nm": 37.600555419921875,
+      "jerk_nm2": 281.75262451171875,
+      "sat_step_frac": 0.0,
+      "joint_rmse_worst_env_rad": 0.30506590008735657,
+      "ee_rmse_max_over_envs_cm": 1.9808964729309082,
+      "mean_abs_tau_overall_nm": 9.1905,
+      "task_reward_per_step": -5.109437942504883,
+      "mean_abs_delta_tau_nm": 1.0341,
+      "tanh_sat_frac": 0.25916964285714283,
+      "action_scale_nm": "1.5;1.5;1.5;1.5;1.5;1.5;0.5202",
+      "per_env_ee_rmse_cm": "1.2403;1.67663;1.61356;1.57446;1.49917;1.77243;1.27568;1.38358;1.60495;1.09735;1.26129;1.54341;1.65094;1.53479;1.68203;1.59275;1.9809;1.34238;1.36685;1.392;1.68085;1.13853;1.59064;1.36429;1.08105;1.00597;1.08664;1.17901;1.42098;1.31431;1.87229;1.40443;1.19494;1.32268;1.24084;1.67534;1.57228;1.31956;1.60771;1.34739;1.3516;1.20378;1.79079;1.60219;1.37095;1.3204;1.77321;1.29198;1.42794;1.35813;1.42653;1.11724;1.66199;1.47027;1.50544;1.39448;1.43488;1.28288;1.5319;1.39839;1.41228;1.14535;1.423;1.58874"
+    }
+  ],
+  "gpu": {
+    "peak_allocated_gib": 0.0289,
+    "free_gib_after": 8.019
+  }
+}

@@ -1,0 +1,44 @@
+% ============================================================================
+% Table 1：四控制器 Baseline 横向对比（experiments/export_paper_figures.py 自动生成）
+% 统一条件：同一条参考轨迹 / 同一组 DR 采样 / 同一套指标代码；越小越好
+% 需要 \usepackage{booktabs}
+% ============================================================================
+\begin{table*}[t]
+  \centering
+  \caption{Full-episode tracking performance of the four controllers under the identical mismatch distribution (unknown payload $0$--$3$\,kg, link mass $\pm20\%$, joint damping $0.5$--$2.0$\,N$\cdot$m$\cdot$s/rad, static friction $0.1$--$1.0$\,N$\cdot$m; 64 parallel environments, 500 steps at 100\,Hz). $e_{\max}$ is the worst instantaneous end-effector error over all environments and time steps; Jerk $=\frac{1}{T}\sum_t\|\tau_t-\tau_{t-1}\|_2^2$; Sat.\ ratio is the fraction of steps with any joint at its torque limit.}
+  \label{tab:baseline}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Controller & $\mathrm{RMSE}_q$ [rad] & $\mathrm{RMSE}_{ee}$ [cm] & $e_{\max}$ [cm] & $\overline{\|\tau\|_2}$ [N$\cdot$m] & Jerk [N$^2\cdot$m$^2$] & Sat. ratio \\
+    \midrule
+    PD & 0.060948 & 2.3016 & 3.933 & 39.696 & 2022.436 & 0.00\% \\
+    PD + FF & 0.051866 & 1.3259 & 3.030 & 39.364 & 1976.753 & 0.00\% \\
+    Pure RL & 1.151703 & 86.4318 & 152.110 & 160.389 & 527.057 & 95.78\% \\
+    \textbf{Residual SAC (Ours)} & \textbf{0.045967} & \textbf{0.8612} & \textbf{2.458} & \textbf{39.842} & \textbf{2182.624} & \textbf{0.00\%} \\
+    \bottomrule
+  \end{tabular}
+  \vspace{2pt}
+  \begin{minipage}{\linewidth}\footnotesize
+  Relative to PD+FF: end-effector RMSE $-$35.0\%, joint RMSE $-$11.4\%. All controllers share the same reference trajectory, the same domain-randomisation realisation and the same metric implementation.
+  \end{minipage}
+\end{table*}
+
+% ============================================================================
+% Table 2：消融实验（每个变体训练到同一环境步预算后评估）
+% 需要 \usepackage{booktabs}
+% ============================================================================
+\begin{table*}[t]
+  \centering
+  \caption{Ablation study. Every variant is trained with the identical budget, reward and domain-randomisation distribution, and evaluated with the same protocol as Table~\ref{tab:baseline}. $H$: number of stacked observation frames; $|\Delta\tau|$: residual torque limit; $w_j$: jerk penalty weight.}
+  \label{tab:ablation}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    Controller & $\mathrm{RMSE}_q$ [rad] & $\mathrm{RMSE}_{ee}$ [cm] & $e_{\max}$ [cm] & $\overline{\|\tau\|_2}$ [N$\cdot$m] & Jerk [N$^2\cdot$m$^2$] & Sat. ratio \\
+    \midrule
+    \multicolumn{7}{l}{\textit{history}} \\
+    H=1 & 0.044895 & 1.1313 & 3.314 & 36.424 & 310.025 & 0.00\% \\
+    \textbf{H=3(Ours)} & \textbf{0.045967} & \textbf{0.8612} & \textbf{2.458} & \textbf{39.842} & \textbf{2182.768} & \textbf{0.00\%} \\
+    H=5 & 0.048383 & 1.2859 & 2.910 & 36.317 & 305.328 & 0.00\% \\
+    \bottomrule
+  \end{tabular}
+\end{table*}

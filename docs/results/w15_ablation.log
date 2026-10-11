@@ -1,0 +1,100 @@
+# [整理说明] 本文件 = W15 赛程 w15_ablation 的完整控制台输出，已剔除 Isaac Sim / PhysX / Warp / protobuf 的启动噪声与 2282 行重复资源/结构告警（原文 2392 行 → 本文件 100 行）。
+# 未删减原件：logs/raw_console_logs/w15_ablation.log（可重跑生成，未提交到 git）。
+[ISAACLAB] AppLauncher initialization complete
+[ISAACLAB] Kit version: 110.3.0+feature.371399.00c488ae.gl
+[ISAACLAB] Kit kernel:  210.3.2+release.14366.2926fc80.gl
+[ISAACLAB] Kit hash:    00c488ae
+==============================================================================================
+[ENV] torch 2.11.0+cu128 | warp 1.17.0 | isaacsim 6.1.0
+[ENV] device = cuda:0 | NVIDIA GeForce RTX 2080 Ti
+[ENV] GPU memory total = 10.56 GiB, free = 10.12 GiB
+[W15] 赛程 = ['ablation'] | 控制器(baselines) = pd_dr,pd_ff_dr,pure_rl,residual_sac | 压测控制器 = pd_dr,pd_ff_dr,residual_sac
+[W15] 产物：JSON docs/results/w15_ablation.json | 大表 CSV /data/zzh/embodied-arm/docs/results/w15_benchmarks.csv | 逐 env CSV /data/zzh/embodied-arm/docs/results/w15_per_env.csv
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                                   Simulation Joint Information (Prim path: /World/envs/env_[^/]+/Robot)                                                   |
++-------+---------------------+-----------+---------+----------+-----------------+------------------+------------------+------------------+-----------------+---------------+
+| Index | Name                | Stiffness | Damping | Armature | Static Friction | Dynamic Friction | Viscous Friction | Position Limits  | Velocity Limits | Effort Limits |
++-------+---------------------+-----------+---------+----------+-----------------+------------------+------------------+------------------+-----------------+---------------+
+|   0   | panda_joint1        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   1   | panda_joint2        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-1.763, 1.763]  |      2.175      |     87.000    |
+|   2   | panda_joint3        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.175      |     87.000    |
+|   3   | panda_joint4        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-3.072, -0.070] |      2.175      |     87.000    |
+|   4   | panda_joint5        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   5   | panda_joint6        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-0.018, 3.753]  |      2.610      |     12.000    |
+|   6   | panda_joint7        |   0.000   |  0.000  |  0.001   |      0.000      |      0.000       |      0.000       | [-2.897, 2.897]  |      2.610      |     12.000    |
+|   7   | panda_finger_joint1 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
+|   8   | panda_finger_joint2 |   0.000   |  0.000  |  0.000   |      0.000      |      0.000       |      0.000       |  [0.000, 0.040]  |      0.200      |    200.000    |
++-------+---------------------+-----------+---------+----------+-----------------+------------------+------------------+------------------+-----------------+---------------+
+[SCENE] num_envs=64 | num_joints=9 | num_bodies=11 | gravity=True | dt=0.01000 s（100 Hz）
+[MDP] 被控关节（7 个）：['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']
+[MDP] 力矩上限 [N·m] = [87.0, 87.0, 87.0, 87.0, 12.0, 12.0, 12.0]
+[TRAJ] K=1 | seed=42 | q0=[0.0, -0.4, 0.0, -1.8, 0.0, 1.8, 0.0]
+[TRAJ] A=[0.326454, 0.333001, 0.226573, 0.341861, 0.22809, 0.270179, 0.201315] rad | f=[0.517457, 0.576309, 0.253274, 0.573839, 0.437432, 0.547762, 0.427086] Hz | φ=[4.656431, 2.698028, 5.563402, 3.605948, 1.674972, 3.942379, 1.694146]
+[TRAJ] 限位检查：max|q_d|=2.1419 rad，离限位最近 0.9299 rad -> 不越限
+[OBS] 单帧 35 维 × H=3 帧 = 105 维（策略输入）
+[REW] 策略奖励 = r = -wp‖e_q‖² - wv‖ė_q‖² - wτ‖τ_exec‖² - wj‖u_t - u_{t-1}‖² - w_mag‖Δτ‖² - w_ee‖p(q)-p(q_d)‖²
+[FK] 运动链来源 = builtin_constants | 链 9 段 | 预检 max 残差 = 1.370e-06 m -> 通过
+[GAIN] mweighted：ωn = 30 rad/s，ζ = 1 | kp = [567.861, 2052.234, 1153.025, 779.203, 24.183, 31.316, 2.601] | kd = [37.857, 136.816, 76.868, 51.947, 1.612, 2.088, 0.173]
+[GAIN] 离散裕度：λmax(M⁻¹Kp)·dt² = 0.0900（<4）；λmax(M⁻¹Kd)·dt = 0.6000（<2）
+[FF] 标称重力模型自校验（注入前）：max|ΔG| = 0.2198 N·m -> 通过
+[DR] 标称模型快照：手部质量 0.680443 kg、质心 z 0.02396 m（每次注入前复位，避免 apply() 的累积效应）
+[RIG] 残差动作空间 = kp / 硬上限 1.5 N·m | 纯 RL 动作空间 = 逐关节 τ_lim [87.0, 87.0, 87.0, 87.0, 12.0, 12.0, 12.0]
+[DR] 注入完成：关节 ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']（7 个），负载连杆 = body_id 8，质心写入路径 = set_coms_index
+[DR] train_distribution: 区间 payload_mass=[0.0, 3.0] | link_mass_scale=[0.8, 1.2] | joint_damping=[0.5, 2.0] | joint_friction=[0.1, 1.0]
+[DR] train_distribution: 采样负载 min 0.008782 / mean 1.499 / max 2.957 / std 0.9473 kg | damping min 0.5063 / mean 1.253 / max 1.998 / std 0.4294 | 静摩擦 min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479 N·m
+[DR] train_distribution: 回读手部质量 min 0.6143 / mean 2.173 / max 3.756 / std 0.9644 kg（标称 0.6804429888725281）| 质心写入路径 set_coms_index
+[DR] 注入完成：关节 ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']（7 个），负载连杆 = body_id 8，质心写入路径 = set_coms_index
+[DR] idempotency#1: 区间 payload_mass=[0.0, 3.0] | link_mass_scale=[0.8, 1.2] | joint_damping=[0.5, 2.0] | joint_friction=[0.1, 1.0]
+[DR] idempotency#1: 采样负载 min 0.008782 / mean 1.499 / max 2.957 / std 0.9473 kg | damping min 0.5063 / mean 1.253 / max 1.998 / std 0.4294 | 静摩擦 min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479 N·m
+[DR] idempotency#1: 回读手部质量 min 0.6143 / mean 2.173 / max 3.756 / std 0.9644 kg（标称 0.6804429888725281）| 质心写入路径 set_coms_index
+[DR] 注入完成：关节 ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']（7 个），负载连杆 = body_id 8，质心写入路径 = set_coms_index
+[DR] idempotency#2: 区间 payload_mass=[0.0, 3.0] | link_mass_scale=[0.8, 1.2] | joint_damping=[0.5, 2.0] | joint_friction=[0.1, 1.0]
+[DR] idempotency#2: 采样负载 min 0.008782 / mean 1.499 / max 2.957 / std 0.9473 kg | damping min 0.5063 / mean 1.253 / max 1.998 / std 0.4294 | 静摩擦 min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479 N·m
+[DR] idempotency#2: 回读手部质量 min 0.6143 / mean 2.173 / max 3.756 / std 0.9644 kg（标称 0.6804429888725281）| 质心写入路径 set_coms_index
+[CHECK] DR 注入幂等性：两次注入回读最大偏差 0.000e+00 -> 通过（同一组参数 ⇒ 同一个物理模型）
+[DR] 注入完成：关节 ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']（7 个），负载连杆 = body_id 8，质心写入路径 = set_coms_index
+[DR] train_distribution(起点): 区间 payload_mass=[0.0, 3.0] | link_mass_scale=[0.8, 1.2] | joint_damping=[0.5, 2.0] | joint_friction=[0.1, 1.0]
+[DR] train_distribution(起点): 采样负载 min 0.008782 / mean 1.499 / max 2.957 / std 0.9473 kg | damping min 0.5063 / mean 1.253 / max 1.998 / std 0.4294 | 静摩擦 min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479 N·m
+[DR] train_distribution(起点): 回读手部质量 min 0.6143 / mean 2.173 / max 3.756 / std 0.9644 kg（标称 0.6804429888725281）| 质心写入路径 set_coms_index
+##############################################################################################
+# [STAGE ablation] 开始
+##############################################################################################
+[DR] 注入完成：关节 ['panda_joint1', 'panda_joint2', 'panda_joint3', 'panda_joint4', 'panda_joint5', 'panda_joint6', 'panda_joint7']（7 个），负载连杆 = body_id 8，质心写入路径 = set_coms_index
+[DR] train_distribution: 区间 payload_mass=[0.0, 3.0] | link_mass_scale=[0.8, 1.2] | joint_damping=[0.5, 2.0] | joint_friction=[0.1, 1.0]
+[DR] train_distribution: 采样负载 min 0.008782 / mean 1.499 / max 2.957 / std 0.9473 kg | damping min 0.5063 / mean 1.253 / max 1.998 / std 0.4294 | 静摩擦 min 0.1035 / mean 0.5539 / max 0.9929 / std 0.2479 N·m
+[DR] train_distribution: 回读手部质量 min 0.6143 / mean 2.173 / max 3.756 / std 0.9644 kg（标称 0.6804429888725281）| 质心写入路径 set_coms_index
+==============================================================================================
+[ABLATION] 消融 1：时序历史长度 H（单帧 vs 3 帧 vs 5 帧）
+==============================================================================================
+[ABLATION] 观测历史改成 H=1（观测维 35）
+[TRAIN] abl_history_H1（Controller 4：双层残差 RL（Ours：标称前馈+PD 兜底 + SAC 补偿动态残差））：450000 环境步 | 观测 35 维 | 动作 ±1.5 N·m（逐关节 scale [1.5, 1.5, 1.5, 1.5, 1.5, 1.5, 0.52]）
+[TRAIN] 预算 450000 环境步 = 7032 次 rollout（每次 64 env）| 热身 20000 环境步 ≈ 313 rollout（±1 N·m 随机残差）| 每 1 步更新 2×batch(256) | buffer=gpu(300000) | α0=0.02 目标熵=fixed | 归一化=开 | jerk 口径=residual | 奖励缩放=1
+[TRAIN] Critic 热身：前 1000 次更新把 Actor 学习率压到 0（只学 Q），之后放开 0.0003（见 docstring §四）
+[STEP    5056/450000 | rollout    79] 热身 | 回报/步 -1.5340（env 口径 -1.6404）| ‖e_q‖ RMS 0.1296 rad | 末端 0.971 cm | |Δτ| 0.392 N·m | |τ| 7.29 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q +nan | critic nan | actor +nan | buffer 1.7% | 2140 env-steps/s
+[STEP   10112/450000 | rollout   158] 热身 | 回报/步 -4.0609（env 口径 -57.0271）| ‖e_q‖ RMS 0.2395 rad | 末端 1.453 cm | |Δτ| 0.393 N·m | |τ| 12.95 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q +nan | critic nan | actor +nan | buffer 3.4% | 2179 env-steps/s
+[STEP   15168/450000 | rollout   237] 热身 | 回报/步 -2.2076（env 口径 -10.9625）| ‖e_q‖ RMS 0.1429 rad | 末端 1.135 cm | |Δτ| 0.389 N·m | |τ| 9.73 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q +nan | critic nan | actor +nan | buffer 5.1% | 2178 env-steps/s
+/data/zzh/embodied-arm/src/sac.py:963: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:836.)
+  "td_abs_mean": float(torch.abs(torch.stack(q_values).mean(0) - target_q).mean()),
+[STEP   20224/450000 | rollout   316] Critic 热身 | 回报/步 -2.4313（env 口径 -29.4872）| ‖e_q‖ RMS 0.1553 rad | 末端 1.348 cm | |Δτ| 0.398 N·m | |τ| 9.27 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -2.641 | critic 9.79 | actor +4.195 | buffer 6.7% | 2167 env-steps/s
+[RESULT] abl_history_H1@25024     residual_sac  关节 RMSE = 0.051868 rad | 末端 RMSE = 1.3260 cm（峰值 3.030） | ‖τ‖ = 39.364 N·m | jerk = 1976.647 | 饱和 0.000 | 2299 env-steps/s
+[OUT] 策略已保存：/data/zzh/embodied-arm/logs/abl_history_H1/policy_best_ee.pt
+[BEST] abl_history_H1 末端 RMSE 刷新到 1.3260 cm（关节 0.051868 rad）@ 25024 环境步
+[STEP   25280/450000 | rollout   395] Critic 热身 | 回报/步 -3.9702（env 口径 -45.7382）| ‖e_q‖ RMS 0.2024 rad | 末端 1.418 cm | |Δτ| 0.550 N·m | |τ| 13.69 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -5.939 | critic 0.564 | actor +5.922 | buffer 8.4% | 922 env-steps/s
+[STEP   30336/450000 | rollout   474] Critic 热身 | 回报/步 -1.6194（env 口径 -1.6032）| ‖e_q‖ RMS 0.1507 rad | 末端 1.037 cm | |Δτ| 0.550 N·m | |τ| 7.11 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -6.700 | critic 0.278 | actor +6.798 | buffer 10.1% | 963 env-steps/s
+[STEP   35392/450000 | rollout   553] Critic 热身 | 回报/步 -4.5405（env 口径 -63.6145）| ‖e_q‖ RMS 0.2599 rad | 末端 1.519 cm | |Δτ| 0.549 N·m | |τ| 13.83 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -9.336 | critic 0.532 | actor +9.304 | buffer 11.8% | 988 env-steps/s
+[STEP   40448/450000 | rollout   632] Critic 热身 | 回报/步 -2.0083（env 口径 -5.8024）| ‖e_q‖ RMS 0.1418 rad | 末端 1.095 cm | |Δτ| 0.550 N·m | |τ| 8.98 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -10.676 | critic 0.494 | actor +10.773 | buffer 13.5% | 1007 env-steps/s
+[STEP   45504/450000 | rollout   711] Critic 热身 | 回报/步 -2.9513（env 口径 -39.3926）| ‖e_q‖ RMS 0.1659 rad | 末端 1.367 cm | |Δτ| 0.552 N·m | |τ| 10.32 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -12.108 | critic 0.775 | actor +11.814 | buffer 15.2% | 1027 env-steps/s
+[RESULT] abl_history_H1@50048     residual_sac  关节 RMSE = 0.051916 rad | 末端 RMSE = 1.3277 cm（峰值 3.030） | ‖τ‖ = 39.387 N·m | jerk = 1987.794 | 饱和 0.000 | 2213 env-steps/s
+[STEP   50560/450000 | rollout   790] Critic 热身 | 回报/步 -3.7365（env 口径 -37.7951）| ‖e_q‖ RMS 0.2095 rad | 末端 1.346 cm | |Δτ| 0.549 N·m | |τ| 13.07 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -15.209 | critic 0.839 | actor +15.072 | buffer 16.9% | 802 env-steps/s
+[TRAIN] Critic 热身结束（1000 次更新）：Actor 学习率放开到 0.0003
+[STEP   55616/450000 | rollout   869] 训练 | 回报/步 -1.5682（env 口径 -1.5329）| ‖e_q‖ RMS 0.1693 rad | 末端 1.099 cm | |Δτ| 0.522 N·m | |τ| 6.73 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -18.211 | critic 3.52 | actor +18.163 | buffer 18.5% | 828 env-steps/s
+[STEP   60672/450000 | rollout   948] 训练 | 回报/步 -4.4257（env 口径 -55.5660）| ‖e_q‖ RMS 0.2475 rad | 末端 1.491 cm | |Δτ| 0.700 N·m | |τ| 13.87 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -19.591 | critic 8.76 | actor +19.160 | buffer 20.2% | 851 env-steps/s
+[STEP   65728/450000 | rollout  1027] 训练 | 回报/步 -1.8411（env 口径 -2.7493）| ‖e_q‖ RMS 0.1384 rad | 末端 1.074 cm | |Δτ| 0.644 N·m | |τ| 8.34 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -20.464 | critic 2.49 | actor +20.397 | buffer 21.9% | 871 env-steps/s
+[STEP   70784/450000 | rollout  1106] 训练 | 回报/步 -2.9410（env 口径 -33.5829）| ‖e_q‖ RMS 0.1510 rad | 末端 1.274 cm | |Δτ| 0.668 N·m | |τ| 10.33 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -22.438 | critic 1.33 | actor +22.071 | buffer 23.6% | 888 env-steps/s
+[RESULT] abl_history_H1@75072     residual_sac  关节 RMSE = 0.052894 rad | 末端 RMSE = 1.3457 cm（峰值 3.012） | ‖τ‖ = 38.513 N·m | jerk = 1526.007 | 饱和 0.000 | 2306 env-steps/s
+[STEP   75840/450000 | rollout  1185] 训练 | 回报/步 -3.2585（env 口径 -24.9164）| ‖e_q‖ RMS 0.1888 rad | 末端 1.323 cm | |Δτ| 0.642 N·m | |τ| 12.08 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -26.283 | critic 1.73 | actor +26.064 | buffer 25.3% | 776 env-steps/s
+[STEP   80896/450000 | rollout  1264] 训练 | 回报/步 -1.5937（env 口径 -1.4746）| ‖e_q‖ RMS 0.1956 rad | 末端 1.283 cm | |Δτ| 0.605 N·m | |τ| 6.36 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -29.440 | critic 11.8 | actor +28.813 | buffer 27.0% | 794 env-steps/s
+[STEP   85952/450000 | rollout  1343] 训练 | 回报/步 -4.3547（env 口径 -45.7159）| ‖e_q‖ RMS 0.2640 rad | 末端 1.255 cm | |Δτ| 0.729 N·m | |τ| 13.53 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -27.806 | critic 4.14 | actor +27.623 | buffer 28.7% | 809 env-steps/s
+[STEP   91008/450000 | rollout  1422] 训练 | 回报/步 -1.6840（env 口径 -2.0769）| ‖e_q‖ RMS 0.1213 rad | 末端 1.124 cm | |Δτ| 0.706 N·m | |τ| 7.89 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -29.405 | critic 4.82 | actor +29.194 | buffer 30.3% | 823 env-steps/s
+[STEP   96064/450000 | rollout  1501] 训练 | 回报/步 -3.0446（env 口径 -29.7820）| ‖e_q‖ RMS 0.1653 rad | 末端 1.212 cm | |Δτ| 0.691 N·m | |τ| 10.54 N·m | 饱和 0.000 | α 0.02 | 熵差 +nan | Q -31.490 | critic 2.55 | actor +31.105 | buffer 32.0% | 836 env-steps/s
